@@ -38,7 +38,7 @@
             align-items: center;
         }
         .page-wrap {
-            max-width: 860px;
+            max-width: 920px;
             width: 100%;
         }
         .header {
@@ -78,33 +78,53 @@
         .card:hover {
             border-color: var(--border-glow);
         }
+
+        .material-block {
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        .material-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .material-block .block-label {
+            font-family: var(--font-display);
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .block-label .color-a { color: #f6d365; }
+        .block-label .color-b { color: #6cb4ee; }
+        .block-label .color-c { color: #b088d0; }
+
         .form-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px 20px;
-            margin-bottom: 20px;
+            gap: 12px 20px;
         }
         .form-group {
             flex: 1 1 calc(50% - 20px);
-            min-width: 140px;
+            min-width: 120px;
         }
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
         .form-group select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background: #0f161e;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             color: #fff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             outline: none;
             transition: 0.2s;
@@ -119,6 +139,7 @@
         .form-group select option {
             background: #1a212b;
         }
+
         .calc-btn {
             width: 100%;
             padding: 16px;
@@ -131,7 +152,7 @@
             cursor: pointer;
             transition: 0.25s;
             letter-spacing: 3px;
-            margin-top: 4px;
+            margin-top: 8px;
             font-family: var(--font-display);
         }
         .calc-btn:hover {
@@ -185,6 +206,10 @@
             color: var(--text-muted);
             margin-top: 2px;
         }
+        .color-a { color: #f6d365; }
+        .color-b { color: #6cb4ee; }
+        .color-c { color: #b088d0; }
+
         .info-note {
             color: var(--text-secondary);
             font-size: 13px;
@@ -207,17 +232,7 @@
             color: var(--gold);
         }
 
-        .color-a {
-            color: #f6d365;
-        }
-        .color-b {
-            color: #6cb4ee;
-        }
-        .color-c {
-            color: #b088d0;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
             .form-group {
                 flex: 1 1 100%;
             }
@@ -241,18 +256,53 @@
     <div class="page-wrap">
         <div class="header">
             <h1>⚔️ 赫拉迪姆遗志</h1>
-            <div class="sub">暗黑不灭 · 消耗 &amp; 时间模拟</div>
+            <div class="sub">暗黑不灭 · 三种材料独立计算</div>
         </div>
 
         <div class="card">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>📌 当前等级</label>
-                    <select id="currentLevel"></select>
+
+            <!-- 材料A -->
+            <div class="material-block">
+                <div class="block-label"><span class="color-a">■ 材料A</span></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>当前等级</label>
+                        <select id="curA"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>目标等级</label>
+                        <select id="tarA"></select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>🎯 目标等级</label>
-                    <select id="targetLevel"></select>
+            </div>
+
+            <!-- 材料B -->
+            <div class="material-block">
+                <div class="block-label"><span class="color-b">■ 材料B</span></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>当前等级</label>
+                        <select id="curB"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>目标等级</label>
+                        <select id="tarB"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 材料C -->
+            <div class="material-block">
+                <div class="block-label"><span class="color-c">■ 材料C</span></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>当前等级</label>
+                        <select id="curC"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>目标等级</label>
+                        <select id="tarC"></select>
+                    </div>
                 </div>
             </div>
 
@@ -264,17 +314,17 @@
                     <div class="result-item">
                         <div class="label">📦 材料A</div>
                         <div class="value color-a" id="matA">0</div>
-                        <div class="sub-text" id="rangeLabelA">实际消耗</div>
+                        <div class="sub-text" id="rangeA">实际消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">📦 材料B</div>
                         <div class="value color-b" id="matB">0</div>
-                        <div class="sub-text" id="rangeLabelB">实际消耗</div>
+                        <div class="sub-text" id="rangeB">实际消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">📦 材料C</div>
                         <div class="value color-c" id="matC">0</div>
-                        <div class="sub-text" id="rangeLabelC">实际消耗</div>
+                        <div class="sub-text" id="rangeC">实际消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">📦 三种材料合计</div>
@@ -316,7 +366,7 @@
 
     <script>
         // ================================================================
-        //  数据：1-59级单级消耗（三种材料共用）
+        //  数据
         // ================================================================
         var PER_LEVEL = [
             10, 30, 50, 70, 90, 110, 130, 150, 200,
@@ -340,40 +390,51 @@
         // ================================================================
         //  初始化下拉框
         // ================================================================
+        function initSelect(id, start, end, defaultVal) {
+            var sel = document.getElementById(id);
+            for (var lv = start; lv <= end; lv++) {
+                var opt = document.createElement('option');
+                opt.value = lv;
+                opt.textContent = lv + ' 级';
+                sel.appendChild(opt);
+            }
+            sel.value = defaultVal;
+        }
+
         window.onload = function() {
-            var curSelect = document.getElementById('currentLevel');
-            var tarSelect = document.getElementById('targetLevel');
-            for (var lv = 1; lv <= 59; lv++) {
-                var opt = document.createElement('option');
-                opt.value = lv;
-                opt.textContent = lv + ' 级';
-                curSelect.appendChild(opt);
-            }
-            for (var lv = 2; lv <= 60; lv++) {
-                var opt = document.createElement('option');
-                opt.value = lv;
-                opt.textContent = lv + ' 级';
-                tarSelect.appendChild(opt);
-            }
-            curSelect.value = 4;
-            tarSelect.value = 10;
+            initSelect('curA', 1, 59, 1);
+            initSelect('tarA', 2, 60, 10);
+            initSelect('curB', 1, 59, 10);
+            initSelect('tarB', 2, 60, 20);
+            initSelect('curC', 1, 59, 20);
+            initSelect('tarC', 2, 60, 30);
             calculate();
         };
+
+        // ================================================================
+        //  计算单种材料消耗
+        // ================================================================
+        function calcSingle(cur, target) {
+            if (cur >= target) return 0;
+            return CUMULATIVE[target - 1] - CUMULATIVE[cur - 1];
+        }
 
         // ================================================================
         //  核心计算
         // ================================================================
         function calculate() {
-            var cur = parseInt(document.getElementById('currentLevel').value);
-            var target = parseInt(document.getElementById('targetLevel').value);
+            var curA = parseInt(document.getElementById('curA').value);
+            var tarA = parseInt(document.getElementById('tarA').value);
+            var curB = parseInt(document.getElementById('curB').value);
+            var tarB = parseInt(document.getElementById('tarB').value);
+            var curC = parseInt(document.getElementById('curC').value);
+            var tarC = parseInt(document.getElementById('tarC').value);
 
-            if (cur >= target) {
-                alert('目标等级必须大于当前等级！');
-                return;
-            }
+            var singleA = calcSingle(curA, tarA);
+            var singleB = calcSingle(curB, tarB);
+            var singleC = calcSingle(curC, tarC);
+            var total = singleA + singleB + singleC;
 
-            var single = CUMULATIVE[target - 1] - CUMULATIVE[cur - 1];
-            var total = single * 3;
             var days = Math.ceil(total / DAILY_GAIN);
             var goldCost = days * GOLD_PER_DAY;
             var keys = days * KEYS_PER_DAY;
@@ -381,25 +442,25 @@
 
             document.getElementById('resultArea').style.display = 'block';
 
-            // 三种材料分别显示（数值相同）
-            document.getElementById('matA').textContent = single.toLocaleString();
-            document.getElementById('matB').textContent = single.toLocaleString();
-            document.getElementById('matC').textContent = single.toLocaleString();
+            document.getElementById('matA').textContent = singleA.toLocaleString();
+            document.getElementById('matB').textContent = singleB.toLocaleString();
+            document.getElementById('matC').textContent = singleC.toLocaleString();
             document.getElementById('totalMaterial').textContent = total.toLocaleString();
+
+            document.getElementById('rangeA').textContent = curA + '→' + tarA + ' 消耗';
+            document.getElementById('rangeB').textContent = curB + '→' + tarB + ' 消耗';
+            document.getElementById('rangeC').textContent = curC + '→' + tarC + ' 消耗';
 
             document.getElementById('days').textContent = days;
             document.getElementById('goldCost').textContent = goldCost.toLocaleString();
             document.getElementById('keys').textContent = keys.toLocaleString();
             document.getElementById('totalGain').textContent = totalGain.toLocaleString();
 
-            var label = cur + '→' + target + ' 消耗';
-            document.getElementById('rangeLabelA').textContent = label;
-            document.getElementById('rangeLabelB').textContent = label;
-            document.getElementById('rangeLabelC').textContent = label;
-
             document.getElementById('infoNote').textContent =
-                '💡 从 ' + cur + ' 级升到 ' + target + ' 级，每种材料需 ' + single.toLocaleString() +
-                ' 份，三种材料合计 ' + total.toLocaleString() + ' 份。每日获取 ' + DAILY_GAIN +
+                '💡 材料A (' + curA + '→' + tarA + ') 需 ' + singleA.toLocaleString() +
+                ' 份，材料B (' + curB + '→' + tarB + ') 需 ' + singleB.toLocaleString() +
+                ' 份，材料C (' + curC + '→' + tarC + ') 需 ' + singleC.toLocaleString() +
+                ' 份，合计 ' + total.toLocaleString() + ' 份。每日获取 ' + DAILY_GAIN +
                 ' 份，约需 ' + days + ' 天，消耗钥匙 ' + keys.toLocaleString() + ' 把，花费 ' +
                 goldCost.toLocaleString() + ' 白金币。';
         }
