@@ -303,7 +303,7 @@
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
-                    <option value="5" selected>5</option>
+                    <option value="5">5</option>
                     <option value="6">6</option>
                     <option value="7">7</option>
                     <option value="8">8</option>
@@ -318,10 +318,10 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                     <option value="6">6</option>
-                    <option value="7" selected>7</option>
+                    <option value="7">7</option>
                     <option value="8">8</option>
                     <option value="9">9</option>
-                    <option value="10">10</option>
+                    <option value="10" selected>10</option>
                 </select>
             </div>
         </div>
@@ -362,7 +362,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="info-note" id="infoNote">💡 1~5级无需水晶石，5级后每级消耗递增。</div>
+            <div class="info-note" id="infoNote">💡 1级起每级升级都需要水晶石，数量随等级指数增长。</div>
         </div>
     </div>
 
@@ -382,9 +382,10 @@
     };
 
     // 水晶石消耗：索引0对应 1→2，索引8对应 9→10
-    const CRYSTAL_PER_LEVEL = [0, 0, 0, 0, 1, 5, 15, 35, 75];
-    // 累计消耗：到该等级为止累计需要的晶体（1级为0，2级为0...6级为1...10级为131）
-    const CUMULATIVE_CRYSTAL = [0, 0, 0, 0, 0, 1, 6, 21, 56, 131];
+    // 新数据：1, 3, 9, 27, 81, 243, 729, 2187, 6561
+    const CRYSTAL_PER_LEVEL = [1, 3, 9, 27, 81, 243, 729, 2187, 6561];
+    // 累计消耗：索引0对应1级累计0，索引1对应2级累计1，... 索引9对应10级累计9841
+    const CUMULATIVE_CRYSTAL = [0, 1, 4, 13, 40, 121, 364, 1093, 3280, 9841];
 
     const GOLD_PER_CRYSTAL = 50;
 
@@ -429,13 +430,13 @@
         let totalCrystal = 0;
         let detailRows = [];
         for (let lv = currentLv; lv < targetLv; lv++) {
-            const idx = lv - 1; // 0-based索引
+            const idx = lv - 1; // 0-based索引，对应升级区间 lv → lv+1
             const crystal = CRYSTAL_PER_LEVEL[idx] || 0;
             totalCrystal += crystal;
             // 该级升级后的累计消耗（到 lv+1 级）
-            const cumulative = CUMULATIVE_CRYSTAL[lv] || 0; // lv是当前等级，lv+1级的累计
-            // 该级升级后的属性值
-            const statValue = stats[lv] || 0; // lv索引对应等级 lv+1
+            const cumulative = CUMULATIVE_CRYSTAL[lv] || 0; // lv是当前等级，索引等于lv时表示lv+1级的累计
+            // 该级升级后的属性值（lv+1级的属性）
+            const statValue = stats[lv] || 0;
             detailRows.push({
                 from: lv,
                 to: lv + 1,
@@ -480,14 +481,10 @@
 
         // 更新提示
         const note = document.getElementById('infoNote');
-        if (totalCrystal === 0) {
-            note.textContent = '💡 1~5级无需水晶石，直接升级即可。';
-        } else {
-            note.textContent = `💡 从 ${currentLv} 级升到 ${targetLv} 级，共需 ${totalCrystal} 颗水晶石。`;
-        }
+        note.textContent = `💡 从 ${currentLv} 级升到 ${targetLv} 级，共需 ${totalCrystal.toLocaleString()} 颗水晶石。`;
     }
 
-    // 页面加载后自动计算一次（默认 5→7）
+    // 页面加载后自动计算一次（默认 1→10）
     window.onload = calculate;
 </script>
 
