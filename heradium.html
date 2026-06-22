@@ -38,7 +38,7 @@
             align-items: center;
         }
         .page-wrap {
-            max-width: 820px;
+            max-width: 860px;
             width: 100%;
         }
         .header {
@@ -141,6 +141,7 @@
         .calc-btn:active {
             transform: scale(0.98);
         }
+
         .result-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -205,6 +206,17 @@
         .back-link:hover {
             color: var(--gold);
         }
+
+        .color-a {
+            color: #f6d365;
+        }
+        .color-b {
+            color: #6cb4ee;
+        }
+        .color-c {
+            color: #b088d0;
+        }
+
         @media (max-width: 600px) {
             .form-group {
                 flex: 1 1 100%;
@@ -247,17 +259,32 @@
             <button class="calc-btn" onclick="calculate()">🧮 计算升级消耗</button>
 
             <div id="resultArea" style="margin-top:20px; display:none;">
+                <!-- 第一行：三种材料分别消耗 + 合计 -->
                 <div class="result-grid">
                     <div class="result-item">
-                        <div class="label">📦 单种材料</div>
-                        <div class="value" id="singleMaterial">0</div>
-                        <div class="sub-text" id="rangeLabel">实际消耗</div>
+                        <div class="label">📦 材料A</div>
+                        <div class="value color-a" id="matA">0</div>
+                        <div class="sub-text" id="rangeLabelA">实际消耗</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">📦 材料B</div>
+                        <div class="value color-b" id="matB">0</div>
+                        <div class="sub-text" id="rangeLabelB">实际消耗</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">📦 材料C</div>
+                        <div class="value color-c" id="matC">0</div>
+                        <div class="sub-text" id="rangeLabelC">实际消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">📦 三种材料合计</div>
                         <div class="value green" id="totalMaterial">0</div>
                         <div class="sub-text">材料总数</div>
                     </div>
+                </div>
+
+                <!-- 第二行：天数、花费、钥匙、总收益 -->
+                <div class="result-grid" style="margin-top:10px;">
                     <div class="result-item">
                         <div class="label">⏳ 模拟天数</div>
                         <div class="value blue" id="days">0</div>
@@ -268,19 +295,18 @@
                         <div class="value purple" id="goldCost">0</div>
                         <div class="sub-text">18,850 / 天</div>
                     </div>
-                </div>
-                <div class="result-grid" style="margin-top:10px;">
-                    <div class="result-item" style="grid-column: span 2;">
+                    <div class="result-item">
                         <div class="label">🔑 所需钥匙</div>
                         <div class="value" id="keys">0</div>
                         <div class="sub-text">377 把/天</div>
                     </div>
-                    <div class="result-item" style="grid-column: span 2;">
+                    <div class="result-item">
                         <div class="label">📊 总收益模拟</div>
                         <div class="value blue" id="totalGain">0</div>
                         <div class="sub-text">三种材料总获取</div>
                     </div>
                 </div>
+
                 <div class="info-note" id="infoNote">💡 每天可获取三种材料合计约 2250 份，消耗 377 把钥匙（18,850 白金币）。</div>
             </div>
         </div>
@@ -301,7 +327,6 @@
             7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000, 11500, 12000
         ];
 
-        // 累计消耗（索引0=1级累计0，索引60=61级累计，但我们只用1-60）
         var CUMULATIVE = [0];
         for (var i = 0; i < PER_LEVEL.length; i++) {
             CUMULATIVE.push(CUMULATIVE[i] + PER_LEVEL[i]);
@@ -330,7 +355,7 @@
                 opt.textContent = lv + ' 级';
                 tarSelect.appendChild(opt);
             }
-            curSelect.value = 1;
+            curSelect.value = 4;
             tarSelect.value = 10;
             calculate();
         };
@@ -355,16 +380,25 @@
             var totalGain = days * DAILY_GAIN;
 
             document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('singleMaterial').textContent = single.toLocaleString();
+
+            // 三种材料分别显示（数值相同）
+            document.getElementById('matA').textContent = single.toLocaleString();
+            document.getElementById('matB').textContent = single.toLocaleString();
+            document.getElementById('matC').textContent = single.toLocaleString();
             document.getElementById('totalMaterial').textContent = total.toLocaleString();
+
             document.getElementById('days').textContent = days;
             document.getElementById('goldCost').textContent = goldCost.toLocaleString();
             document.getElementById('keys').textContent = keys.toLocaleString();
             document.getElementById('totalGain').textContent = totalGain.toLocaleString();
-            document.getElementById('rangeLabel').textContent = cur + '→' + target + ' 实际消耗';
+
+            var label = cur + '→' + target + ' 消耗';
+            document.getElementById('rangeLabelA').textContent = label;
+            document.getElementById('rangeLabelB').textContent = label;
+            document.getElementById('rangeLabelC').textContent = label;
 
             document.getElementById('infoNote').textContent =
-                '💡 从 ' + cur + ' 级升到 ' + target + ' 级，单种材料需 ' + single.toLocaleString() +
+                '💡 从 ' + cur + ' 级升到 ' + target + ' 级，每种材料需 ' + single.toLocaleString() +
                 ' 份，三种材料合计 ' + total.toLocaleString() + ' 份。每日获取 ' + DAILY_GAIN +
                 ' 份，约需 ' + days + ' 天，消耗钥匙 ' + keys.toLocaleString() + ' 把，花费 ' +
                 goldCost.toLocaleString() + ' 白金币。';
