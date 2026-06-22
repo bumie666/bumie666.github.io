@@ -147,6 +147,9 @@
             gap: 12px;
             margin-top: 6px;
         }
+        .result-grid.two-col {
+            grid-template-columns: 1fr 1fr;
+        }
         .result-item {
             background: #0f161e;
             border-radius: 14px;
@@ -253,6 +256,9 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
             }
+            .result-grid.two-col {
+                grid-template-columns: 1fr 1fr;
+            }
             .result-item .value {
                 font-size: 20px;
             }
@@ -325,6 +331,7 @@
             <button class="calc-btn" onclick="calculate()">🧮 计算升级消耗</button>
 
             <div id="resultArea" style="margin-top:20px; display:none;">
+                <!-- 第一行：本体+花费、能量+花费（配对排列） -->
                 <div class="result-grid">
                     <div class="result-item">
                         <div class="label">📦 消耗本体</div>
@@ -332,14 +339,14 @@
                         <div class="sub-text" id="bodySub">实际消耗</div>
                     </div>
                     <div class="result-item">
-                        <div class="label">⚡ 消耗能量</div>
-                        <div class="value blue" id="totalEnergy">0</div>
-                        <div class="sub-text" id="energySub">实际消耗</div>
-                    </div>
-                    <div class="result-item">
                         <div class="label">💰 本体花费</div>
                         <div class="value green" id="bodyGold">0</div>
                         <div class="sub-text" id="bodyPriceSub">白金币</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">⚡ 消耗能量</div>
+                        <div class="value blue" id="totalEnergy">0</div>
+                        <div class="sub-text" id="energySub">实际消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">💰 能量花费</div>
@@ -348,19 +355,21 @@
                     </div>
                 </div>
 
-                <div class="result-grid" style="margin-top:10px;">
-                    <div class="result-item" style="grid-column: span 2;">
+                <!-- 第二行：总花费 + 累计本体（两列） -->
+                <div class="result-grid two-col" style="margin-top:10px;">
+                    <div class="result-item">
                         <div class="label">💰 总花费</div>
                         <div class="value" id="totalGold">0</div>
-                        <div class="sub-text">白金币</div>
+                        <div class="sub-text">本体 + 能量总花费</div>
                     </div>
-                    <div class="result-item" style="grid-column: span 2;">
+                    <div class="result-item">
                         <div class="label">📊 累计本体</div>
                         <div class="value blue" id="cumBody">0</div>
                         <div class="sub-text" id="cumBodyLabel">目标等级累计</div>
                     </div>
                 </div>
 
+                <!-- 明细表格 -->
                 <div class="table-wrap">
                     <table>
                         <thead>
