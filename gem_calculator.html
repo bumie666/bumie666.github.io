@@ -6,9 +6,6 @@
     <title>暗黑不灭 · 小宝石升级计算器</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ============================================================
-                   暗黑不朽风格 CSS
-                   ============================================================ */
         :root {
             --bg-primary: #0a0e14;
             --bg-secondary: #151e27;
@@ -24,13 +21,11 @@
             --font-display: 'Cinzel', 'Times New Roman', serif;
             --font-body: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: var(--bg-primary);
             background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
@@ -42,12 +37,10 @@
             flex-direction: column;
             align-items: center;
         }
-
         .page-wrap {
             max-width: 880px;
             width: 100%;
         }
-
         .header {
             text-align: center;
             padding: 20px 0 10px;
@@ -71,7 +64,6 @@
             letter-spacing: 2px;
             font-weight: 300;
         }
-
         .card {
             background: var(--bg-card);
             backdrop-filter: blur(8px);
@@ -86,7 +78,6 @@
         .card:hover {
             border-color: var(--border-glow);
         }
-
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -128,7 +119,6 @@
         .form-group select option {
             background: #1a212b;
         }
-
         .calc-btn {
             width: 100%;
             padding: 16px;
@@ -151,7 +141,6 @@
         .calc-btn:active {
             transform: scale(0.98);
         }
-
         .result-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -195,7 +184,6 @@
             color: var(--text-muted);
             margin-top: 2px;
         }
-
         .table-wrap {
             overflow-x: auto;
             margin-top: 16px;
@@ -236,7 +224,6 @@
             font-weight: 600;
             border-bottom: 2px solid var(--gold);
         }
-
         .info-note {
             color: var(--text-secondary);
             font-size: 13px;
@@ -245,7 +232,6 @@
             border-top: 1px dashed var(--border-color);
             padding-top: 14px;
         }
-
         .back-link {
             display: block;
             text-align: center;
@@ -259,7 +245,6 @@
         .back-link:hover {
             color: var(--gold);
         }
-
         @media (max-width: 600px) {
             .form-group {
                 flex: 1 1 100%;
@@ -385,7 +370,6 @@
                                 <th>水晶石</th>
                                 <th>累计水晶石</th>
                                 <th>小宝石</th>
-                                <th>累计小宝石</th>
                                 <th>属性值</th>
                             </tr>
                         </thead>
@@ -401,7 +385,7 @@
 
     <script>
         // ================================================================
-        //  数据区
+        //  数据区（根据最新规则修正）
         // ================================================================
 
         // 宝石属性值：索引0=1级, 索引9=10级
@@ -411,23 +395,25 @@
             red: [80, 160, 320, 560, 920, 1480, 2160, 2920, 3800, 4800]
         };
 
-        // 水晶石：单级消耗 (1→2, 2→3, ..., 9→10)
+        // 水晶石单级消耗 (索引0:1→2, 索引8:9→10)
         var CRYSTAL_PER = [0, 0, 0, 0, 1, 5, 15, 35, 75];
-        // 累计消耗（至该等级）：索引0=1级累计0, 1=2级累计0, ... 5=6级累计1, 6=7级累计8, 7=8级累计39, 8=9级累计152, 9=10级累计531
-        var CRYSTAL_CUM = [0, 0, 0, 0, 0, 1, 8, 39, 152, 531];
 
-        // 小宝石：单级消耗 (1→2, 2→3, ..., 9→10)
-        var GEM_PER = [3, 9, 27, 81, 243, 729, 2187, 6561, 19683];
-        // 累计小宝石数量（累加）
-        var GEM_CUM = (function() {
-            var arr = [],
-                sum = 0;
-            for (var i = 0; i < GEM_PER.length; i++) {
-                sum += GEM_PER[i];
-                arr.push(sum);
+        // 按递推公式计算累计水晶石：累计(当前级) = 单级 + 3 * 上一级累计（从5级开始）
+        var CRYSTAL_CUM = [];
+        for (var i = 0; i < 10; i++) { // i=0对应1级累计（升级前），i=1对应2级累计...
+            if (i < 5) {
+                CRYSTAL_CUM[i] = 0; // 1~5级累计为0
+            } else if (i === 5) {
+                CRYSTAL_CUM[i] = 1; // 6级累计 = 1
+            } else {
+                CRYSTAL_CUM[i] = CRYSTAL_PER[i - 1] + 3 * CRYSTAL_CUM[i - 1];
             }
-            return arr; // [3,12,39,120,363,1092,3279,9840,29523]
-        })();
+        }
+        // 注意：CRYSTAL_CUM[i] 表示升级到 i+1 级时的累计消耗（即达到该等级所需累计）
+        // 例：CRYSTAL_CUM[5] = 达到6级的累计 = 1
+
+        // 小宝石单级消耗 (索引0:1→2, 索引8:9→10)
+        var GEM_PER = [3, 9, 27, 81, 243, 729, 2187, 6561, 19683];
 
         var CRYSTAL_PRICE = 500;
         var GEM_PRICE = 50;
@@ -455,30 +441,29 @@
             var stats = STATS[gemKey];
             var name = GEM_NAME[gemKey];
 
-            // ----- 明细行（用于表格） -----
+            // ----- 构建明细行（从当前等级到目标等级）-----
             var rows = [];
             for (var lv = cur; lv < target; lv++) {
-                var idx = lv - 1;
+                var idx = lv - 1; // 单级消耗索引
                 var c = CRYSTAL_PER[idx] || 0;
+                // 累计水晶石（升级到 lv+1 级的累计值）
+                var cumCrystal = CRYSTAL_CUM[lv] || 0; // 因为 lv 是当前等级，升级后变为 lv+1，累计索引为 lv
                 var g = GEM_PER[idx] || 0;
-                var cumCrystal = CRYSTAL_CUM[lv] || 0;
-                var cumGem = GEM_CUM[idx] || 0;
                 rows.push({
                     from: lv,
                     to: lv + 1,
                     crystal: c,
                     crystalCum: cumCrystal,
                     gem: g,
-                    gemCum: cumGem,
-                    stat: stats[lv] || 0
+                    stat: stats[lv] || 0  // lv级对应的属性值（升级后的属性）
                 });
             }
 
-            // ----- 结果卡片数值（按用户要求） -----
+            // ----- 结果卡片 -----
             // 水晶石 = 目标等级对应的累计值
             var totalCrystal = CRYSTAL_CUM[target - 1] || 0;
-            // 小宝石 = 目标等级对应的单级消耗（最后一级）
-            var totalGem = GEM_PER[target - 2] || 0;
+            // 小宝石 = 目标等级对应的最后一级单级消耗（目标等级-1 的索引）
+            var totalGem = GEM_PER[target - 2] || 0; // target=10 取索引8
 
             var crystalGold = totalCrystal * CRYSTAL_PRICE;
             var gemGold = totalGem * GEM_PRICE;
@@ -512,7 +497,6 @@
                     '<td>' + r.crystal + '</td>' +
                     '<td>' + r.crystalCum.toLocaleString() + '</td>' +
                     '<td>' + r.gem.toLocaleString() + '</td>' +
-                    '<td>' + r.gemCum.toLocaleString() + '</td>' +
                     '<td>' + r.stat.toLocaleString() + '</td>';
                 tbody.appendChild(tr);
             }
