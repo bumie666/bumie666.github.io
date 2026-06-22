@@ -309,7 +309,6 @@
             <button class="calc-btn" onclick="calculate()">🧮 计算升级消耗</button>
 
             <div id="resultArea" style="margin-top:20px; display:none;">
-                <!-- 第一行：三种材料分别消耗 + 合计 -->
                 <div class="result-grid">
                     <div class="result-item">
                         <div class="label">📦 材料A</div>
@@ -333,7 +332,6 @@
                     </div>
                 </div>
 
-                <!-- 第二行：天数、花费、钥匙、总收益 -->
                 <div class="result-grid" style="margin-top:10px;">
                     <div class="result-item">
                         <div class="label">⏳ 模拟天数</div>
@@ -388,7 +386,7 @@
         var GOLD_PER_DAY = KEYS_PER_DAY * GOLD_PER_KEY;
 
         // ================================================================
-        //  初始化下拉框
+        //  初始化下拉框（当前等级1-59，目标等级1-60）
         // ================================================================
         function initSelect(id, start, end, defaultVal) {
             var sel = document.getElementById(id);
@@ -402,17 +400,19 @@
         }
 
         window.onload = function() {
+            // 当前等级：1-59
             initSelect('curA', 1, 59, 1);
-            initSelect('tarA', 2, 60, 10);
-            initSelect('curB', 1, 59, 10);
-            initSelect('tarB', 2, 60, 20);
-            initSelect('curC', 1, 59, 20);
-            initSelect('tarC', 2, 60, 30);
+            initSelect('curB', 1, 59, 1);
+            initSelect('curC', 1, 59, 1);
+            // 目标等级：1-60（允许1级，即不升级）
+            initSelect('tarA', 1, 60, 10);
+            initSelect('tarB', 1, 60, 1);
+            initSelect('tarC', 1, 60, 1);
             calculate();
         };
 
         // ================================================================
-        //  计算单种材料消耗
+        //  计算单种材料消耗（允许 cur >= target 返回0）
         // ================================================================
         function calcSingle(cur, target) {
             if (cur >= target) return 0;
@@ -436,6 +436,8 @@
             var total = singleA + singleB + singleC;
 
             var days = Math.ceil(total / DAILY_GAIN);
+            // 如果total=0，天数显示为0，而不是1
+            if (total === 0) days = 0;
             var goldCost = days * GOLD_PER_DAY;
             var keys = days * KEYS_PER_DAY;
             var totalGain = days * DAILY_GAIN;
@@ -456,13 +458,18 @@
             document.getElementById('keys').textContent = keys.toLocaleString();
             document.getElementById('totalGain').textContent = totalGain.toLocaleString();
 
-            document.getElementById('infoNote').textContent =
-                '💡 材料A (' + curA + '→' + tarA + ') 需 ' + singleA.toLocaleString() +
-                ' 份，材料B (' + curB + '→' + tarB + ') 需 ' + singleB.toLocaleString() +
-                ' 份，材料C (' + curC + '→' + tarC + ') 需 ' + singleC.toLocaleString() +
-                ' 份，合计 ' + total.toLocaleString() + ' 份。每日获取 ' + DAILY_GAIN +
-                ' 份，约需 ' + days + ' 天，消耗钥匙 ' + keys.toLocaleString() + ' 把，花费 ' +
-                goldCost.toLocaleString() + ' 白金币。';
+            if (total === 0) {
+                document.getElementById('infoNote').textContent =
+                    '💡 三种材料均无需升级（当前等级 ≥ 目标等级），消耗为 0。';
+            } else {
+                document.getElementById('infoNote').textContent =
+                    '💡 材料A (' + curA + '→' + tarA + ') 需 ' + singleA.toLocaleString() +
+                    ' 份，材料B (' + curB + '→' + tarB + ') 需 ' + singleB.toLocaleString() +
+                    ' 份，材料C (' + curC + '→' + tarC + ') 需 ' + singleC.toLocaleString() +
+                    ' 份，合计 ' + total.toLocaleString() + ' 份。每日获取 ' + DAILY_GAIN +
+                    ' 份，约需 ' + days + ' 天，消耗钥匙 ' + keys.toLocaleString() + ' 把，花费 ' +
+                    goldCost.toLocaleString() + ' 白金币。';
+            }
         }
     </script>
 </body>
