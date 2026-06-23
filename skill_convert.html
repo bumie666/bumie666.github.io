@@ -183,10 +183,6 @@
             font-size: 12px;
             margin: 0 4px;
         }
-        .result-item .empty {
-            color: var(--text-muted);
-            font-size: 13px;
-        }
         .result-item .sub-text {
             font-size: 11px;
             color: var(--text-muted);
@@ -261,6 +257,17 @@
             margin-bottom: 10px;
         }
 
+        /* 筛选框配对样式 */
+        .filter-pair {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .filter-pair .form-group {
+            flex: 1;
+            min-width: 80px;
+        }
+
         @media (max-width: 640px) {
             .form-group {
                 flex: 1 1 100%;
@@ -277,6 +284,12 @@
             }
             .card {
                 padding: 16px 12px;
+            }
+            .filter-pair {
+                flex-wrap: wrap;
+            }
+            .filter-pair .form-group {
+                flex: 1 1 100%;
             }
         }
         @media (max-width: 420px) {
@@ -297,24 +310,39 @@
         </div>
 
         <div class="card">
+            <!-- 第一行：当前职业 + 目标职业 -->
             <div class="form-row">
                 <div class="form-group">
                     <label>⚔️ 当前职业</label>
-                    <select id="classFrom" onchange="updateFilterOptions()"></select>
+                    <select id="classFrom" onchange="updateFromSkills()"></select>
                 </div>
                 <div class="form-group">
                     <label>🎯 目标职业</label>
-                    <select id="classTo" onchange="updateFilterOptions()"></select>
+                    <select id="classTo" onchange="updateToSkills()"></select>
                 </div>
-                <div class="form-group">
-                    <label>🔍 技能筛选</label>
-                    <select id="skillFilter">
-                        <option value="">全部</option>
-                    </select>
+                <div class="form-group" style="display:flex;align-items:flex-end;justify-content:center;">
+                    <button class="calc-btn" onclick="calculate()" style="margin-top:0;padding:12px 16px;font-size:15px;">🔄 查询转换</button>
                 </div>
             </div>
 
-            <button class="calc-btn" onclick="calculate()">🔄 查询转换</button>
+            <!-- 第二行：当前职业技能筛选 + 目标职业技能筛选（并排） -->
+            <div class="form-row" style="margin-bottom:0;">
+                <div class="form-group">
+                    <label>🔍 当前职业技能</label>
+                    <select id="skillFrom">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>🔍 目标职业技能</label>
+                    <select id="skillTo">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:flex;align-items:flex-end;justify-content:flex-end;">
+                    <span style="font-size:12px;color:var(--text-muted);padding-bottom:4px;">可单独或组合筛选</span>
+                </div>
+            </div>
 
             <div id="resultArea" style="margin-top:20px; display:none;">
                 <div class="result-grid-summary" id="summaryGrid">
@@ -327,8 +355,8 @@
                         <div class="value green" id="totalMatches">0</div>
                     </div>
                     <div class="summary-item">
-                        <div class="label">🎯 当前筛选</div>
-                        <div class="value" id="filterDisplay" style="font-size:16px;">全部</div>
+                        <div class="label">🎯 筛选状态</div>
+                        <div class="value" id="filterDisplay" style="font-size:14px;">全部</div>
                     </div>
                 </div>
 
@@ -336,7 +364,7 @@
                     <!-- 由JS动态生成 -->
                 </div>
 
-                <div class="info-note" id="infoNote">💡 选择两个职业，可选技能映射筛选，查看恐惧类魔法属性的技能转换对应关系。</div>
+                <div class="info-note" id="infoNote">💡 选择两个职业，可分别筛选当前或目标职业技能，查看恐惧词条转换对应关系。</div>
             </div>
         </div>
 
@@ -419,7 +447,7 @@
             '副手_肩膀_裤子': {
                 '法师': '瓦解射线',
                 '野蛮人': '先祖之锤',
-                '武行者': '击',
+                '武行者': '踢击',
                 '猎魔人': '憎恨之雨',
                 '圣教军': '盾牌冲锋',
                 '死灵法师': '尖硬地刺',
@@ -518,25 +546,19 @@
         //  工具函数
         // ================================================================
 
-        // 获取所有映射对（去重）
-        function getMappingPairs(fromCls, toCls) {
-            var pairs = [];
+        function getSkillsForClass(cls) {
+            var skills = [];
             var seen = {};
             for (var key in RAW_DATA) {
-                var entry = RAW_DATA[key];
-                var fromSkill = entry[fromCls] || '—';
-                var toSkill = entry[toCls] || '—';
-                if (fromSkill === '—' || toSkill === '—') continue;
-                var pairKey = fromSkill + '||' + toSkill;
-                if (!seen[pairKey]) {
-                    seen[pairKey] = true;
-                    pairs.push({ from: fromSkill, to: toSkill });
+                var skill = RAW_DATA[key][cls];
+                if (skill && skill !== '—' && !seen[skill]) {
+                    seen[skill] = true;
+                    skills.push(skill);
                 }
             }
-            return pairs;
+            return skills;
         }
 
-        // 构建部位数据，可选择筛选映射对
         function buildSlotData(fromCls, toCls, filterFrom, filterTo) {
             var slotMap = {};
             SLOT_NAMES.forEach(function(s) {
@@ -548,9 +570,8 @@
                 var fromSkill = entry[fromCls] || '—';
                 var toSkill = entry[toCls] || '—';
                 if (fromSkill === '—' || toSkill === '—') continue;
-                if (filterFrom && filterTo) {
-                    if (fromSkill !== filterFrom || toSkill !== filterTo) continue;
-                }
+                if (filterFrom && fromSkill !== filterFrom) continue;
+                if (filterTo && toSkill !== filterTo) continue;
 
                 var parts = key.split('_');
                 parts.forEach(function(p) {
@@ -591,36 +612,50 @@
             });
             fromSel.value = '野蛮人';
             toSel.value = '法师';
-            updateFilterOptions();
+            updateFromSkills();
+            updateToSkills();
             calculate();
         };
 
-        // 更新技能筛选下拉列表（显示映射对）
-        function updateFilterOptions() {
-            var fromCls = document.getElementById('classFrom').value;
-            var toCls = document.getElementById('classTo').value;
-            var filterSel = document.getElementById('skillFilter');
-            var currentVal = filterSel.value;
-
-            filterSel.innerHTML = '<option value="">全部</option>';
-            var pairs = getMappingPairs(fromCls, toCls);
-            pairs.forEach(function(pair) {
+        function updateFromSkills() {
+            var cls = document.getElementById('classFrom').value;
+            var sel = document.getElementById('skillFrom');
+            var currentVal = sel.value;
+            sel.innerHTML = '<option value="">全部</option>';
+            var skills = getSkillsForClass(cls);
+            skills.forEach(function(s) {
                 var opt = document.createElement('option');
-                var label = pair.from + ' → ' + pair.to;
-                opt.value = pair.from + '||' + pair.to;
-                opt.textContent = label;
-                filterSel.appendChild(opt);
+                opt.value = s;
+                opt.textContent = s;
+                sel.appendChild(opt);
             });
-            // 尝试恢复之前选中的值
             if (currentVal) {
                 var exists = false;
-                for (var i = 0; i < filterSel.options.length; i++) {
-                    if (filterSel.options[i].value === currentVal) {
-                        exists = true;
-                        break;
-                    }
+                for (var i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].value === currentVal) { exists = true; break; }
                 }
-                if (exists) filterSel.value = currentVal;
+                if (exists) sel.value = currentVal;
+            }
+        }
+
+        function updateToSkills() {
+            var cls = document.getElementById('classTo').value;
+            var sel = document.getElementById('skillTo');
+            var currentVal = sel.value;
+            sel.innerHTML = '<option value="">全部</option>';
+            var skills = getSkillsForClass(cls);
+            skills.forEach(function(s) {
+                var opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                sel.appendChild(opt);
+            });
+            if (currentVal) {
+                var exists = false;
+                for (var i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].value === currentVal) { exists = true; break; }
+                }
+                if (exists) sel.value = currentVal;
             }
         }
 
@@ -631,21 +666,12 @@
         function calculate() {
             var fromCls = document.getElementById('classFrom').value;
             var toCls = document.getElementById('classTo').value;
-            var filterVal = document.getElementById('skillFilter').value;
+            var filterFrom = document.getElementById('skillFrom').value;
+            var filterTo = document.getElementById('skillTo').value;
 
             if (fromCls === toCls) {
                 alert('当前职业和目标职业不能相同！');
                 return;
-            }
-
-            var filterFrom = null;
-            var filterTo = null;
-            var filterDisplay = '全部';
-            if (filterVal) {
-                var parts = filterVal.split('||');
-                filterFrom = parts[0];
-                filterTo = parts[1];
-                filterDisplay = filterFrom + ' → ' + filterTo;
             }
 
             var slotData = buildSlotData(fromCls, toCls, filterFrom, filterTo);
@@ -665,6 +691,12 @@
             document.getElementById('resultArea').style.display = 'block';
             document.getElementById('totalSlots').textContent = totalSlots;
             document.getElementById('totalMatches').textContent = totalMatches;
+
+            var filterDisplay = '';
+            if (filterFrom && filterTo) filterDisplay = filterFrom + ' → ' + filterTo;
+            else if (filterFrom) filterDisplay = '当前: ' + filterFrom;
+            else if (filterTo) filterDisplay = '目标: ' + filterTo;
+            else filterDisplay = '全部';
             document.getElementById('filterDisplay').textContent = filterDisplay;
 
             var grid = document.getElementById('slotGrid');
