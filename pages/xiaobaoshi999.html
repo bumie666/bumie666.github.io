@@ -119,6 +119,22 @@
         .form-group select option {
             background: #1a212b;
         }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0f161e;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+        }
         .calc-btn {
             width: 100%;
             padding: 16px;
@@ -323,6 +339,17 @@
                 </div>
             </div>
 
+            <!-- 新增：自定义小宝石单价 -->
+            <div class="form-row" style="margin-bottom:20px;">
+                <div class="form-group" style="flex: 0 0 200px; min-width: 140px;">
+                    <label>💎 小宝石单价</label>
+                    <input type="number" id="gemPrice" value="50" min="0" step="1">
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 100px; display: flex; align-items: flex-end; padding-bottom: 0;">
+                    <div style="color: var(--text-muted); font-size: 13px; padding-bottom: 6px;">白金币/个（可自定义）</div>
+                </div>
+            </div>
+
             <button class="calc-btn" onclick="calculate()">🧮 计算升级消耗</button>
 
             <div id="resultArea" style="margin-top:20px; display:none;">
@@ -330,7 +357,7 @@
                     <div class="result-item">
                         <div class="label">💎 水晶石</div>
                         <div class="value" id="totalCrystal">0</div>
-                        <div class="sub-text" id="crystalSub">实际消耗</div>
+                        <div class="sub-text">累计消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">💰 水晶石花费</div>
@@ -340,12 +367,12 @@
                     <div class="result-item">
                         <div class="label">💎 小宝石</div>
                         <div class="value blue" id="totalGem">0</div>
-                        <div class="sub-text" id="gemSub">实际消耗</div>
+                        <div class="sub-text" id="gemSubLabel">最后一级消耗</div>
                     </div>
                     <div class="result-item">
                         <div class="label">💰 小宝石花费</div>
                         <div class="value purple" id="gemGold">0</div>
-                        <div class="sub-text">50 白金币/个</div>
+                        <div class="sub-text" id="gemPriceLabel">自定义单价</div>
                     </div>
                 </div>
 
@@ -353,7 +380,7 @@
                     <div class="result-item" style="grid-column: span 2;">
                         <div class="label">💰 总花费</div>
                         <div class="value" id="totalGold">0</div>
-                        <div class="sub-text">白金币</div>
+                        <div class="sub-text">水晶石 + 小宝石</div>
                     </div>
                     <div class="result-item" style="grid-column: span 2;">
                         <div class="label">📈 属性收益</div>
@@ -385,7 +412,7 @@
 
     <script>
         // ================================================================
-        //  数据区（最终确认）
+        //  数据区
         // ================================================================
 
         // 宝石属性值：索引0=1级, 索引9=10级
@@ -398,8 +425,7 @@
         // 水晶石单级消耗 (索引0:1→2, 索引8:9→10)
         var CRYSTAL_PER = [0, 0, 0, 0, 1, 5, 15, 35, 75];
 
-        // 水晶石累计消耗（至该等级）：索引0=1级, 索引9=10级
-        // 按递推公式：累计(当前级) = 单级 + 3 × 上一级累计
+        // 按递推公式计算累计水晶石：累计(当前级) = 单级 + 3 * 上一级累计（从5级开始）
         var CRYSTAL_CUM = [];
         for (var i = 0; i < 10; i++) {
             if (i < 5) {
@@ -410,15 +436,12 @@
                 CRYSTAL_CUM[i] = CRYSTAL_PER[i - 1] + 3 * CRYSTAL_CUM[i - 1];
             }
         }
-        // CRYSTAL_CUM = [0, 0, 0, 0, 0, 1, 8, 39, 152, 531]
 
         // 小宝石累计消耗（至该等级）：索引0=1级, 索引9=10级
-        // 这些数字本身就是累计值，不是单级消耗
         var GEM_CUM = [0, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683];
 
         // 价格
         var CRYSTAL_PRICE = 500;
-        var GEM_PRICE = 50;
 
         var GEM_NAME = {
             base: '黄玉/蓝水晶/月亮石/猫眼石',
@@ -427,13 +450,21 @@
         };
 
         // ================================================================
-        //  核心计算（最终确认规则）
+        //  核心计算（动态计算）
         // ================================================================
 
         function calculate() {
             var gemKey = document.getElementById('gemType').value;
             var cur = parseInt(document.getElementById('currentLevel').value);
             var target = parseInt(document.getElementById('targetLevel').value);
+
+            // 获取用户自定义的小宝石单价
+            var gemPriceInput = document.getElementById('gemPrice').value;
+            var gemPrice = parseFloat(gemPriceInput);
+            if (isNaN(gemPrice) || gemPrice < 0) {
+                gemPrice = 50;
+                document.getElementById('gemPrice').value = 50;
+            }
 
             if (cur >= target) {
                 alert('目标等级必须大于当前等级！');
@@ -443,8 +474,7 @@
             var stats = STATS[gemKey];
             var name = GEM_NAME[gemKey];
 
-            // ----- 1. 水晶石实际消耗 -----
-            // 规则：Σ 单级 × 3^(target - lv - 1)，lv 从 cur 到 target-1
+            // ----- 1. 水晶石实际消耗（单级累加 ×3 规则） -----
             var crystalActual = 0;
             for (var lv = cur; lv < target; lv++) {
                 var idx = lv - 1;
@@ -454,13 +484,12 @@
                 crystalActual += single * multiplier;
             }
 
-            // ----- 2. 小宝石实际消耗 -----
-            // 规则：累计值相减
+            // ----- 2. 小宝石实际消耗（累计值相减） -----
             var gemActual = GEM_CUM[target - 1] - GEM_CUM[cur - 1];
 
-            // ----- 3. 价格计算 -----
+            // ----- 3. 价格计算（小宝石使用自定义单价） -----
             var crystalGold = crystalActual * CRYSTAL_PRICE;
-            var gemGold = gemActual * GEM_PRICE;
+            var gemGold = gemActual * gemPrice;
             var totalGold = crystalGold + gemGold;
 
             // ----- 4. 属性收益 -----
@@ -474,17 +503,13 @@
                 var idx = lv - 1;
                 var c = CRYSTAL_PER[idx] || 0;
                 var cumC = CRYSTAL_CUM[lv] || 0;
-                var g = GEM_CUM[lv] || 0; // 该级对应的累计小宝石（升级后到达 lv+1 级的累计）
-                // 但表格里小宝石列显示的是单级？还是累计？这里按你截图显示单级消耗
-                // 实际上GEM_CUM是累计值，但截图里显示的是单级消耗(3,9,27...)
-                // 所以需要反推单级：单级 = 当前级累计 - 上一级累计
-                var gemSingle = GEM_CUM[lv] - GEM_CUM[lv - 1] || 0;
+                var g = GEM_CUM[lv] - GEM_CUM[lv - 1] || 0;
                 rows.push({
                     from: lv,
                     to: lv + 1,
                     crystal: c,
                     crystalCum: cumC,
-                    gem: gemSingle,
+                    gem: g,
                     stat: stats[lv] || 0
                 });
             }
@@ -500,8 +525,9 @@
             document.getElementById('totalStat').textContent = (statGain >= 0 ? '+' : '') + statGain.toLocaleString();
             document.getElementById('statLabel').textContent = name + ' 属性增长';
 
-            document.getElementById('crystalSub').textContent = cur + '→' + target + ' 实际消耗';
-            document.getElementById('gemSub').textContent = cur + '→' + target + ' 实际消耗';
+            // 更新小宝石花费的副标题，显示自定义单价
+            document.getElementById('gemPriceLabel').textContent = gemPrice + ' 白金币/个';
+            document.getElementById('gemSubLabel').textContent = cur + '→' + target + ' 实际消耗';
 
             // ---- 渲染表格 ----
             var tbody = document.getElementById('detailTableBody');
@@ -524,8 +550,16 @@
             document.getElementById('infoNote').textContent =
                 '💡 从 ' + cur + ' 级升到 ' + target + ' 级，实际消耗 ' + crystalActual.toLocaleString() +
                 ' 水晶石（' + crystalGold.toLocaleString() + ' 白金币）+ ' + gemActual.toLocaleString() +
-                ' 小宝石（' + gemGold.toLocaleString() + ' 白金币），合计 ' + totalGold.toLocaleString() + ' 白金币。';
+                ' 小宝石（' + gemGold.toLocaleString() + ' 白金币，单价 ' + gemPrice + '），合计 ' + totalGold.toLocaleString() + ' 白金币。';
         }
+
+        // 监听单价输入变化，自动重新计算
+        document.getElementById('gemPrice').addEventListener('input', function() {
+            var resultArea = document.getElementById('resultArea');
+            if (resultArea.style.display !== 'none') {
+                calculate();
+            }
+        });
 
         window.onload = calculate;
     </script>
