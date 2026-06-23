@@ -109,7 +109,7 @@
             line-height: 30px;
         }
 
-        /* ===== 统计行已移除 ===== */
+        /* 统计行已移除 */
 
         .slot-grid {
             display: grid;
@@ -131,9 +131,10 @@
             margin-bottom: 4px;
             letter-spacing: 0.5px;
         }
+
+        /* 技能行：箭头居中，左右技能各占一半 */
         .skill-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             padding: 4px 0;
             border-bottom: 1px solid #1a212b;
@@ -144,17 +145,22 @@
             border-bottom: none;
         }
         .skill-row .from-skill {
-            color: #ffd866;
-            font-weight: 500;
-        }
-        .skill-row .to-skill {
-            color: #7ec8e3;
+            flex: 1;
+            text-align: left;
+            color: #ffa94d;  /* 暖橙 */
             font-weight: 500;
         }
         .skill-row .arrow-icon {
+            flex: 0 0 auto;
+            margin: 0 10px;
             color: #7a8a9e;
             font-size: 13px;
-            margin: 0 4px;
+        }
+        .skill-row .to-skill {
+            flex: 1;
+            text-align: right;
+            color: #4fc3f7;  /* 青蓝 */
+            font-weight: 500;
         }
 
         .slot-section.matched {
@@ -278,7 +284,6 @@
             opacity: 0;
         }
 
-        /* ----- 移动端适配：统计行已移除，技能词放大 ----- */
         @media (max-width: 480px) {
             .form-row {
                 gap: 8px 6px;
@@ -319,6 +324,7 @@
             }
             .skill-row .arrow-icon {
                 font-size: 11px;
+                margin: 0 6px;
             }
             .slot-section.matched .slot-title {
                 font-size: 14px;
@@ -399,8 +405,6 @@
                 <span class="hint">组合筛选</span>
             </div>
         </div>
-
-        <!-- 统计行已移除 -->
 
         <div id="resultArea" style="display:none;">
             <div class="card" style="padding:6px 4px;">
@@ -649,8 +653,8 @@
                         row.className = 'skill-row';
                         row.innerHTML =
                             '<span class="from-skill">' + pair.fs + '</span>' +
-                            '<span><span class="arrow-icon">→</span><span class="to-skill">' + pair.ts +
-                            '</span></span>';
+                            '<span class="arrow-icon">→</span>' +
+                            '<span class="to-skill">' + pair.ts + '</span>';
                         sec.appendChild(row);
                     });
                 }
