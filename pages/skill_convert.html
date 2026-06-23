@@ -23,12 +23,8 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-image: 
-                linear-gradient(rgba(10, 14, 20, 0.80), rgba(10, 14, 20, 0.88)),
-                url('../images/beijingtu.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background: #0a0e14;
+            background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
             color: var(--text-primary);
             font-family: var(--font-body);
             min-height: 100vh;
@@ -37,10 +33,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .page-wrap {
-            max-width: 1100px;
-            width: 100%;
-        }
+        .page-wrap { max-width: 1100px; width: 100%; }
 
         /* ----- 头部：头像 + 标题 ----- */
         .header {
@@ -82,7 +75,6 @@
             letter-spacing: 1px;
         }
 
-        /* ----- 卡片 ----- */
         .card {
             background: var(--bg-card);
             backdrop-filter: blur(8px);
@@ -94,7 +86,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* ----- 表单：左右排列 ----- */
+        /* ----- 表单：一行排列，移动端自适应 ----- */
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -135,9 +127,7 @@
             border-color: var(--gold);
             box-shadow: 0 0 0 2px rgba(200, 169, 110, 0.12);
         }
-        .form-row .form-group select option {
-            background: #1a212b;
-        }
+        .form-row .form-group select option { background: #1a212b; }
         .form-row .form-group-btn {
             flex: 0 0 auto;
             display: flex;
@@ -162,9 +152,7 @@
             transform: scale(1.02);
             box-shadow: 0 4px 16px rgba(200, 169, 110, 0.25);
         }
-        .form-row .form-group-btn .calc-btn:active {
-            transform: scale(0.97);
-        }
+        .form-row .form-group-btn .calc-btn:active { transform: scale(0.97); }
         .form-row .filter-hint {
             font-size: 10px;
             color: var(--text-muted);
@@ -173,7 +161,7 @@
             white-space: nowrap;
         }
 
-        /* ----- 汇总 ----- */
+        /* ----- 汇总卡片 ----- */
         .result-grid-summary {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -200,35 +188,53 @@
         }
         .summary-item .value.green { color: #5fcb9a; }
 
-        /* ----- 表格样式（关键修改） ----- */
+        /* ----- 表格：两列布局，干净利落 ----- */
+        .slot-section {
+            margin-bottom: 12px;
+        }
+        .slot-section:last-child {
+            margin-bottom: 0;
+        }
+        .slot-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gold);
+            padding: 4px 0 4px 4px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
         .table-wrap {
             overflow-x: auto;
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
         }
         .result-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            min-width: 280px;
         }
         .result-table th {
             background: #1a212b;
             color: var(--gold);
             font-weight: 600;
-            padding: 8px 10px;
+            padding: 6px 8px;
             text-align: left;
             border-bottom: 2px solid var(--border-color);
-            font-family: var(--font-display);
+            font-size: 12px;
             letter-spacing: 0.5px;
+            font-family: var(--font-display);
         }
         .result-table th:first-child {
             border-right: 1px solid var(--border-color);
+            width: 50%;
         }
         .result-table td {
-            padding: 6px 10px;
+            padding: 5px 8px;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-primary);
+            font-size: 13px;
+            vertical-align: middle;
         }
         .result-table td:first-child {
             border-right: 1px solid var(--border-color);
@@ -246,29 +252,17 @@
             background: rgba(200, 169, 110, 0.04);
         }
         .result-table .highlight-row td {
-            background: rgba(200, 169, 110, 0.08);
-        }
-        .result-table .empty-row td {
-            color: var(--text-muted);
-            text-align: center;
-            padding: 20px 0;
-            border-right: none;
+            background: rgba(200, 169, 110, 0.10);
         }
 
-        /* 无结果 */
         .no-result {
             text-align: center;
             color: var(--text-muted);
             padding: 20px 0;
             font-size: 14px;
         }
-        .no-result .icon {
-            font-size: 28px;
-            display: block;
-            margin-bottom: 4px;
-        }
+        .no-result .icon { font-size: 28px; display: block; margin-bottom: 4px; }
 
-        /* ----- 底部 ----- */
         .info-note {
             color: var(--text-secondary);
             font-size: 11px;
@@ -287,41 +281,40 @@
             transition: 0.2s;
             letter-spacing: 0.5px;
         }
-        .back-link:hover {
-            color: var(--gold);
-        }
+        .back-link:hover { color: var(--gold); }
 
-        /* 每个部位单独的小标题 */
-        .slot-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--gold);
-            padding: 10px 10px 4px 10px;
-            border-bottom: 1px solid var(--border-color);
-            margin-top: 4px;
-        }
-        .slot-title:first-of-type {
-            margin-top: 0;
-        }
-
-        /* ----- 响应式 ----- */
+        /* ----- 移动端极致紧凑 ----- */
         @media (max-width: 640px) {
-            .header h1 { font-size: 17px; }
-            .header .sub { font-size: 11px; }
-            .header .avatar { width: 32px; height: 32px; }
-            .form-row .form-group { min-width: 60px; max-width: 120px; }
-            .form-row .form-group select { font-size: 11px; padding: 4px 4px; height: 28px; }
-            .form-row .form-group-btn .calc-btn { font-size: 12px; height: 28px; padding: 4px 12px; }
-            .form-row { gap: 4px 6px; }
-            .result-table { font-size: 12px; }
-            .result-table th, .result-table td { padding: 4px 6px; }
-            .slot-title { font-size: 11px; padding: 6px 6px 2px 6px; }
+            body { padding: 6px 4px; }
+            .header h1 { font-size: 16px; }
+            .header .sub { font-size: 10px; }
+            .header .avatar { width: 28px; height: 28px; }
+            .header { gap: 8px; margin-bottom: 8px; padding: 4px 0; }
+            .card { padding: 8px 6px; border-radius: 10px; margin-bottom: 8px; }
+            .form-row .form-group { min-width: 50px; max-width: 100px; }
+            .form-row .form-group select { font-size: 11px; padding: 3px 4px; height: 26px; }
+            .form-row .form-group-btn .calc-btn { font-size: 11px; height: 26px; padding: 4px 10px; }
+            .form-row { gap: 4px 4px; }
+            .form-row .filter-hint { font-size: 9px; line-height: 26px; }
+            .result-grid-summary { gap: 4px; margin-bottom: 6px; }
+            .summary-item { padding: 4px 2px; }
+            .summary-item .value { font-size: 14px; }
+            .summary-item .label { font-size: 8px; }
+            .slot-title { font-size: 11px; padding: 2px 0 2px 2px; }
+            .result-table { font-size: 11px; }
+            .result-table th { font-size: 10px; padding: 4px 4px; }
+            .result-table td { padding: 3px 4px; font-size: 11px; }
+            .table-wrap { border-radius: 6px; }
+            .slot-section { margin-bottom: 8px; }
+            .info-note { font-size: 10px; padding-top: 4px; margin-top: 4px; }
+            .back-link { font-size: 11px; margin-top: 8px; }
         }
         @media (max-width: 420px) {
             .form-row .form-group { flex: 1 1 100%; max-width: 100%; }
             .form-row .filter-hint { display: none; }
-            .result-table { font-size: 11px; }
-            .result-table th, .result-table td { padding: 3px 4px; }
+            .result-table th, .result-table td { font-size: 10px; padding: 2px 3px; }
+            .result-table th { font-size: 9px; }
+            .slot-title { font-size: 10px; }
         }
         @media (min-width: 641px) {
             .header h1 { font-size: 26px; }
@@ -332,8 +325,8 @@
 </head>
 <body>
 
-    <!-- ===== 密码锁 ===== -->
-    <div id="lockScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,14,20,0.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;padding:20px;transition:opacity 0.4s ease;overflow:hidden;">
+    <!-- 密码锁 -->
+    <div id="lockScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,14,20,0.93);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;padding:20px;transition:opacity 0.4s ease;overflow:hidden;">
         <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;padding:28px 22px 24px;max-width:360px;width:100%;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,0.6);">
             <span style="font-size:36px;display:block;margin-bottom:6px;">🔐</span>
             <h2 style="font-family:var(--font-display);font-size:18px;color:var(--gold-light);letter-spacing:1px;margin-bottom:4px;">工具已加密</h2>
@@ -344,9 +337,7 @@
         </div>
     </div>
 
-    <!-- ===== 主内容 ===== -->
     <div class="page-wrap">
-
         <div class="header">
             <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
             <div class="title-group">
@@ -386,7 +377,7 @@
                 <div class="summary-item"><div class="label">匹配</div><div class="value green" id="totalMatches">0</div></div>
                 <div class="summary-item"><div class="label">筛选</div><div class="value" id="filterDisplay" style="font-size:13px;">全部</div></div>
             </div>
-            <div class="card" style="padding:10px 10px;">
+            <div class="card" style="padding:10px 8px;">
                 <div id="tableContainer"></div>
                 <div class="info-note" id="infoNote">💡 选择两个职业，可选技能筛选查看对应关系</div>
             </div>
@@ -396,22 +387,18 @@
     </div>
 
     <script>
-        // ================================================================
-        //  密码锁（密码：666888）
-        // ================================================================
+        // 密码锁
         (function() {
             var CORRECT_PASSWORD = '666888';
             var lockScreen = document.getElementById('lockScreen');
             var lockInput = document.getElementById('lockInput');
             var lockBtn = document.getElementById('lockBtn');
             var lockError = document.getElementById('lockError');
-
             if (sessionStorage.getItem('skill_convert_unlocked') === 'true') {
                 lockScreen.style.display = 'none';
                 lockInput.disabled = true;
                 return;
             }
-
             function unlock() {
                 var inputVal = lockInput.value.trim();
                 if (inputVal === CORRECT_PASSWORD) {
@@ -434,13 +421,9 @@
             lockInput.focus();
         })();
 
-        // ================================================================
-        //  核心数据
-        // ================================================================
-
+        // 核心数据
         var CLASSES = ['法师','野蛮人','武行者','猎魔人','圣教军','死灵法师','狂骑士','雾刃','德鲁伊','术士'];
         var SLOT_NAMES = ['头盔','衣服','肩膀','裤子','主手','副手'];
-
         var RAW_DATA = {
             '主手_衣服_裤子': {
                 '法师': '寒冰护甲','野蛮人': '旋风击','武行者': '金钟破','猎魔人': '绳索射击','圣教军': '战马拖行',
@@ -562,7 +545,7 @@
             var filterFrom = document.getElementById('skillFrom').value, filterTo = document.getElementById('skillTo').value;
             if (fromCls === toCls) { alert('当前职业和目标职业不能相同！'); return; }
             var slotData = buildSlotData(fromCls, toCls, filterFrom, filterTo);
-            
+
             var totalSlots = 0, totalMatches = 0;
             var displaySlots = [];
             SLOT_NAMES.forEach(function(slot) {
@@ -589,29 +572,27 @@
                 return;
             }
 
-            // 按部位生成表格
-            displaySlots.forEach(function(item, index) {
-                // 部位标题
+            displaySlots.forEach(function(item) {
+                var section = document.createElement('div');
+                section.className = 'slot-section';
+
                 var title = document.createElement('div');
                 title.className = 'slot-title';
-                title.textContent = '📌 ' + item.slot + '（' + item.items.length + ' 个）';
-                container.appendChild(title);
+                title.textContent = '📌 ' + item.slot + '（' + item.items.length + '）';
+                section.appendChild(title);
 
-                // 表格
                 var wrap = document.createElement('div');
                 wrap.className = 'table-wrap';
 
                 var table = document.createElement('table');
                 table.className = 'result-table';
 
-                // 表头
                 var thead = document.createElement('thead');
                 var trHead = document.createElement('tr');
-                trHead.innerHTML = '<th>' + fromCls + '</th><th>' + toCls + '</th>';
+                trHead.innerHTML = '<th>' + fromCls + ' 技能</th><th>' + toCls + ' 对应</th>';
                 thead.appendChild(trHead);
                 table.appendChild(thead);
 
-                // 表体
                 var tbody = document.createElement('tbody');
                 item.items.forEach(function(pair) {
                     var tr = document.createElement('tr');
@@ -622,7 +603,8 @@
                 });
                 table.appendChild(tbody);
                 wrap.appendChild(table);
-                container.appendChild(wrap);
+                section.appendChild(wrap);
+                container.appendChild(section);
             });
 
             document.getElementById('infoNote').textContent = '💡 ' + fromCls + ' → ' + toCls + '：' + totalSlots + ' 个部位，' + totalMatches + ' 个技能可转换。';
