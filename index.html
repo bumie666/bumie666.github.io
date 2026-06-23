@@ -12,12 +12,8 @@
             box-sizing: border-box;
         }
         body {
-            background-image: 
-                linear-gradient(rgba(10, 14, 20, 0.75), rgba(10, 14, 20, 0.85)),
-                url('images/beijingtu.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background: #0a0e14;
+            background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
             color: #e0e6ed;
             font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
@@ -32,7 +28,7 @@
             width: 100%;
         }
 
-        /* ----- 头部：Logo居中放大，品牌名缩小在下方 ----- */
+        /* ----- 头部：Logo超大居中，品牌名极小 ----- */
         .header {
             text-align: center;
             margin-bottom: 36px;
@@ -40,31 +36,30 @@
         .header .logo-wrapper {
             display: flex;
             justify-content: center;
-            margin-bottom: 6px;
+            margin-bottom: 2px;
         }
         .header .logo-wrapper .game-logo {
-            height: 100px;
+            height: 160px;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(200, 169, 110, 0.20));
+            filter: drop-shadow(0 0 40px rgba(200, 169, 110, 0.18));
         }
         .header .brand-name {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 22px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: 4px;
             background: linear-gradient(135deg, #f6d365, #c8a96e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 20px rgba(200, 169, 110, 0.10);
         }
         .header .sub-title {
             color: #7a8a9e;
-            font-size: 13px;
+            font-size: 11px;
             letter-spacing: 2px;
-            margin-top: 4px;
-            border-top: 1px solid rgba(30, 44, 56, 0.6);
-            padding-top: 10px;
+            margin-top: 2px;
+            border-top: 1px solid rgba(30, 44, 56, 0.5);
+            padding-top: 6px;
         }
 
         /* ----- 工具卡片网格 ----- */
@@ -174,8 +169,9 @@
 
         @media (max-width: 520px) {
             .tool-grid { grid-template-columns: 1fr; }
-            .header .logo-wrapper .game-logo { height: 72px; }
-            .header .brand-name { font-size: 18px; }
+            .header .logo-wrapper .game-logo { height: 120px; }
+            .header .brand-name { font-size: 14px; }
+            .header .sub-title { font-size: 10px; }
             .tool-card .badge { position: static; display: inline-block; margin-top: 6px; }
             .tool-card.full { flex-direction: column; text-align: center; }
             .tool-card.full .info { text-align: center; }
