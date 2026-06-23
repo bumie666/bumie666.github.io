@@ -193,9 +193,10 @@
             margin-top: 4px;
         }
         .result-item .highlight {
-            background: rgba(200, 169, 110, 0.12);
+            background: rgba(200, 169, 110, 0.15);
             border-radius: 4px;
             padding: 2px 6px;
+            display: inline-block;
         }
 
         .result-grid-summary {
@@ -252,6 +253,7 @@
             color: var(--text-muted);
             padding: 30px 0;
             font-size: 16px;
+            grid-column: 1/-1;
         }
         .no-result .icon {
             font-size: 40px;
@@ -298,14 +300,14 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>⚔️ 当前职业</label>
-                    <select id="classFrom" onchange="updateSkillList()"></select>
+                    <select id="classFrom" onchange="updateFilterOptions()"></select>
                 </div>
                 <div class="form-group">
                     <label>🎯 目标职业</label>
-                    <select id="classTo"></select>
+                    <select id="classTo" onchange="updateFilterOptions()"></select>
                 </div>
                 <div class="form-group">
-                    <label>🔍 技能筛选（可选）</label>
+                    <label>🔍 技能筛选</label>
                     <select id="skillFilter">
                         <option value="">全部</option>
                     </select>
@@ -325,7 +327,7 @@
                         <div class="value green" id="totalMatches">0</div>
                     </div>
                     <div class="summary-item">
-                        <div class="label">🎯 筛选技能</div>
+                        <div class="label">🎯 当前筛选</div>
                         <div class="value" id="filterDisplay" style="font-size:16px;">全部</div>
                     </div>
                 </div>
@@ -334,11 +336,11 @@
                     <!-- 由JS动态生成 -->
                 </div>
 
-                <div class="info-note" id="infoNote">💡 选择两个职业，可选技能筛选，查看恐惧类魔法属性的技能转换对应关系。</div>
+                <div class="info-note" id="infoNote">💡 选择两个职业，可选技能映射筛选，查看恐惧类魔法属性的技能转换对应关系。</div>
             </div>
         </div>
 
-        <a href="https://bumie666.github.io" class="back-link">🏠 返回暗黑不灭工具箱</a>
+        <a href="https://bumie666.github.io" class="back-link">🏠 返回暗黑の不灭工具箱</a>
     </div>
 
     <script>
@@ -353,7 +355,6 @@
 
         var SLOT_NAMES = ['头盔', '衣服', '肩膀', '裤子', '主手', '副手'];
 
-        // 原始数据：部位组合 → 各职业技能
         var RAW_DATA = {
             '主手_衣服_裤子': {
                 '法师': '寒冰护甲',
@@ -517,20 +518,26 @@
         //  工具函数
         // ================================================================
 
-        // 获取某个职业的所有技能（去重，按出现顺序）
-        function getSkillsForClass(cls) {
-            var skills = [];
+        // 获取所有映射对（去重）
+        function getMappingPairs(fromCls, toCls) {
+            var pairs = [];
+            var seen = {};
             for (var key in RAW_DATA) {
-                var skill = RAW_DATA[key][cls];
-                if (skill && skill !== '—' && skills.indexOf(skill) === -1) {
-                    skills.push(skill);
+                var entry = RAW_DATA[key];
+                var fromSkill = entry[fromCls] || '—';
+                var toSkill = entry[toCls] || '—';
+                if (fromSkill === '—' || toSkill === '—') continue;
+                var pairKey = fromSkill + '||' + toSkill;
+                if (!seen[pairKey]) {
+                    seen[pairKey] = true;
+                    pairs.push({ from: fromSkill, to: toSkill });
                 }
             }
-            return skills;
+            return pairs;
         }
 
-        // 构建部位数据，并可选择过滤技能
-        function buildSlotData(fromCls, toCls, filterSkill) {
+        // 构建部位数据，可选择筛选映射对
+        function buildSlotData(fromCls, toCls, filterFrom, filterTo) {
             var slotMap = {};
             SLOT_NAMES.forEach(function(s) {
                 slotMap[s] = [];
@@ -540,16 +547,15 @@
                 var entry = RAW_DATA[key];
                 var fromSkill = entry[fromCls] || '—';
                 var toSkill = entry[toCls] || '—';
-
-                // 如果两个职业的技能都无效或筛选不匹配，跳过
-                if (fromSkill === '—' && toSkill === '—') continue;
-                if (filterSkill && fromSkill !== filterSkill) continue;
+                if (fromSkill === '—' || toSkill === '—') continue;
+                if (filterFrom && filterTo) {
+                    if (fromSkill !== filterFrom || toSkill !== filterTo) continue;
+                }
 
                 var parts = key.split('_');
                 parts.forEach(function(p) {
                     var slotName = p.replace('_2', '');
                     if (SLOT_NAMES.indexOf(slotName) !== -1) {
-                        // 去重：同一个部位下同一对技能只保留一次
                         var exists = slotMap[slotName].some(function(item) {
                             return item.fromSkill === fromSkill && item.toSkill === toSkill;
                         });
@@ -585,27 +591,36 @@
             });
             fromSel.value = '野蛮人';
             toSel.value = '法师';
-            updateSkillList();
+            updateFilterOptions();
             calculate();
         };
 
-        // 更新技能筛选下拉列表
-        function updateSkillList() {
+        // 更新技能筛选下拉列表（显示映射对）
+        function updateFilterOptions() {
             var fromCls = document.getElementById('classFrom').value;
+            var toCls = document.getElementById('classTo').value;
             var filterSel = document.getElementById('skillFilter');
             var currentVal = filterSel.value;
 
             filterSel.innerHTML = '<option value="">全部</option>';
-            var skills = getSkillsForClass(fromCls);
-            skills.forEach(function(skill) {
+            var pairs = getMappingPairs(fromCls, toCls);
+            pairs.forEach(function(pair) {
                 var opt = document.createElement('option');
-                opt.value = skill;
-                opt.textContent = skill;
+                var label = pair.from + ' → ' + pair.to;
+                opt.value = pair.from + '||' + pair.to;
+                opt.textContent = label;
                 filterSel.appendChild(opt);
             });
             // 尝试恢复之前选中的值
-            if (currentVal && skills.indexOf(currentVal) !== -1) {
-                filterSel.value = currentVal;
+            if (currentVal) {
+                var exists = false;
+                for (var i = 0; i < filterSel.options.length; i++) {
+                    if (filterSel.options[i].value === currentVal) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (exists) filterSel.value = currentVal;
             }
         }
 
@@ -616,16 +631,25 @@
         function calculate() {
             var fromCls = document.getElementById('classFrom').value;
             var toCls = document.getElementById('classTo').value;
-            var filterSkill = document.getElementById('skillFilter').value;
+            var filterVal = document.getElementById('skillFilter').value;
 
             if (fromCls === toCls) {
                 alert('当前职业和目标职业不能相同！');
                 return;
             }
 
-            var slotData = buildSlotData(fromCls, toCls, filterSkill);
+            var filterFrom = null;
+            var filterTo = null;
+            var filterDisplay = '全部';
+            if (filterVal) {
+                var parts = filterVal.split('||');
+                filterFrom = parts[0];
+                filterTo = parts[1];
+                filterDisplay = filterFrom + ' → ' + filterTo;
+            }
 
-            // 统计
+            var slotData = buildSlotData(fromCls, toCls, filterFrom, filterTo);
+
             var totalSlots = 0;
             var totalMatches = 0;
             var displaySlots = [];
@@ -638,25 +662,24 @@
                 }
             });
 
-            // 渲染
             document.getElementById('resultArea').style.display = 'block';
             document.getElementById('totalSlots').textContent = totalSlots;
             document.getElementById('totalMatches').textContent = totalMatches;
-            document.getElementById('filterDisplay').textContent = filterSkill || '全部';
+            document.getElementById('filterDisplay').textContent = filterDisplay;
 
             var grid = document.getElementById('slotGrid');
             grid.innerHTML = '';
 
             if (displaySlots.length === 0) {
                 grid.innerHTML = `
-                    <div style="grid-column:1/-1; text-align:center; padding:30px 0; color:var(--text-muted);">
-                        <div style="font-size:40px; margin-bottom:10px;">🔍</div>
+                    <div class="no-result">
+                        <span class="icon">🔍</span>
                         <div>未找到匹配的技能转换</div>
-                        <div style="font-size:13px; margin-top:6px;">请尝试调整筛选条件或选择其他职业</div>
+                        <div style="font-size:13px; margin-top:6px; color:var(--text-muted);">请尝试调整筛选条件或选择其他职业</div>
                     </div>
                 `;
                 document.getElementById('infoNote').textContent =
-                    '💡 ' + fromCls + ' → ' + toCls + (filterSkill ? '（筛选：' + filterSkill + '）' : '') + '：未找到可转换的恐惧词条。';
+                    '💡 ' + fromCls + ' → ' + toCls + '（筛选：' + filterDisplay + '）：未找到可转换的恐惧词条。';
                 return;
             }
 
@@ -667,10 +690,13 @@
                 item.items.forEach(function(pair) {
                     var fromDisplay = pair.fromSkill !== '—' ? pair.fromSkill : '—';
                     var toDisplay = pair.toSkill !== '—' ? pair.toSkill : '—';
+                    var isHighlight = (filterFrom && filterTo && pair.fromSkill === filterFrom && pair.toSkill === filterTo);
+                    var fromClass = isHighlight ? 'highlight skill-from' : 'skill-from';
+                    var toClass = isHighlight ? 'highlight skill-to' : 'skill-to';
                     html += '<div class="skill-pair">';
-                    html += '<span class="skill-from">' + fromDisplay + '</span>';
+                    html += '<span class="' + fromClass + '">' + fromDisplay + '</span>';
                     html += '<span class="arrow"> → </span>';
-                    html += '<span class="skill-to">' + toDisplay + '</span>';
+                    html += '<span class="' + toClass + '">' + toDisplay + '</span>';
                     html += '</div>';
                 });
                 html += '<div class="sub-text">' + item.items.length + ' 个技能</div>';
@@ -679,8 +705,7 @@
             });
 
             document.getElementById('infoNote').textContent =
-                '💡 ' + fromCls + ' → ' + toCls + (filterSkill ? '（筛选：' + filterSkill + '）' : '') +
-                '：共 ' + totalSlots + ' 个部位，' + totalMatches + ' 个技能可转换。';
+                '💡 ' + fromCls + ' → ' + toCls + '（筛选：' + filterDisplay + '）：共 ' + totalSlots + ' 个部位，' + totalMatches + ' 个技能可转换。';
         }
     </script>
 </body>
