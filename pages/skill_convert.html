@@ -21,7 +21,6 @@
             max-width: 100%;
         }
 
-        /* ----- 头部 ----- */
         .header {
             display: flex;
             align-items: center;
@@ -48,7 +47,6 @@
             margin-left: 4px;
         }
 
-        /* ----- 卡片 ----- */
         .card {
             background: rgba(20, 25, 35, 0.8);
             border: 1px solid #2a3a4a;
@@ -57,7 +55,6 @@
             margin-bottom: 8px;
         }
 
-        /* ----- 表单 ----- */
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -112,7 +109,6 @@
             line-height: 30px;
         }
 
-        /* ----- 汇总 ----- */
         .summary {
             display: flex;
             gap: 6px;
@@ -139,7 +135,6 @@
             color: #5fcb9a;
         }
 
-        /* ===== 左右两列网格 ===== */
         .slot-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -164,37 +159,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2px 0;
+            padding: 3px 0;
             border-bottom: 1px solid #1a212b;
-            font-size: 11px;
+            font-size: 14px;
             transition: font-size 0.2s, background 0.2s;
         }
         .skill-row:last-child {
             border-bottom: none;
         }
+        /* 方案一配色 */
         .skill-row .from-skill {
-            color: #f6d365;
+            color: #ffd866;
             font-weight: 500;
         }
         .skill-row .to-skill {
-            color: #6cb4ee;
+            color: #7ec8e3;
             font-weight: 500;
         }
         .skill-row .arrow-icon {
-            color: #4a5a6e;
-            font-size: 10px;
-            margin: 0 3px;
-        }
-        .slot-count {
-            font-size: 10px;
-            color: #5a6a7e;
-            margin-top: 3px;
-            padding-top: 3px;
-            border-top: 1px dashed #2a3a4a;
-            text-align: right;
+            color: #7a8a9e;
+            font-size: 12px;
+            margin: 0 4px;
         }
 
-        /* ===== 匹配部位高亮 ===== */
         .slot-section.matched {
             border-color: #c8a96e;
             box-shadow: 0 0 20px rgba(200, 169, 110, 0.08);
@@ -204,15 +191,11 @@
             color: #f6d365;
         }
         .slot-section.matched .skill-row {
-            font-size: 13px;
-            padding: 3px 0;
+            font-size: 16px;
+            padding: 4px 0;
         }
         .slot-section.matched .skill-row .arrow-icon {
-            font-size: 12px;
-        }
-        .slot-section.matched .slot-count {
-            font-size: 11px;
-            color: #c8a96e;
+            font-size: 14px;
         }
 
         .slot-section.unmatched .slot-title {
@@ -220,9 +203,6 @@
         }
         .slot-section.unmatched .skill-row {
             opacity: 0.5;
-        }
-        .slot-section.unmatched .slot-count {
-            opacity: 0.4;
         }
 
         .skill-row.hidden {
@@ -256,7 +236,6 @@
             color: #c8a96e;
         }
 
-        /* ----- 密码锁 ----- */
         .lock-box {
             position: fixed;
             top: 0;
@@ -324,7 +303,6 @@
             opacity: 0;
         }
 
-        /* ----- 手机端适配：调大选项方便点击 ----- */
         @media (max-width: 480px) {
             .form-row {
                 gap: 8px 6px;
@@ -360,30 +338,21 @@
                 font-size: 11px;
             }
             .skill-row {
-                font-size: 9px;
-                padding: 1px 0;
+                font-size: 12px;
+                padding: 2px 0;
             }
             .skill-row .arrow-icon {
-                font-size: 8px;
-                margin: 0 2px;
-            }
-            .slot-count {
-                font-size: 8px;
-                margin-top: 2px;
-                padding-top: 2px;
+                font-size: 10px;
             }
             .slot-section.matched .slot-title {
                 font-size: 13px;
             }
             .slot-section.matched .skill-row {
-                font-size: 11px;
-                padding: 2px 0;
+                font-size: 14px;
+                padding: 3px 0;
             }
             .slot-section.matched .skill-row .arrow-icon {
-                font-size: 10px;
-            }
-            .slot-section.matched .slot-count {
-                font-size: 10px;
+                font-size: 12px;
             }
             .summary .item .v {
                 font-size: 12px;
@@ -418,21 +387,20 @@
                 font-size: 10px;
             }
             .skill-row {
-                font-size: 8px;
+                font-size: 10px;
                 padding: 1px 0;
             }
             .slot-section.matched .slot-title {
                 font-size: 12px;
             }
             .slot-section.matched .skill-row {
-                font-size: 10px;
+                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- 密码锁 -->
     <div class="lock-box" id="lockScreen">
         <div class="inner">
             <h2>🔐 工具已加密</h2>
@@ -445,14 +413,12 @@
 
     <div class="wrap">
 
-        <!-- 头部 -->
         <div class="header">
             <img src="../images/douyintouxiang.png" alt="头像">
             <h1>⚔️ 恐惧词条转换</h1>
             <span class="sub">暗黑不灭</span>
         </div>
 
-        <!-- 表单 -->
         <div class="card">
             <div class="form-row">
                 <div class="fg"><label>当前</label><select id="classFrom" onchange="updateFrom()"></select></div>
@@ -464,7 +430,6 @@
             </div>
         </div>
 
-        <!-- 结果 -->
         <div id="resultArea" style="display:none;">
             <div class="summary">
                 <div class="item"><div class="l">部位</div><div class="v" id="totalSlots">0</div></div>
@@ -732,14 +697,7 @@
                     });
                 }
 
-                var count = document.createElement('div');
-                count.className = 'slot-count';
-                if (item.hasMatch && (fFrom || fTo)) {
-                    count.textContent = '✅ 匹配 ' + item.list.length + ' / ' + item.totalCount + ' 个';
-                } else {
-                    count.textContent = item.list.length + ' 个技能';
-                }
-                sec.appendChild(count);
+                // 计数行已移除，不再添加
 
                 container.appendChild(sec);
             });
