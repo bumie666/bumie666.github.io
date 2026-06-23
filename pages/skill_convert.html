@@ -66,26 +66,26 @@
         }
         .form-row .fg {
             flex: 1 1 auto;
-            min-width: 52px;
-            max-width: 110px;
+            min-width: 60px;
+            max-width: 130px;
         }
         .form-row .fg label {
             display: block;
-            font-size: 8px;
+            font-size: 9px;
             color: #7a8a9e;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            margin-bottom: 1px;
+            margin-bottom: 2px;
         }
         .form-row .fg select {
             width: 100%;
-            padding: 3px 4px;
+            padding: 4px 6px;
             background: #0f161e;
             border: 1px solid #2a3a4a;
             border-radius: 6px;
             color: #fff;
-            font-size: 11px;
-            height: 26px;
+            font-size: 13px;
+            height: 30px;
             outline: none;
             -webkit-appearance: none;
             appearance: none;
@@ -95,21 +95,21 @@
         }
         .form-row .btn {
             flex: 0 0 auto;
-            padding: 4px 12px;
+            padding: 4px 14px;
             background: linear-gradient(135deg, #c8a96e, #f6d365);
             border: none;
             border-radius: 6px;
             color: #0b0e14;
             font-weight: 700;
-            font-size: 12px;
-            height: 26px;
+            font-size: 13px;
+            height: 30px;
             cursor: pointer;
         }
         .form-row .hint {
-            font-size: 8px;
+            font-size: 9px;
             color: #5a6a7e;
             white-space: nowrap;
-            line-height: 26px;
+            line-height: 30px;
         }
 
         /* ----- 汇总 ----- */
@@ -324,7 +324,30 @@
             opacity: 0;
         }
 
+        /* ----- 手机端适配：调大选项方便点击 ----- */
         @media (max-width: 480px) {
+            .form-row {
+                gap: 8px 6px;
+            }
+            .form-row .fg {
+                min-width: 70px;
+                max-width: 140px;
+            }
+            .form-row .fg select {
+                font-size: 14px;
+                height: 34px;
+                padding: 4px 8px;
+            }
+            .form-row .btn {
+                font-size: 14px;
+                height: 34px;
+                padding: 4px 16px;
+            }
+            .form-row .hint {
+                font-size: 10px;
+                line-height: 34px;
+            }
+
             .slot-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 4px;
@@ -362,20 +385,6 @@
             .slot-section.matched .slot-count {
                 font-size: 10px;
             }
-            .form-row .fg {
-                min-width: 40px;
-                max-width: 80px;
-            }
-            .form-row .fg select {
-                font-size: 9px;
-                height: 22px;
-                padding: 2px 3px;
-            }
-            .form-row .btn {
-                font-size: 10px;
-                height: 22px;
-                padding: 3px 8px;
-            }
             .summary .item .v {
                 font-size: 12px;
             }
@@ -383,7 +392,22 @@
                 font-size: 7px;
             }
         }
+
         @media (max-width: 380px) {
+            .form-row .fg {
+                min-width: 60px;
+                max-width: 120px;
+            }
+            .form-row .fg select {
+                font-size: 13px;
+                height: 32px;
+                padding: 3px 6px;
+            }
+            .form-row .btn {
+                font-size: 13px;
+                height: 32px;
+                padding: 3px 12px;
+            }
             .slot-grid {
                 gap: 3px;
             }
@@ -402,19 +426,6 @@
             }
             .slot-section.matched .skill-row {
                 font-size: 10px;
-            }
-            .form-row .fg {
-                min-width: 34px;
-                max-width: 65px;
-            }
-            .form-row .fg select {
-                font-size: 8px;
-                height: 20px;
-            }
-            .form-row .btn {
-                font-size: 9px;
-                height: 20px;
-                padding: 2px 6px;
             }
         }
     </style>
