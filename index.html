@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>暗黑不朽百宝箱 · 工具箱</title>
-    <!-- 预连接 Google Fonts，加速字体加载 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -31,7 +28,6 @@
             width: 100%;
         }
 
-        /* ----- 头部 ----- */
         .header {
             text-align: center;
             margin-bottom: 36px;
@@ -64,7 +60,6 @@
             padding-top: 10px;
         }
 
-        /* ----- 工具卡片网格 ----- */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -182,7 +177,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- 头部 -->
+
         <div class="header">
             <div class="main-title">⚔️ 暗黑不朽百宝箱</div>
             <div class="brand-name">暗黑の不灭</div>
@@ -190,6 +185,7 @@
         </div>
 
         <div class="tool-grid">
+
             <!-- 小宝石升级 -->
             <a href="pages/xiaobaoshi999.html" class="tool-card">
                 <span class="icon">💎</span>
@@ -214,12 +210,12 @@
                 <span class="badge">新</span>
             </a>
 
-            <!-- 恐惧词条转换 -->
+            <!-- 技能词条转换（原恐惧词条转换，名称已改） -->
             <a href="pages/skill_convert.html" class="tool-card">
                 <span class="icon">🔄</span>
-                <span class="name">恐惧词条转换</span>
+                <span class="name">技能词条转换</span>
                 <span class="desc">职业技能 · 部位映射</span>
-                <span class="badge">新</span>
+                <span class="badge">热门</span>
             </a>
 
             <!-- 服务器互通查询 -->
@@ -230,22 +226,32 @@
                 <span class="badge">新</span>
             </a>
 
+            <!-- 各职业技能词条一览图（新增） -->
+            <a href="pages/skill_list.html" class="tool-card">
+                <span class="icon">📋</span>
+                <span class="name">各职业技能词条一览图</span>
+                <span class="desc">全职业词条汇总 · 一键查阅</span>
+                <span class="badge">新</span>
+            </a>
+
             <!-- 关注抖音 -->
             <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full" style="border-color: rgba(30, 44, 56, 0.6);">
-                <!-- 头像改为 webp 格式 -->
-                <img src="images/douyintouxiang.webp" alt="抖音头像" class="avatar" onerror="this.src='images/douyintouxiang.png'">
+                <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
                 <div class="info">
                     <span class="name">关注抖音：暗黑の不灭</span>
                     <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
                 </div>
             </a>
+
         </div>
 
         <div class="footer">
             <p>
-                数据仅供参考 · 以游戏内为准
+                数据仅供参考 · 以游戏内为准 &nbsp;|&nbsp;
+                <a href="https://bumie666.github.io" target="_blank">bumie666.github.io</a>
             </p>
         </div>
+
     </div>
 </body>
 </html>
