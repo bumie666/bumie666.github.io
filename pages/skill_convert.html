@@ -42,16 +42,33 @@
             align-items: center;
         }
         .page-wrap {
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
         }
 
-        /* ----- 精简头部 ----- */
+        /* ----- 头部：头像 + 标题（左右） ----- */
         .header {
-            text-align: center;
-            padding: 10px 0 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0 6px;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(200, 169, 110, 0.3);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .header .title-group {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .header h1 {
             font-family: var(--font-display);
@@ -61,9 +78,12 @@
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin: 0;
         }
         .header .sub {
-            display: none;
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
         }
 
         /* ----- 卡片 ----- */
@@ -73,114 +93,101 @@
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 14px 12px;
+            padding: 12px 14px;
             margin-bottom: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* ----- 表单 ----- */
+        /* ----- 表单：所有控件左右排列（flex一行） ----- */
         .form-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px 4px;
-            margin-bottom: 6px;
+            gap: 8px 10px;
+            align-items: flex-end;
         }
-        .form-row:last-child {
-            margin-bottom: 0;
+        .form-row .form-group {
+            flex: 1 1 auto;
+            min-width: 80px;
+            max-width: 160px;
         }
-        .form-group {
-            flex: 1 1 calc(50% - 6px);
-            min-width: 70px;
-        }
-        .form-group label {
+        .form-row .form-group label {
             display: block;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 600;
             color: var(--text-secondary);
             margin-bottom: 2px;
             letter-spacing: 0.3px;
             text-transform: uppercase;
         }
-        .form-group select {
+        .form-row .form-group select {
             width: 100%;
-            padding: 5px 6px;
+            padding: 6px 8px;
             background: #0f161e;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: #fff;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 500;
             outline: none;
             transition: 0.2s;
             -webkit-appearance: none;
             appearance: none;
             cursor: pointer;
-            height: 30px;
+            height: 32px;
         }
-        .form-group select:focus {
+        .form-row .form-group select:focus {
             border-color: var(--gold);
             box-shadow: 0 0 0 2px rgba(200, 169, 110, 0.12);
         }
-        .form-group select option {
+        .form-row .form-group select option {
             background: #1a212b;
         }
-
-        /* ----- 查询按钮 ----- */
-        .calc-btn {
-            width: 100%;
-            padding: 6px 0;
+        .form-row .form-group-btn {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: flex-end;
+        }
+        .form-row .form-group-btn .calc-btn {
+            padding: 6px 18px;
             background: var(--gold-gradient);
             border: none;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             color: #0b0e14;
             cursor: pointer;
             transition: 0.2s;
             font-family: var(--font-display);
             letter-spacing: 1px;
-            height: 30px;
+            height: 32px;
             line-height: 1;
         }
-        .calc-btn:hover {
-            transform: scale(1.01);
+        .form-row .form-group-btn .calc-btn:hover {
+            transform: scale(1.02);
             box-shadow: 0 4px 16px rgba(200, 169, 110, 0.25);
         }
-        .calc-btn:active {
+        .form-row .form-group-btn .calc-btn:active {
             transform: scale(0.97);
         }
-
-        .form-group-btn {
-            flex: 1 1 calc(50% - 6px);
-            min-width: 70px;
-            display: flex;
-            align-items: flex-end;
-        }
-        .form-group-btn .calc-btn {
-            margin-bottom: 0;
-        }
-
-        /* ----- 筛选提示 ----- */
-        .filter-hint {
-            font-size: 9px;
+        .form-row .filter-hint {
+            font-size: 10px;
             color: var(--text-muted);
-            text-align: right;
-            padding-right: 2px;
-            line-height: 30px;
-            flex: 0 0 auto;
+            line-height: 32px;
+            padding-left: 4px;
+            white-space: nowrap;
         }
 
         /* ----- 汇总 ----- */
         .result-grid-summary {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
         .summary-item {
             background: #0f161e;
             border-radius: 10px;
-            padding: 4px 2px;
+            padding: 6px 4px;
             text-align: center;
             border: 1px solid var(--border-color);
         }
@@ -191,46 +198,43 @@
             letter-spacing: 0.3px;
         }
         .summary-item .value {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--gold-light);
-            margin-top: 0px;
         }
-        .summary-item .value.green {
-            color: #5fcb9a;
-        }
+        .summary-item .value.green { color: #5fcb9a; }
 
-        /* ----- 结果卡片：左边职业，右边技能 ----- */
+        /* ----- 结果卡片：部位 + 技能对（横向多列） ----- */
         .result-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px;
             margin-top: 4px;
         }
         .result-item {
             background: #0f161e;
             border-radius: 10px;
-            padding: 6px 6px;
+            padding: 8px 6px;
             border: 1px solid var(--border-color);
             text-align: center;
         }
         .result-item .slot-name {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--gold);
             letter-spacing: 0.5px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 3px;
-            margin-bottom: 3px;
+            padding-bottom: 4px;
+            margin-bottom: 4px;
         }
         .result-item .skill-pair {
-            font-size: 11px;
-            margin: 1px 0;
-            line-height: 1.3;
+            font-size: 12px;
+            margin: 2px 0;
+            line-height: 1.4;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
             flex-wrap: wrap;
         }
         .result-item .skill-from {
@@ -243,10 +247,10 @@
         }
         .result-item .arrow {
             color: var(--text-muted);
-            font-size: 9px;
+            font-size: 10px;
         }
         .result-item .sub-text {
-            font-size: 8px;
+            font-size: 9px;
             color: var(--text-muted);
             margin-top: 2px;
         }
@@ -261,12 +265,12 @@
         .no-result {
             text-align: center;
             color: var(--text-muted);
-            padding: 16px 0;
-            font-size: 13px;
+            padding: 20px 0;
+            font-size: 14px;
             grid-column: 1/-1;
         }
         .no-result .icon {
-            font-size: 24px;
+            font-size: 28px;
             display: block;
             margin-bottom: 4px;
         }
@@ -274,18 +278,18 @@
         /* ----- 底部 ----- */
         .info-note {
             color: var(--text-secondary);
-            font-size: 10px;
-            margin-top: 6px;
+            font-size: 11px;
+            margin-top: 8px;
             text-align: center;
             border-top: 1px dashed var(--border-color);
-            padding-top: 6px;
+            padding-top: 8px;
         }
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 12px;
             color: var(--text-muted);
-            font-size: 11px;
+            font-size: 12px;
             text-decoration: none;
             transition: 0.2s;
             letter-spacing: 0.5px;
@@ -294,51 +298,30 @@
             color: var(--gold);
         }
 
-        /* ----- 移动端 ----- */
+        /* ----- 响应式（移动端） ----- */
         @media (max-width: 640px) {
-            body { padding: 6px 4px; }
-            .card { padding: 8px 6px; border-radius: 10px; }
-            .header h1 { font-size: 16px; }
-            .form-group select { font-size: 11px; padding: 4px 4px; height: 26px; }
-            .calc-btn { font-size: 12px; height: 26px; padding: 4px 0; }
-            .form-group label { font-size: 8px; }
-            .form-row { gap: 4px 3px; margin-bottom: 4px; }
+            .header h1 { font-size: 17px; }
+            .header .sub { font-size: 11px; }
+            .header .avatar { width: 32px; height: 32px; }
+            .form-row .form-group { min-width: 60px; max-width: 120px; }
+            .form-row .form-group select { font-size: 11px; padding: 4px 4px; height: 28px; }
+            .form-row .form-group-btn .calc-btn { font-size: 12px; height: 28px; padding: 4px 12px; }
+            .form-row { gap: 4px 6px; }
             .result-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
-            .result-item { padding: 4px 3px; border-radius: 6px; }
-            .result-item .slot-name { font-size: 9px; padding-bottom: 2px; margin-bottom: 2px; }
-            .result-item .skill-pair { font-size: 10px; gap: 2px; }
-            .result-item .sub-text { font-size: 7px; }
-            .summary-item .value { font-size: 13px; }
-            .summary-item { padding: 3px 2px; }
-            .filter-hint { font-size: 8px; line-height: 26px; }
-            .info-note { font-size: 9px; padding-top: 4px; margin-top: 4px; }
-            .back-link { font-size: 10px; margin-top: 6px; }
+            .result-item { padding: 4px 3px; }
+            .result-item .slot-name { font-size: 9px; }
+            .result-item .skill-pair { font-size: 10px; }
         }
-
-        /* 超小屏 */
         @media (max-width: 420px) {
-            .form-group { flex: 1 1 100%; }
-            .form-group-btn { flex: 1 1 100%; }
-            .filter-hint { text-align: center; line-height: 1.4; flex: 1 1 100%; }
+            .form-row .form-group { flex: 1 1 100%; max-width: 100%; }
+            .form-row .filter-hint { display: none; }
             .result-grid { grid-template-columns: 1fr 1fr; }
-            .result-grid-summary { grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
         }
-
-        /* 桌面端 */
         @media (min-width: 641px) {
-            .header h1 { font-size: 28px; }
-            .header .sub { display: block; color: var(--text-secondary); font-size: 14px; letter-spacing: 2px; margin-top: 4px; }
-            .form-group select { padding: 8px 12px; height: auto; font-size: 14px; }
-            .calc-btn { padding: 10px 0; height: auto; font-size: 16px; }
-            .result-grid { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-            .result-item { padding: 10px 8px; }
-            .result-item .skill-pair { font-size: 13px; }
-            .summary-item .value { font-size: 20px; }
-            .info-note { font-size: 12px; }
-            .filter-hint { font-size: 11px; line-height: 30px; }
-            .form-row { gap: 12px 16px; }
-            .card { padding: 18px 16px; }
-            body { padding: 20px; }
+            .header h1 { font-size: 26px; }
+            .header .sub { font-size: 14px; }
+            .header .avatar { width: 48px; height: 48px; }
+            .result-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -359,13 +342,17 @@
     <!-- ==================== 主内容 ==================== -->
     <div class="page-wrap">
 
+        <!-- 头部：头像 + 标题 -->
         <div class="header">
-            <h1>⚔️ 恐惧词条转换</h1>
-            <div class="sub">暗黑不灭 · 职业技能 · 部位映射</div>
+            <img src="images/douyintouxiang.png" alt="头像" class="avatar">
+            <div class="title-group">
+                <h1>⚔️ 恐惧词条转换</h1>
+                <span class="sub">暗黑不灭 · 职业技能 · 部位映射</span>
+            </div>
         </div>
 
+        <!-- 卡片：表单（左右排列） -->
         <div class="card">
-
             <div class="form-row">
                 <div class="form-group">
                     <label>⚔️ 当前</label>
@@ -375,12 +362,6 @@
                     <label>🎯 目标</label>
                     <select id="classTo" onchange="updateToSkills()"></select>
                 </div>
-                <div class="form-group-btn">
-                    <button class="calc-btn" onclick="calculate()">查询</button>
-                </div>
-            </div>
-
-            <div class="form-row" style="margin-bottom:0;">
                 <div class="form-group">
                     <label>🔍 当前技能</label>
                     <select id="skillFrom"><option value="">全部</option></select>
@@ -389,9 +370,11 @@
                     <label>🔍 目标技能</label>
                     <select id="skillTo"><option value="">全部</option></select>
                 </div>
+                <div class="form-group-btn">
+                    <button class="calc-btn" onclick="calculate()">查询</button>
+                </div>
                 <div class="filter-hint">可组合筛选</div>
             </div>
-
         </div>
 
         <!-- 结果区 -->
@@ -399,9 +382,9 @@
             <div class="result-grid-summary" id="summaryGrid">
                 <div class="summary-item"><div class="label">部位</div><div class="value" id="totalSlots">0</div></div>
                 <div class="summary-item"><div class="label">匹配</div><div class="value green" id="totalMatches">0</div></div>
-                <div class="summary-item"><div class="label">筛选</div><div class="value" id="filterDisplay" style="font-size:12px;">全部</div></div>
+                <div class="summary-item"><div class="label">筛选</div><div class="value" id="filterDisplay" style="font-size:13px;">全部</div></div>
             </div>
-            <div class="card" style="padding:8px 6px;">
+            <div class="card" style="padding:10px 8px;">
                 <div class="result-grid" id="slotGrid"></div>
                 <div class="info-note" id="infoNote">💡 选择两个职业，可选技能筛选查看对应关系</div>
             </div>
@@ -451,7 +434,7 @@
         })();
 
         // ================================================================
-        //  核心数据
+        //  核心数据与逻辑
         // ================================================================
 
         var CLASSES = ['法师','野蛮人','武行者','猎魔人','圣教军','死灵法师','狂骑士','雾刃','德鲁伊','术士'];
