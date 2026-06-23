@@ -139,66 +139,60 @@
             color: #5fcb9a;
         }
 
-        /* ----- 部位模块（表格形式） ----- */
+        /* ===== 核心：模块化卡片布局（你截图中的样式） ===== */
         .slot-section {
-            margin-bottom: 10px;
             background: #0f161e;
             border: 1px solid #2a3a4a;
             border-radius: 8px;
-            padding: 6px 8px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
         }
         .slot-section:last-child {
             margin-bottom: 0;
         }
         .slot-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #c8a96e;
-            border-bottom: 1px solid #2a3a4a;
-            padding-bottom: 4px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
         }
-        /* 表格行：左列当前技能，右列目标技能 */
-        .slot-row {
+        .skill-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 3px 0;
-            border-bottom: 1px solid #1e2c38;
-            font-size: 12px;
+            border-bottom: 1px solid #1a212b;
+            font-size: 13px;
         }
-        .slot-row:last-child {
+        .skill-row:last-child {
             border-bottom: none;
         }
-        .slot-row .from-skill {
+        .skill-row .from-skill {
             color: #f6d365;
             font-weight: 500;
-            flex: 1;
-            text-align: left;
         }
-        .slot-row .to-skill {
+        .skill-row .to-skill {
             color: #6cb4ee;
             font-weight: 500;
-            flex: 1;
-            text-align: right;
         }
-        .slot-row .arrow-symbol {
-            color: #5a6a7e;
-            padding: 0 6px;
-            font-size: 10px;
-            flex-shrink: 0;
+        .skill-row .arrow-icon {
+            color: #4a5a6e;
+            font-size: 11px;
+            margin: 0 4px;
         }
-        .slot-row.highlight {
-            background: rgba(200, 169, 110, 0.10);
+        .skill-row.highlight {
+            background: rgba(200, 169, 110, 0.08);
             border-radius: 4px;
             margin: 0 -4px;
             padding: 3px 4px;
         }
         .slot-count {
-            font-size: 10px;
+            font-size: 11px;
             color: #5a6a7e;
             margin-top: 4px;
-            border-top: 1px dashed #2a3a4a;
             padding-top: 4px;
+            border-top: 1px dashed #2a3a4a;
             text-align: right;
         }
 
@@ -298,10 +292,10 @@
 
         @media (max-width: 480px) {
             .slot-title {
-                font-size: 12px;
+                font-size: 13px;
             }
-            .slot-row {
-                font-size: 11px;
+            .skill-row {
+                font-size: 12px;
                 padding: 2px 0;
             }
             .form-row .fg {
@@ -322,11 +316,13 @@
                 font-size: 12px;
             }
             .slot-section {
-                padding: 4px 6px;
+                padding: 6px 8px;
             }
-            .slot-row .arrow-symbol {
-                padding: 0 4px;
-                font-size: 9px;
+            .skill-row .arrow-icon {
+                font-size: 10px;
+            }
+            .slot-count {
+                font-size: 10px;
             }
         }
         @media (max-width: 380px) {
@@ -343,11 +339,11 @@
                 height: 22px;
                 padding: 2px 8px;
             }
-            .slot-row {
-                font-size: 10px;
+            .skill-row {
+                font-size: 11px;
             }
             .slot-title {
-                font-size: 11px;
+                font-size: 12px;
             }
         }
     </style>
@@ -599,13 +595,12 @@
 
                 item.list.forEach(function(pair) {
                     var row = document.createElement('div');
-                    row.className = 'slot-row';
+                    row.className = 'skill-row';
                     var isH = (fFrom && fTo && pair.fs === fFrom && pair.ts === fTo);
                     if (isH) row.classList.add('highlight');
                     row.innerHTML =
                         '<span class="from-skill">' + pair.fs + '</span>' +
-                        '<span class="arrow-symbol">→</span>' +
-                        '<span class="to-skill">' + pair.ts + '</span>';
+                        '<span><span class="arrow-icon">→</span><span class="to-skill">' + pair.ts + '</span></span>';
                     sec.appendChild(row);
                 });
 
