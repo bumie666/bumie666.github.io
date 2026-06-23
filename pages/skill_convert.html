@@ -210,14 +210,27 @@
             color: #f6d365;
             margin-bottom: 4px;
         }
-        .skill-desc-box .desc-text {
+        .skill-desc-box .desc-item {
             font-size: 14px;
             color: #d0d8e0;
             line-height: 1.6;
+            padding: 2px 0;
+        }
+        .skill-desc-box .desc-item .desc-label {
+            color: #ffa94d;
+            font-weight: 500;
+        }
+        .skill-desc-box .desc-item .desc-label-to {
+            color: #4fc3f7;
+            font-weight: 500;
         }
         .skill-desc-box .desc-empty {
             font-size: 13px;
             color: #7a8a9e;
+        }
+        .skill-desc-box .desc-divider {
+            border-top: 1px dashed #2a3a4a;
+            margin: 6px 0;
         }
 
         .info {
@@ -359,7 +372,7 @@
             .slot-section.matched .skill-row .arrow-icon {
                 font-size: 13px;
             }
-            .skill-desc-box .desc-text {
+            .skill-desc-box .desc-item {
                 font-size: 13px;
             }
         }
@@ -398,7 +411,7 @@
             .slot-section.matched .skill-row {
                 font-size: 14px;
             }
-            .skill-desc-box .desc-text {
+            .skill-desc-box .desc-item {
                 font-size: 12px;
             }
         }
@@ -441,7 +454,7 @@
 
                 <div class="skill-desc-box" id="skillDescBox">
                     <div class="desc-title" id="descTitle">📖 技能效果</div>
-                    <div class="desc-text" id="descText"></div>
+                    <div id="descContent"></div>
                 </div>
 
                 <div class="info" id="infoNote">💡 选择技能后，仅显示匹配的技能行</div>
@@ -624,7 +637,7 @@
         };
 
         // ================================================================
-        //  技能映射数据（已修正：武行者“击”改为“踢击”）
+        //  技能映射数据
         // ================================================================
 
         var CLASSES = ['法师', '野蛮人', '武行者', '猎魔人', '圣教军', '死灵法师', '狂骑士', '雾刃', '德鲁伊', '术士'];
@@ -746,7 +759,7 @@
         }
 
         // ================================================================
-        //  核心计算
+        //  核心计算 + 同时显示两个技能描述
         // ================================================================
 
         function calc() {
@@ -804,7 +817,24 @@
                 return;
             }
 
-            var descSkill = null;
+            // 收集所有匹配的技能对（用于描述）
+            var matchedPairs = [];
+            displayItems.forEach(function(item) {
+                item.list.forEach(function(pair) {
+                    matchedPairs.push(pair);
+                });
+            });
+
+            // 去重（避免重复显示相同的描述）
+            var uniquePairs = [];
+            var seenPairs = {};
+            matchedPairs.forEach(function(pair) {
+                var key = pair.fs + '||' + pair.ts;
+                if (!seenPairs[key]) {
+                    seenPairs[key] = true;
+                    uniquePairs.push(pair);
+                }
+            });
 
             displayItems.forEach(function(item) {
                 var sec = document.createElement('div');
@@ -818,11 +848,8 @@
 
                 var title = document.createElement('div');
                 title.className = 'slot-title';
-                if (item.hasMatch && (fFrom || fTo)) {
-                    title.textContent = '📌 ' + item.slot + ' ✅';
-                } else {
-                    title.textContent = '📌 ' + item.slot;
-                }
+                // 去掉 ✅，只显示部位名称
+                title.textContent = '📌 ' + item.slot;
                 sec.appendChild(title);
 
                 if (item.list.length === 0) {
@@ -843,35 +870,56 @@
                             '<span class="arrow-icon">→</span>' +
                             '<span class="to-skill">' + pair.ts + '</span>';
                         sec.appendChild(row);
-
-                        if (!descSkill && fFrom && pair.fs === fFrom) {
-                            descSkill = {
-                                name: fFrom,
-                                cls: from
-                            };
-                        }
                     });
                 }
 
                 container.appendChild(sec);
             });
 
+            // ============================================================
+            //  显示技能描述：同时显示当前职业和目标职业
+            // ============================================================
             var descBox = document.getElementById('skillDescBox');
-            var descText = document.getElementById('descText');
+            var descContent = document.getElementById('descContent');
             var descTitle = document.getElementById('descTitle');
 
-            if (descSkill) {
-                var key = descSkill.cls + '_' + descSkill.name;
-                var desc = SKILL_DESC[key];
+            if (uniquePairs.length > 0 && (fFrom || fTo)) {
                 descBox.style.display = 'block';
-                descTitle.textContent = '📖 ' + descSkill.name + '（' + descSkill.cls + '）';
-                if (desc) {
-                    descText.textContent = desc;
-                    descText.style.color = '#d0d8e0';
-                } else {
-                    descText.textContent = '⚠️ 该技能暂无描述数据，请补充。';
-                    descText.style.color = '#f87171';
-                }
+                descTitle.textContent = '📖 技能效果';
+
+                var html = '';
+                uniquePairs.forEach(function(pair) {
+                    // 当前职业（from）描述
+                    var fromKey = from + '_' + pair.fs;
+                    var fromDesc = SKILL_DESC[fromKey];
+                    if (fromDesc) {
+                        html += '<div class="desc-item"><span class="desc-label">【' + from + '】' + pair.fs +
+                            '</span><br>' + fromDesc + '</div>';
+                    } else {
+                        html += '<div class="desc-item"><span class="desc-label">【' + from + '】' + pair.fs +
+                            '</span><br><span style="color:#f87171;">⚠️ 暂无描述</span></div>';
+                    }
+
+                    // 分隔线
+                    html += '<div class="desc-divider"></div>';
+
+                    // 目标职业（to）描述
+                    var toKey = to + '_' + pair.ts;
+                    var toDesc = SKILL_DESC[toKey];
+                    if (toDesc) {
+                        html += '<div class="desc-item"><span class="desc-label-to">【' + to + '】' + pair.ts +
+                            '</span><br>' + toDesc + '</div>';
+                    } else {
+                        html += '<div class="desc-item"><span class="desc-label-to">【' + to + '】' + pair.ts +
+                            '</span><br><span style="color:#f87171;">⚠️ 暂无描述</span></div>';
+                    }
+
+                    html += '<div class="desc-divider"></div>';
+                });
+
+                // 去掉最后一个多余的分隔线
+                html = html.replace(/<div class="desc-divider"><\/div>$/, '');
+                descContent.innerHTML = html;
             } else {
                 descBox.style.display = 'none';
             }
