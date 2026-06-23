@@ -139,7 +139,7 @@
             color: #5fcb9a;
         }
 
-        /* ===== 左右两列网格（手机和电脑都是两列） ===== */
+        /* ===== 左右两列网格 ===== */
         .slot-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -159,7 +159,6 @@
             color: #c8a96e;
             margin-bottom: 3px;
             letter-spacing: 0.5px;
-            transition: font-size 0.2s;
         }
         .skill-row {
             display: flex;
@@ -168,7 +167,6 @@
             padding: 2px 0;
             border-bottom: 1px solid #1a212b;
             font-size: 11px;
-            transition: font-size 0.2s, background 0.2s;
         }
         .skill-row:last-child {
             border-bottom: none;
@@ -214,19 +212,6 @@
         .slot-section.matched .slot-count {
             font-size: 11px;
             color: #c8a96e;
-        }
-
-        .slot-section.unmatched .skill-row {
-            font-size: 10px;
-            opacity: 0.5;
-        }
-        .slot-section.unmatched .slot-title {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-        .slot-section.unmatched .slot-count {
-            font-size: 9px;
-            opacity: 0.4;
         }
 
         .no-result {
@@ -324,7 +309,7 @@
             opacity: 0;
         }
 
-        /* ----- 手机端保持两列，只缩小字号和间距 ----- */
+        /* ----- 手机端两列缩小字号 ----- */
         @media (max-width: 480px) {
             .slot-grid {
                 grid-template-columns: 1fr 1fr;
@@ -363,16 +348,6 @@
             .slot-section.matched .slot-count {
                 font-size: 10px;
             }
-            .slot-section.unmatched .skill-row {
-                font-size: 8px;
-            }
-            .slot-section.unmatched .slot-title {
-                font-size: 10px;
-            }
-            .slot-section.unmatched .slot-count {
-                font-size: 7px;
-            }
-
             .form-row .fg {
                 min-width: 40px;
                 max-width: 80px;
@@ -394,7 +369,6 @@
                 font-size: 7px;
             }
         }
-
         @media (max-width: 380px) {
             .slot-grid {
                 gap: 3px;
@@ -529,7 +503,7 @@
                 '死灵法师': '亡者之墙', '狂骑士': '暗影长枪', '雾刃': '碧波寒涛', '德鲁伊': '裂地震击', '术士': '地狱烈焰' },
             '副手_衣服_裤子': { '法师': '陨石术', '野蛮人': '跃击', '武行者': '神级', '猎魔人': '扫射', '圣教军': '天谴', '死灵法师': '暗声掠影',
                 '狂骑士': '雾影步', '雾刃': '荆棘铠甲', '德鲁伊': '腐化虫群', '术士': '—' },
-            '副手_肩膀_裤子': { '法师': '瓦解射线', '野蛮人': '先祖之锤', '武行者': '踢击', '猎魔人': '憎恨之雨', '圣教军': '盾牌冲锋',
+            '副手_肩膀_裤子': { '法师': '瓦解射线', '野蛮人': '先祖之锤', '武行者': '击', '猎魔人': '憎恨之雨', '圣教军': '盾牌冲锋',
                 '死灵法师': '尖硬地刺', '狂骑士': '如影随形', '雾刃': '风怒', '德鲁伊': '棘柱狂潮', '术士': '暗影箭' },
             '副手_头盔_肩膀': { '法师': '冰棱水晶', '野蛮人': '狂暴冲锋', '武行者': '金轮阵', '猎魔人': '飞轮刃', '圣教军': '回旋盾',
                 '死灵法师': '亡者法师', '狂骑士': '无畏抗击', '雾刃': '疾风链影', '德鲁伊': '角鹿踏跃', '术士': '暗影爆破' },
@@ -566,6 +540,7 @@
                 var fs = DATA[k][from] || '—',
                     ts = DATA[k][to] || '—';
                 if (fs === '—' || ts === '—') return;
+                // 应用筛选条件（提前过滤，只保留匹配的技能对）
                 if (fFrom && fs !== fFrom) return;
                 if (fTo && ts !== fTo) return;
                 var parts = k.split('_');
@@ -639,40 +614,19 @@
                 fTo = document.getElementById('skillTo').value;
             if (from === to) { alert('当前职业和目标职业不能相同！'); return; }
 
-            var fullMap = {};
-            SLOTS.forEach(function(s) { fullMap[s] = []; });
-            KEYS.forEach(function(k) {
-                var fs = DATA[k][from] || '—',
-                    ts = DATA[k][to] || '—';
-                if (fs === '—' || ts === '—') return;
-                var parts = k.split('_');
-                parts.forEach(function(p) {
-                    var slot = p.replace('_2', '');
-                    if (SLOTS.indexOf(slot) !== -1) {
-                        var exists = fullMap[slot].some(function(item) { return item.fs === fs && item.ts === ts; });
-                        if (!exists) fullMap[slot].push({ fs: fs, ts: ts });
-                    }
-                });
-            });
+            // 获取过滤后的映射数据（只保留匹配的技能对）
+            var filteredMap = buildData(from, to, fFrom, fTo);
 
+            // 统计有匹配技能的部位
             var matchedCount = 0;
-            var allItems = [];
+            var displayItems = [];
             SLOTS.forEach(function(slot) {
-                var list = fullMap[slot] || [];
-                var matched = false;
-                if (fFrom && fTo) {
-                    matched = list.some(function(pair) { return pair.fs === fFrom && pair.ts === fTo; });
-                } else if (fFrom) {
-                    matched = list.some(function(pair) { return pair.fs === fFrom; });
-                } else if (fTo) {
-                    matched = list.some(function(pair) { return pair.ts === fTo; });
+                var list = filteredMap[slot] || [];
+                if (list.length > 0) {
+                    matchedCount++;
+                    displayItems.push({ slot: slot, list: list });
                 }
-                if (!fFrom && !fTo) matched = false;
-                if (matched) matchedCount++;
-                allItems.push({ slot: slot, list: list, matched: matched });
             });
-
-            var displayItems = allItems.filter(function(item) { return item.list.length > 0; });
 
             document.getElementById('resultArea').style.display = 'block';
             document.getElementById('totalSlots').textContent = displayItems.length;
@@ -688,11 +642,12 @@
             var container = document.getElementById('tableContainer');
             container.innerHTML = '';
             if (displayItems.length === 0) {
-                container.innerHTML = '<div class="no-result">🔍 未找到任何技能映射</div>';
-                document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：无技能可转换。';
+                container.innerHTML = '<div class="no-result">🔍 未找到任何匹配的技能映射</div>';
+                document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：无匹配技能。';
                 return;
             }
 
+            // 按顺序排列
             var order = ['头盔', '衣服', '肩膀', '裤子', '主手', '副手'];
             var sortedItems = [];
             order.forEach(function(slot) {
@@ -703,11 +658,8 @@
             sortedItems.forEach(function(item) {
                 var sec = document.createElement('div');
                 sec.className = 'slot-section';
-                if (item.matched) {
-                    sec.classList.add('matched');
-                } else {
-                    sec.classList.add('unmatched');
-                }
+                // 只要有技能匹配就高亮（此时筛选条件一定存在，所以直接高亮）
+                sec.classList.add('matched');
 
                 var title = document.createElement('div');
                 title.className = 'slot-title';
@@ -725,11 +677,7 @@
 
                 var count = document.createElement('div');
                 count.className = 'slot-count';
-                if (item.matched) {
-                    count.textContent = '✅ ' + item.list.length + ' 个技能';
-                } else {
-                    count.textContent = item.list.length + ' 个技能';
-                }
+                count.textContent = '✅ ' + item.list.length + ' 个技能';
                 sec.appendChild(count);
 
                 container.appendChild(sec);
@@ -737,7 +685,7 @@
 
             var matchDesc = matchedCount > 0 ? matchedCount + ' 个部位匹配' : '无匹配部位';
             document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：共 ' + displayItems.length +
-                ' 个部位，' + matchDesc + '。';
+                ' 个部位包含匹配技能，' + matchDesc + '。';
         }
     </script>
 </body>
