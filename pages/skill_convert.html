@@ -109,31 +109,7 @@
             line-height: 30px;
         }
 
-        .summary {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 6px;
-        }
-        .summary .item {
-            flex: 1;
-            background: #0f161e;
-            border: 1px solid #2a3a4a;
-            border-radius: 6px;
-            padding: 4px 2px;
-            text-align: center;
-        }
-        .summary .item .l {
-            font-size: 8px;
-            color: #7a8a9e;
-        }
-        .summary .item .v {
-            font-size: 14px;
-            font-weight: 700;
-            color: #f6d365;
-        }
-        .summary .item .v.g {
-            color: #5fcb9a;
-        }
+        /* ===== 统计行已移除 ===== */
 
         .slot-grid {
             display: grid;
@@ -149,25 +125,24 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
         .slot-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #c8a96e;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             letter-spacing: 0.5px;
         }
         .skill-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 3px 0;
+            padding: 4px 0;
             border-bottom: 1px solid #1a212b;
-            font-size: 14px;
+            font-size: 16px;
             transition: font-size 0.2s, background 0.2s;
         }
         .skill-row:last-child {
             border-bottom: none;
         }
-        /* 方案一配色 */
         .skill-row .from-skill {
             color: #ffd866;
             font-weight: 500;
@@ -178,7 +153,7 @@
         }
         .skill-row .arrow-icon {
             color: #7a8a9e;
-            font-size: 12px;
+            font-size: 13px;
             margin: 0 4px;
         }
 
@@ -187,15 +162,15 @@
             box-shadow: 0 0 20px rgba(200, 169, 110, 0.08);
         }
         .slot-section.matched .slot-title {
-            font-size: 15px;
+            font-size: 16px;
             color: #f6d365;
         }
         .slot-section.matched .skill-row {
-            font-size: 16px;
-            padding: 4px 0;
+            font-size: 19px;
+            padding: 5px 0;
         }
         .slot-section.matched .skill-row .arrow-icon {
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .slot-section.unmatched .slot-title {
@@ -303,6 +278,7 @@
             opacity: 0;
         }
 
+        /* ----- 移动端适配：统计行已移除，技能词放大 ----- */
         @media (max-width: 480px) {
             .form-row {
                 gap: 8px 6px;
@@ -335,30 +311,24 @@
                 border-radius: 6px;
             }
             .slot-title {
-                font-size: 11px;
+                font-size: 12px;
             }
             .skill-row {
-                font-size: 12px;
-                padding: 2px 0;
-            }
-            .skill-row .arrow-icon {
-                font-size: 10px;
-            }
-            .slot-section.matched .slot-title {
-                font-size: 13px;
-            }
-            .slot-section.matched .skill-row {
                 font-size: 14px;
                 padding: 3px 0;
             }
+            .skill-row .arrow-icon {
+                font-size: 11px;
+            }
+            .slot-section.matched .slot-title {
+                font-size: 14px;
+            }
+            .slot-section.matched .skill-row {
+                font-size: 16px;
+                padding: 4px 0;
+            }
             .slot-section.matched .skill-row .arrow-icon {
-                font-size: 12px;
-            }
-            .summary .item .v {
-                font-size: 12px;
-            }
-            .summary .item .l {
-                font-size: 7px;
+                font-size: 13px;
             }
         }
 
@@ -384,17 +354,17 @@
                 padding: 3px 4px;
             }
             .slot-title {
-                font-size: 10px;
+                font-size: 11px;
             }
             .skill-row {
-                font-size: 10px;
-                padding: 1px 0;
+                font-size: 12px;
+                padding: 2px 0;
             }
             .slot-section.matched .slot-title {
-                font-size: 12px;
+                font-size: 13px;
             }
             .slot-section.matched .skill-row {
-                font-size: 12px;
+                font-size: 14px;
             }
         }
     </style>
@@ -430,12 +400,9 @@
             </div>
         </div>
 
+        <!-- 统计行已移除 -->
+
         <div id="resultArea" style="display:none;">
-            <div class="summary">
-                <div class="item"><div class="l">部位</div><div class="v" id="totalSlots">0</div></div>
-                <div class="item"><div class="l">匹配部位</div><div class="v g" id="matchedSlots">0</div></div>
-                <div class="item"><div class="l">筛选</div><div class="v" id="filterDisplay" style="font-size:12px;">全部</div></div>
-            </div>
             <div class="card" style="padding:6px 4px;">
                 <div class="slot-grid" id="tableContainer"></div>
                 <div class="info" id="infoNote">💡 选择技能后，仅显示匹配的技能行</div>
@@ -637,15 +604,6 @@
             });
 
             document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('totalSlots').textContent = displayItems.length;
-            document.getElementById('matchedSlots').textContent = matchedCount;
-
-            var fd = '';
-            if (fFrom && fTo) fd = fFrom + ' → ' + fTo;
-            else if (fFrom) fd = '当前:' + fFrom;
-            else if (fTo) fd = '目标:' + fTo;
-            else fd = '全部';
-            document.getElementById('filterDisplay').textContent = fd;
 
             var container = document.getElementById('tableContainer');
             container.innerHTML = '';
@@ -697,14 +655,11 @@
                     });
                 }
 
-                // 计数行已移除，不再添加
-
                 container.appendChild(sec);
             });
 
-            var matchDesc = matchedCount > 0 ? matchedCount + ' 个部位有匹配' : '无匹配部位';
             document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：共 ' + displayItems.length +
-                ' 个部位，' + matchDesc + '。';
+                ' 个部位。';
         }
     </script>
 </body>
