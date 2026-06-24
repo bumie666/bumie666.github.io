@@ -170,9 +170,10 @@
             margin-bottom: 2px;
         }
         .stone-card .stone-cost {
-            font-size: 12px;
-            color: #7a8a9e;
+            font-size: 13px;
+            color: #b0c4d9;
             margin-bottom: 8px;
+            font-weight: 500;
         }
         .stone-card .set-effect {
             font-size: 13px;
@@ -244,7 +245,6 @@
             background: rgba(255,255,255,0.04);
             border: 1px solid #2a3a4a;
         }
-        /* 套装效果（部分方案没有套装，隐藏） */
         .scheme-card .scheme-set {
             font-size: 13px;
             background: rgba(255,255,255,0.03);
@@ -282,12 +282,6 @@
             font-size: 12px;
             min-width: 44px;
         }
-        .scheme-card .scheme-list .range {
-            font-size: 12px;
-            font-weight: 500;
-            margin-left: auto;
-            white-space: nowrap;
-        }
 
         /* ===== 颜色方案（6种突破石） ===== */
         .color-yehui .stone-name, .color-yehui .scheme-name { color: #e06050; }
@@ -297,6 +291,7 @@
         .color-yehui .scheme-set .label { color: #e06050; }
         .color-yehui .attr-list .tag, .color-yehui .scheme-list .tag { color: #e06050; }
         .color-yehui .attr-list .range { color: #e06050; }
+        .color-yehui .stone-cost { color: #e06050; }
 
         .color-dilie .stone-name, .color-dilie .scheme-name { color: #e89a4a; }
         .color-dilie .set-effect { border-color: #e89a4a; }
@@ -305,6 +300,7 @@
         .color-dilie .scheme-set .label { color: #e89a4a; }
         .color-dilie .attr-list .tag, .color-dilie .scheme-list .tag { color: #e89a4a; }
         .color-dilie .attr-list .range { color: #e89a4a; }
+        .color-dilie .stone-cost { color: #e89a4a; }
 
         .color-zhenchan .stone-name, .color-zhenchan .scheme-name { color: #4a6a9e; }
         .color-zhenchan .set-effect { border-color: #4a6a9e; }
@@ -313,6 +309,7 @@
         .color-zhenchan .scheme-set .label { color: #4a6a9e; }
         .color-zhenchan .attr-list .tag, .color-zhenchan .scheme-list .tag { color: #4a6a9e; }
         .color-zhenchan .attr-list .range { color: #4a6a9e; }
+        .color-zhenchan .stone-cost { color: #4a6a9e; }
 
         .color-jielv .stone-name, .color-jielv .scheme-name { color: #f6d365; }
         .color-jielv .set-effect { border-color: #f6d365; }
@@ -321,6 +318,7 @@
         .color-jielv .scheme-set .label { color: #f6d365; }
         .color-jielv .attr-list .tag, .color-jielv .scheme-list .tag { color: #f6d365; }
         .color-jielv .attr-list .range { color: #f6d365; }
+        .color-jielv .stone-cost { color: #f6d365; }
 
         .color-pingzhang .stone-name, .color-pingzhang .scheme-name { color: #6cb4ee; }
         .color-pingzhang .set-effect { border-color: #6cb4ee; }
@@ -329,6 +327,7 @@
         .color-pingzhang .scheme-set .label { color: #6cb4ee; }
         .color-pingzhang .attr-list .tag, .color-pingzhang .scheme-list .tag { color: #6cb4ee; }
         .color-pingzhang .attr-list .range { color: #6cb4ee; }
+        .color-pingzhang .stone-cost { color: #6cb4ee; }
 
         .color-pohuai .stone-name, .color-pohuai .scheme-name { color: #b088d0; }
         .color-pohuai .set-effect { border-color: #b088d0; }
@@ -337,6 +336,7 @@
         .color-pohuai .scheme-set .label { color: #b088d0; }
         .color-pohuai .attr-list .tag, .color-pohuai .scheme-list .tag { color: #b088d0; }
         .color-pohuai .attr-list .range { color: #b088d0; }
+        .color-pohuai .stone-cost { color: #b088d0; }
 
         /* ===== 底部 ===== */
         .back-link {
@@ -370,6 +370,7 @@
             .stone-card .attr-list li, .scheme-card .scheme-list li { font-size: 12px; }
             .legend { gap: 6px 12px; padding: 8px 10px; }
             .legend-item { font-size: 11px; }
+            .stone-card .stone-cost { font-size: 12px; }
         }
         @media (max-width: 400px) {
             .header .avatar { width: 32px; height: 32px; }
@@ -434,22 +435,15 @@
         '破坏石': { class: 'color-pohuai', bar: '#b088d0' }
     };
 
-    // 词条对应的突破石类型映射（用于方案中词条颜色）
-    var TAG_STONE_MAP = {
-        '智慧': '业火石', '卓越': '业火石', '追猎': '业火石', '领悟': '业火石', '牺牲': '业火石',
-        '重击': '地裂石', '威慑': '地裂石', '护佑': '地裂石', '刚毅': '地裂石', '魁梧': '地裂石',
-        '灵巧': '震颤石', '禅护': '震颤石', '修行': '震颤石', '仙法': '震颤石', '疾步': '震颤石',
-        '决心': '戒律石', '无情': '戒律石', '憎恨': '戒律石', '狩猎': '戒律石', '戒律': '戒律石',
-        '信仰': '屏障石', '守护': '屏障石', '铁壁': '屏障石', '盾墙': '屏障石', '意志': '屏障石',
-        '研究': '破坏石', '永生': '破坏石', '诅咒': '破坏石', '石魔': '破坏石', '遗言': '破坏石'
-    };
-
     // ================================================================
     //  突破石数据（图鉴）
     // ================================================================
 
     var STONES = [
-        { name: '业火石', cost: '1000 洗炼石', colorKey: '业火石',
+        {
+            name: '业火石',
+            cost: '🔥 PVE 通用类型套装',
+            colorKey: '业火石',
             setEffect: '你击败敌人后，有 2% 概率在其位置召唤多头蛇，用火球攻击周围的敌人。',
             attrs: [
                 { tag: '智慧', desc: '普攻伤害提高', range: '2.0-4.0%' },
@@ -459,7 +453,10 @@
                 { tag: '牺牲', desc: '阵亡时为队友回复其最大生命的', range: '1.0-2.0%' }
             ]
         },
-        { name: '地裂石', cost: '1000 洗炼石', colorKey: '地裂石',
+        {
+            name: '地裂石',
+            cost: '⚡ PVP 控制类型套装',
+            colorKey: '地裂石',
             setEffect: '你造成普攻伤害时有 2% 概率释放先祖之力，造成 55524 伤害并震晕附近的敌人 1.5 秒。',
             attrs: [
                 { tag: '重击', desc: '普攻使目标受到的治疗效果降低', range: '3.0-6.0%' },
@@ -469,7 +466,10 @@
                 { tag: '魁梧', desc: '击退抵抗率', range: '3.0-6.0%' }
             ]
         },
-        { name: '震颤石', cost: '1000 洗炼石', colorKey: '震颤石',
+        {
+            name: '震颤石',
+            cost: '⚔️ PVP 保命+反制套装',
+            colorKey: '震颤石',
             setEffect: '受击时，有 2% 概率召唤雷电惩罚攻击者，并令其在原地麻痹定身。',
             attrs: [
                 { tag: '灵巧', desc: '受到来自玩家的伤害降低', range: '0.5-1.0%' },
@@ -479,7 +479,10 @@
                 { tag: '疾步', desc: '减速抵抗率', range: '3.0-6.0%' }
             ]
         },
-        { name: '戒律石', cost: '1000 洗炼石', colorKey: '戒律石',
+        {
+            name: '戒律石',
+            cost: '💥 PVE 极致输出 / PVP 输出类型套装',
+            colorKey: '戒律石',
             setEffect: '你造成普攻伤害时有 2% 概率获得精神集中，使得在 1 秒内伤害提高 100%。',
             attrs: [
                 { tag: '决心', desc: '急速', range: '1.0-2.0%' },
@@ -489,7 +492,10 @@
                 { tag: '戒律', desc: '对有护盾的目标造成的伤害提高', range: '3.0-6.0%' }
             ]
         },
-        { name: '屏障石', cost: '1000 洗炼石', colorKey: '屏障石',
+        {
+            name: '屏障石',
+            cost: '🛡️ PVP 生存类型套装',
+            colorKey: '屏障石',
             setEffect: '受击时，有 2% 概率得到一个持续 6 秒的吸收伤害的护盾。',
             attrs: [
                 { tag: '信仰', desc: '对亡灵造成的伤害提高', range: '3.0-6.0%' },
@@ -499,7 +505,10 @@
                 { tag: '意志', desc: '恐惧抵抗率', range: '3.0-6.0%' }
             ]
         },
-        { name: '破坏石', cost: '1000 洗炼石', colorKey: '破坏石',
+        {
+            name: '破坏石',
+            cost: '🧟 召唤类专用套装',
+            colorKey: '破坏石',
             setEffect: '你击败敌人时，有 2% 概率引爆精魂。',
             attrs: [
                 { tag: '研究', desc: '治疗药水的冷却时间减少', range: '1.0-2.0%' },
@@ -512,7 +521,7 @@
     ];
 
     // ================================================================
-    //  推荐方案数据（每个词条绑定对应突破石类型）
+    //  推荐方案数据
     // ================================================================
 
     var SCHEMES = [{
@@ -546,7 +555,7 @@
         scene: '玩家对战 · 通用',
         stoneType: '混合搭配',
         colorKey: '屏障石',
-        setEffect: null, // 没有套装效果
+        setEffect: null,
         attrs: [
             { tag: '盾墙', desc: '格挡 2%', stoneType: '屏障石' },
             { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
@@ -573,7 +582,6 @@
     //  渲染函数
     // ================================================================
 
-    // 获取词条颜色类
     function getTagColorClass(stoneType) {
         if (!stoneType) return '';
         var info = COLOR_MAP[stoneType];
@@ -615,7 +623,6 @@
             html += '<div class="scheme-scene">🎯 ' + s.scene + '</div>';
             html += '<div class="scheme-stone">💎 ' + s.stoneType + '（3件激活套装）</div>';
 
-            // 套装效果：如果有则显示，没有则隐藏
             if (s.setEffect) {
                 html += '<div class="scheme-set"><span class="label">⚔️ 套装效果</span><br>' + s.setEffect + '</div>';
             } else {
