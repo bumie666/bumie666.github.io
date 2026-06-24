@@ -6,6 +6,7 @@
     <title>暗黑不朽百宝箱 · 工具箱</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== 原有样式 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -165,9 +166,130 @@
             .tool-card.full { flex-direction: column; text-align: center; }
             .tool-card.full .info { text-align: center; }
         }
+
+        /* ===== 密码锁样式 ===== */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 20, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            transition: opacity 0.4s ease;
+        }
+        #lockScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .lock-box {
+            background: rgba(20, 25, 35, 0.85);
+            border: 1px solid #2a3a4a;
+            border-radius: 20px;
+            padding: 40px 32px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        .lock-box .lock-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .lock-box .lock-title {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 20px;
+            color: #f6d365;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .lock-box .lock-desc {
+            font-size: 14px;
+            color: #8a9aae;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .lock-box input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #0f161e;
+            border: 1px solid #2a3a4a;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 8px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .lock-box input:focus {
+            border-color: #c8a96e;
+            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+        }
+        .lock-box button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #c8a96e, #f6d365);
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0b0e14;
+            cursor: pointer;
+            transition: 0.25s;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            letter-spacing: 2px;
+        }
+        .lock-box button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 24px rgba(200, 169, 110, 0.35);
+        }
+        .lock-box button:active {
+            transform: scale(0.98);
+        }
+        .lock-box .lock-error {
+            color: #f87171;
+            font-size: 14px;
+            margin-top: 12px;
+            min-height: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .lock-box .lock-error.show {
+            opacity: 1;
+        }
+        @media (max-width: 480px) {
+            .lock-box { padding: 30px 20px; }
+            .lock-box .lock-title { font-size: 18px; }
+            .lock-box .lock-desc { font-size: 13px; }
+            .lock-box input { font-size: 18px; padding: 12px 14px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- ===== 密码锁遮罩 ===== -->
+    <div id="lockScreen">
+        <div class="lock-box">
+            <span class="lock-icon">🔐</span>
+            <div class="lock-title">工具箱正在开发期间</div>
+            <div class="lock-desc">想提前体验的朋友请加不灭粉丝群获取密码</div>
+            <input type="password" id="passwordInput" placeholder="输入密码" maxlength="20" autofocus>
+            <button onclick="unlock()">解锁</button>
+            <div class="lock-error" id="lockError">❌ 密码错误，请重试</div>
+        </div>
+    </div>
+
+    <!-- ===== 主内容（原有） ===== -->
     <div class="container">
 
         <div class="header">
@@ -226,7 +348,7 @@
                 <span class="badge">新</span>
             </a>
 
-            <!-- 突破属性图鉴及推荐（新增） -->
+            <!-- 突破属性图鉴及推荐 -->
             <a href="pages/tupocitiao.html" class="tool-card">
                 <span class="icon">📖</span>
                 <span class="name">突破属性图鉴及推荐</span>
@@ -250,5 +372,57 @@
         </div>
 
     </div>
+
+    <script>
+        // ===== 密码锁逻辑 =====
+        (function() {
+            var CORRECT_PASSWORD = '8888';
+            var lockScreen = document.getElementById('lockScreen');
+            var passwordInput = document.getElementById('passwordInput');
+            var lockError = document.getElementById('lockError');
+
+            // 检查 sessionStorage 是否已解锁
+            if (sessionStorage.getItem('index_unlocked') === 'true') {
+                lockScreen.classList.add('hidden');
+                passwordInput.disabled = true;
+                return;
+            }
+
+            // 解锁函数
+            function unlock() {
+                var inputVal = passwordInput.value.trim();
+                if (inputVal === CORRECT_PASSWORD) {
+                    sessionStorage.setItem('index_unlocked', 'true');
+                    lockScreen.classList.add('hidden');
+                    passwordInput.disabled = true;
+                    lockError.classList.remove('show');
+                } else {
+                    lockError.classList.add('show');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    passwordInput.style.borderColor = '#f87171';
+                    setTimeout(function() {
+                        passwordInput.style.borderColor = '';
+                    }, 500);
+                }
+            }
+
+            // 绑定事件
+            document.querySelector('.lock-box button').addEventListener('click', unlock);
+            passwordInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    unlock();
+                }
+            });
+
+            // 自动聚焦
+            passwordInput.focus();
+
+            // 暴露 unlock 给 onclick 使用
+            window.unlock = unlock;
+        })();
+    </script>
+
 </body>
 </html>
