@@ -3,678 +3,672 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>各职业技能词条一览图</title>
+    <title>暗黑不灭 · 突破属性图鉴</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== 全局样式 ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0e14;
             background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
             color: #e0e6ed;
-            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
-            padding: 12px 10px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .wrap {
-            max-width: 900px;
-            width: 100%;
-        }
+        .page-wrap { max-width: 1000px; width: 100%; }
 
+        /* ===== 头部 ===== */
         .header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 0;
+            gap: 12px;
+            padding: 12px 0;
             border-bottom: 1px solid #2a3a4a;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
         }
-        .header img {
-            width: 36px;
-            height: 36px;
+        .header .avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 2px solid rgba(200, 169, 110, 0.3);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .header .title-group {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .header h1 {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
             background: linear-gradient(135deg, #f6d365, #c8a96e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .header .sub {
-            font-size: 12px;
+            font-size: 13px;
             color: #7a8a9e;
-            margin-left: auto;
+            letter-spacing: 1px;
         }
 
-        .card {
-            background: rgba(20, 25, 35, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid #2a3a4a;
+        /* ===== Tab 切换 ===== */
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
             border-radius: 12px;
-            padding: 14px 12px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 10px;
-            align-items: flex-end;
-        }
-        .form-row .fg {
-            flex: 1 1 auto;
-            min-width: 120px;
-            max-width: 200px;
-        }
-        .form-row .fg label {
-            display: block;
-            font-size: 10px;
-            font-weight: 600;
-            color: #7a8a9e;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 3px;
-        }
-        .form-row .fg select {
-            width: 100%;
-            padding: 8px 12px;
-            background: #0f161e;
+            overflow: hidden;
             border: 1px solid #2a3a4a;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 38px;
-        }
-        .form-row .fg select:focus {
-            border-color: #c8a96e;
-        }
-        .form-row .btn {
-            padding: 8px 20px;
-            background: linear-gradient(135deg, #c8a96e, #f6d365);
-            border: none;
-            border-radius: 8px;
-            color: #0b0e14;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-            height: 38px;
-        }
-        .form-row .btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 16px rgba(200, 169, 110, 0.25);
-        }
-
-        /* ----- 统计 ----- */
-        .stats {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-        .stats .item {
             background: #0f161e;
-            border: 1px solid #2a3a4a;
-            border-radius: 8px;
-            padding: 4px 14px;
-            text-align: center;
+        }
+        .tab-btn {
             flex: 1;
-            min-width: 80px;
-        }
-        .stats .item .l {
-            font-size: 9px;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
             color: #7a8a9e;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', 'Times New Roman', serif;
         }
-        .stats .item .v {
-            font-size: 18px;
-            font-weight: 700;
+        .tab-btn:hover {
+            color: #c8a96e;
+            background: rgba(200, 169, 110, 0.05);
+        }
+        .tab-btn.active {
             color: #f6d365;
+            background: rgba(200, 169, 110, 0.10);
+            border-bottom: 2px solid #c8a96e;
+        }
+        .tab-btn:first-child { border-right: 1px solid #2a3a4a; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== 技能词条网格 ===== */
-        .skill-grid {
+        /* ===== 颜色图例 ===== */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            padding: 10px 14px;
+            background: rgba(20, 25, 35, 0.5);
+            border-radius: 10px;
+            border: 1px solid #2a3a4a;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #b0c4d9;
+        }
+        .legend-item .dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+        .dot-red { background: #e06050; }
+        .dot-orange { background: #e89a4a; }
+        .dot-darkblue { background: #4a6a9e; }
+        .dot-yellow { background: #f6d365; }
+        .dot-lightblue { background: #6cb4ee; }
+        .dot-purple { background: #b088d0; }
+
+        /* ===== 卡片网格 ===== */
+        .stone-grid, .scheme-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 14px;
         }
-        .skill-item {
-            background: #0f161e;
+
+        /* ===== 卡片通用样式 ===== */
+        .stone-card, .scheme-card {
+            background: rgba(20, 25, 35, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: 1px solid #2a3a4a;
-            border-radius: 10px;
-            padding: 10px 12px;
-            transition: border-color 0.2s;
+            border-radius: 14px;
+            padding: 16px 14px;
+            transition: border-color 0.25s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
         }
-        .skill-item:hover {
+        .stone-card:hover, .scheme-card:hover {
             border-color: #c8a96e;
+            transform: translateY(-2px);
         }
-        .skill-item .skill-name {
-            font-size: 15px;
+        .stone-card .color-bar, .scheme-card .color-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        /* ===== 图鉴卡片 ===== */
+        .stone-card .stone-name {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+        .stone-card .stone-cost {
+            font-size: 13px;
+            color: #b0c4d9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .stone-card .set-effect {
+            font-size: 13px;
+            background: rgba(255,255,255,0.03);
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            border-left: 2px solid;
+        }
+        .stone-card .set-effect .label {
+            color: #7a8a9e;
+            font-size: 11px;
             font-weight: 600;
-            color: #f6d365;
-            margin-bottom: 4px;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .skill-item .skill-desc {
+        .stone-card .attr-list {
+            list-style: none;
+            padding: 0;
+        }
+        .stone-card .attr-list li {
             font-size: 13px;
             color: #d0d8e0;
-            line-height: 1.5;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(42, 58, 74, 0.3);
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
         }
-        .skill-item .skill-desc .highlight-number {
-            color: #5fcb9a;
+        .stone-card .attr-list li:last-child { border-bottom: none; }
+        .stone-card .attr-list .tag {
             font-weight: 600;
-        }
-        .skill-item .skill-desc .empty-desc {
-            color: #f87171;
             font-size: 12px;
+            min-width: 44px;
+        }
+        .stone-card .attr-list .range {
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: auto;
+            white-space: nowrap;
         }
 
-        .no-result {
-            text-align: center;
+        /* ===== 方案卡片（与图鉴卡片格式统一） ===== */
+        .scheme-card .scheme-name {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+        .scheme-card .scheme-scene {
+            font-size: 12px;
             color: #7a8a9e;
-            padding: 30px 0;
-            font-size: 15px;
-            grid-column: 1 / -1;
-        }
-        .no-result .icon {
-            font-size: 36px;
-            display: block;
             margin-bottom: 8px;
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid #2a3a4a;
+        }
+        .scheme-card .scheme-stone {
+            font-size: 12px;
+            margin-bottom: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid #2a3a4a;
+        }
+        .scheme-card .scheme-set {
+            font-size: 13px;
+            background: rgba(255,255,255,0.03);
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            border-left: 2px solid;
+        }
+        .scheme-card .scheme-set .label {
+            color: #7a8a9e;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .scheme-card .scheme-set.hidden { display: none; }
+
+        .scheme-card .scheme-list {
+            list-style: none;
+            padding: 0;
+        }
+        .scheme-card .scheme-list li {
+            font-size: 13px;
+            color: #d0d8e0;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(42, 58, 74, 0.3);
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        .scheme-card .scheme-list li:last-child { border-bottom: none; }
+        .scheme-card .scheme-list .tag {
+            font-weight: 600;
+            font-size: 12px;
+            min-width: 44px;
         }
 
+        /* ===== 颜色方案（6种突破石） ===== */
+        .color-yehui .stone-name, .color-yehui .scheme-name { color: #e06050; }
+        .color-yehui .set-effect { border-color: #e06050; }
+        .color-yehui .set-effect .label { color: #e06050; }
+        .color-yehui .scheme-set { border-color: #e06050; }
+        .color-yehui .scheme-set .label { color: #e06050; }
+        .color-yehui .attr-list .tag, .color-yehui .scheme-list .tag { color: #e06050; }
+        .color-yehui .attr-list .range { color: #e06050; }
+        .color-yehui .stone-cost { color: #e06050; }
+
+        .color-dilie .stone-name, .color-dilie .scheme-name { color: #e89a4a; }
+        .color-dilie .set-effect { border-color: #e89a4a; }
+        .color-dilie .set-effect .label { color: #e89a4a; }
+        .color-dilie .scheme-set { border-color: #e89a4a; }
+        .color-dilie .scheme-set .label { color: #e89a4a; }
+        .color-dilie .attr-list .tag, .color-dilie .scheme-list .tag { color: #e89a4a; }
+        .color-dilie .attr-list .range { color: #e89a4a; }
+        .color-dilie .stone-cost { color: #e89a4a; }
+
+        .color-zhenchan .stone-name, .color-zhenchan .scheme-name { color: #4a6a9e; }
+        .color-zhenchan .set-effect { border-color: #4a6a9e; }
+        .color-zhenchan .set-effect .label { color: #4a6a9e; }
+        .color-zhenchan .scheme-set { border-color: #4a6a9e; }
+        .color-zhenchan .scheme-set .label { color: #4a6a9e; }
+        .color-zhenchan .attr-list .tag, .color-zhenchan .scheme-list .tag { color: #4a6a9e; }
+        .color-zhenchan .attr-list .range { color: #4a6a9e; }
+        .color-zhenchan .stone-cost { color: #4a6a9e; }
+
+        .color-jielv .stone-name, .color-jielv .scheme-name { color: #f6d365; }
+        .color-jielv .set-effect { border-color: #f6d365; }
+        .color-jielv .set-effect .label { color: #f6d365; }
+        .color-jielv .scheme-set { border-color: #f6d365; }
+        .color-jielv .scheme-set .label { color: #f6d365; }
+        .color-jielv .attr-list .tag, .color-jielv .scheme-list .tag { color: #f6d365; }
+        .color-jielv .attr-list .range { color: #f6d365; }
+        .color-jielv .stone-cost { color: #f6d365; }
+
+        .color-pingzhang .stone-name, .color-pingzhang .scheme-name { color: #6cb4ee; }
+        .color-pingzhang .set-effect { border-color: #6cb4ee; }
+        .color-pingzhang .set-effect .label { color: #6cb4ee; }
+        .color-pingzhang .scheme-set { border-color: #6cb4ee; }
+        .color-pingzhang .scheme-set .label { color: #6cb4ee; }
+        .color-pingzhang .attr-list .tag, .color-pingzhang .scheme-list .tag { color: #6cb4ee; }
+        .color-pingzhang .attr-list .range { color: #6cb4ee; }
+        .color-pingzhang .stone-cost { color: #6cb4ee; }
+
+        .color-pohuai .stone-name, .color-pohuai .scheme-name { color: #b088d0; }
+        .color-pohuai .set-effect { border-color: #b088d0; }
+        .color-pohuai .set-effect .label { color: #b088d0; }
+        .color-pohuai .scheme-set { border-color: #b088d0; }
+        .color-pohuai .scheme-set .label { color: #b088d0; }
+        .color-pohuai .attr-list .tag, .color-pohuai .scheme-list .tag { color: #b088d0; }
+        .color-pohuai .attr-list .range { color: #b088d0; }
+        .color-pohuai .stone-cost { color: #b088d0; }
+
+        /* ===== 底部 ===== */
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 12px;
+            margin-top: 18px;
             color: #5a6a7e;
-            font-size: 12px;
+            font-size: 13px;
             text-decoration: none;
             transition: 0.2s;
             letter-spacing: 0.5px;
         }
-        .back-link:hover {
-            color: #c8a96e;
-        }
+        .back-link:hover { color: #c8a96e; }
 
-        .info-note {
+        .footer-note {
             font-size: 11px;
-            color: #7a8a9e;
+            color: #4a5a6e;
             text-align: center;
-            border-top: 1px dashed #2a3a4a;
-            padding-top: 8px;
-            margin-top: 8px;
+            margin-top: 12px;
+            border-top: 1px solid #1e2c38;
+            padding-top: 12px;
         }
 
-        /* ----- 密码锁 ----- */
-        .lock-box {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 14, 20, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            padding: 20px;
-        }
-        .lock-box .inner {
-            background: rgba(20, 25, 35, 0.9);
-            border: 1px solid #2a3a4a;
-            border-radius: 16px;
-            padding: 24px 20px;
-            max-width: 340px;
-            width: 100%;
-            text-align: center;
-        }
-        .lock-box .inner h2 {
-            color: #f6d365;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-        .lock-box .inner p {
-            color: #7a8a9e;
-            font-size: 12px;
-            margin-bottom: 12px;
-        }
-        .lock-box .inner input {
-            width: 100%;
-            padding: 8px 12px;
-            background: #0f161e;
-            border: 1px solid #2a3a4a;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            text-align: center;
-            letter-spacing: 4px;
-            outline: none;
-        }
-        .lock-box .inner input:focus {
-            border-color: #c8a96e;
-        }
-        .lock-box .inner button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #c8a96e, #f6d365);
-            border: none;
-            border-radius: 8px;
-            color: #0b0e14;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .lock-box .inner .err {
-            color: #f87171;
-            font-size: 12px;
-            margin-top: 6px;
-            min-height: 20px;
-            opacity: 0;
-        }
-
+        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
-            .skill-grid {
-                grid-template-columns: 1fr;
-            }
-            .header h1 {
-                font-size: 17px;
-            }
-            .header .sub {
-                font-size: 10px;
-                margin-left: 0;
-                width: 100%;
-            }
-            .form-row .fg {
-                min-width: 100px;
-                max-width: 100%;
-            }
-            .form-row .fg select {
-                font-size: 13px;
-                height: 34px;
-                padding: 6px 10px;
-            }
-            .form-row .btn {
-                font-size: 13px;
-                height: 34px;
-                padding: 6px 16px;
-            }
-            .skill-item .skill-name {
-                font-size: 14px;
-            }
-            .skill-item .skill-desc {
-                font-size: 12px;
-            }
-            .stats .item .v {
-                font-size: 16px;
-            }
+            .stone-grid, .scheme-grid { grid-template-columns: 1fr; gap: 12px; }
+            .header h1 { font-size: 18px; }
+            .header .sub { font-size: 11px; }
+            .tab-btn { font-size: 13px; padding: 10px 12px; }
+            .stone-card .stone-name, .scheme-card .scheme-name { font-size: 16px; }
+            .stone-card .attr-list li, .scheme-card .scheme-list li { font-size: 12px; }
+            .legend { gap: 6px 12px; padding: 8px 10px; }
+            .legend-item { font-size: 11px; }
+            .stone-card .stone-cost { font-size: 12px; }
         }
-        @media (max-width: 380px) {
-            .skill-item .skill-name {
-                font-size: 13px;
-            }
-            .skill-item .skill-desc {
-                font-size: 11px;
-            }
-            .form-row .fg select {
-                font-size: 12px;
-                height: 30px;
-            }
-            .form-row .btn {
-                font-size: 12px;
-                height: 30px;
-            }
+        @media (max-width: 400px) {
+            .header .avatar { width: 32px; height: 32px; }
+            .tab-btn { font-size: 12px; padding: 8px 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 密码锁 -->
-    <div class="lock-box" id="lockScreen">
-        <div class="inner">
-            <h2>🔐 工具已加密</h2>
-            <p>请输入访问密码</p>
-            <input type="password" id="lockInput" placeholder="密码" maxlength="20" autofocus>
-            <button id="lockBtn">解锁</button>
-            <div class="err" id="lockError">❌ 密码错误</div>
+<div class="page-wrap">
+
+    <!-- 头部 -->
+    <div class="header">
+        <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
+        <div class="title-group">
+            <h1>⚔️ 突破属性图鉴</h1>
+            <span class="sub">暗黑不灭 · 词条 &amp; 方案</span>
         </div>
     </div>
 
-    <div class="wrap">
-
-        <div class="header">
-            <img src="images/douyintouxiang.png" alt="头像">
-            <h1>⚔️ 各职业技能词条一览图</h1>
-            <span class="sub">暗黑不灭</span>
-        </div>
-
-        <div class="card">
-            <div class="form-row">
-                <div class="fg">
-                    <label>🎯 选择职业</label>
-                    <select id="classSelect" onchange="updateDisplay()">
-                        <option value="">请选择职业</option>
-                    </select>
-                </div>
-                <button class="btn" onclick="updateDisplay()">查看词条</button>
-            </div>
-        </div>
-
-        <div class="stats" id="stats" style="display:none;">
-            <div class="item"><div class="l">技能总数</div><div class="v" id="totalCount">0</div></div>
-            <div class="item"><div class="l">已描述</div><div class="v" id="descCount">0</div></div>
-            <div class="item"><div class="l">待补充</div><div class="v" id="missingCount">0</div></div>
-        </div>
-
-        <div class="card" id="resultCard">
-            <div id="resultContainer">
-                <div style="text-align:center;color:#5a6a7e;padding:30px 0;font-size:14px;">
-                    <span style="font-size:32px;display:block;margin-bottom:8px;">📋</span>
-                    请选择一个职业查看词条
-                </div>
-            </div>
-        </div>
-
-        <a href="https://bumie666.github.io" class="back-link">🏠 返回暗黑の不灭</a>
+    <!-- 颜色图例 -->
+    <div class="legend">
+        <span class="legend-item"><span class="dot dot-red"></span>业火石</span>
+        <span class="legend-item"><span class="dot dot-orange"></span>地裂石</span>
+        <span class="legend-item"><span class="dot dot-darkblue"></span>震颤石</span>
+        <span class="legend-item"><span class="dot dot-yellow"></span>戒律石</span>
+        <span class="legend-item"><span class="dot dot-lightblue"></span>屏障石</span>
+        <span class="legend-item"><span class="dot dot-purple"></span>破坏石</span>
     </div>
 
-    <script>
-        // ================================================================
-        //  密码锁
-        // ================================================================
-        (function() {
-            var pw = '666888';
-            var screen = document.getElementById('lockScreen');
-            var input = document.getElementById('lockInput');
-            var btn = document.getElementById('lockBtn');
-            var err = document.getElementById('lockError');
-            if (sessionStorage.getItem('skill_list_unlocked') === 'true') {
-                screen.style.display = 'none';
-                return;
-            }
+    <!-- Tab -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('tujian')">📖 图鉴</button>
+        <button class="tab-btn" onclick="switchTab('fangan')">🎯 推荐方案</button>
+    </div>
 
-            function unlock() {
-                if (input.value.trim() === pw) {
-                    sessionStorage.setItem('skill_list_unlocked', 'true');
-                    screen.style.display = 'none';
-                    err.style.opacity = '0';
-                } else {
-                    err.style.opacity = '1';
-                    input.value = '';
-                    input.focus();
-                    input.style.borderColor = '#f87171';
-                    setTimeout(function() { input.style.borderColor = ''; }, 500);
-                }
-            }
-            btn.addEventListener('click', unlock);
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault();
-                    unlock(); }
-            });
-            input.focus();
-        })();
+    <!-- 图鉴内容 -->
+    <div id="tab-tujian" class="tab-content active">
+        <div class="stone-grid" id="stoneGrid"></div>
+    </div>
 
-        // ================================================================
-        //  数据（复用已有的 SKILL_DESC，按职业整理）
-        // ================================================================
+    <!-- 方案内容 -->
+    <div id="tab-fangan" class="tab-content">
+        <div class="scheme-grid" id="schemeGrid"></div>
+    </div>
 
-        var CLASSES = ['法师', '野蛮人', '武行者', '猎魔人', '圣教军', '死灵法师', '狂骑士', '雾刃', '德鲁伊', '术士'];
+    <a href="https://ahbm8888.top" class="back-link">🏠 返回暗黑不朽百宝箱</a>
+    <div class="footer-note">数据仅供参考 · 以游戏内为准</div>
+</div>
 
-        var SKILL_DESC = {
-            // ----- 法师 -----
-            '法师_寒冰护甲': '状态期间，你的移动速度提高8%。',
-            '法师_传送': '每位移1米，减少其冷却0.02秒。',
-            '法师_奥术洪流': '技能期间，会有1个奥术飞弹跟随你旋转，对敌人造成11950点伤害。',
-            '法师_瓦解射线': '射线数量增加1。（被多发射线命中时只会受到1次伤害）',
-            '法师_冰棱水晶': '折射的射线数量增加1。',
-            '法师_冰霜射线': '射线数量增加1。（被多发射线命中时只会受到1次伤害）',
-            '法师_黑洞': '技能中心会不断飞出奥术飞弹，随机攻击周围敌人，造成9287点伤害。',
-            '法师_奥术旋风': '攻击范围增加8%。',
-            '法师_闪电新星': '使用技能后，你的急速提升8%，持续3秒。',
-            '法师_霜冻领域': '技能命中时，还会在目标位置生成一道冰旋风，持续3秒，每秒造成6684点伤害和寒冷。',
-            '法师_陨石术': '命中敌人后，会使其受到的伤害提升8%，持续3秒。',
-            '法师_灼烧之球': '命中敌人造成伤害后额外产生一次火焰爆炸，造成16333点范围伤害，每3秒最多触发1次。',
-            '法师_时间延缓': '技能效果会在目标离开地面技范围后残留1.5秒。',
-            // ----- 野蛮人 -----
-            '野蛮人_旋风击': '攻击范围增加12%。',
-            '野蛮人_不灭之怒': '状态期间受到的负面状态时长减少10%。',
-            '野蛮人_疾奔': '状态期间，有12.5%的概率免疫击退、寒冷、减速状态。',
-            '野蛮人_斗者之怒': '状态期间，每0.5秒有20%的概率触发自爆，对周围敌人造成22378点伤害。',
-            '野蛮人_狂暴冲锋': '每位移1米，减少其冷却0.02秒。',
-            '野蛮人_先祖之锤': '对昏迷敌人的暴击伤害提高40%。',
-            '野蛮人_大地践踏': '释放技能后，获得大地苏醒状态，持续3秒。状态期间每秒移动2米都会使大地震动，对周围敌人造成8371点伤害。',
-            '野蛮人_抓取': '释放技能后，获得一个护盾，吸收22487点伤害，持续3秒，护盾持续期间免疫击退和击飞效果。',
-            '野蛮人_挫志咆哮': '释放技能后，会使周围敌人的移速减少20%，持续3秒。',
-            '野蛮人_顺劈': '普攻命中敌人时，技能冷却减少0.1秒。',
-            '野蛮人_锁链长矛': '攻击附加6秒的15%减速效果。',
-            '野蛮人_跃击': '使用技能后，你受到的伤害减少12%，持续3秒。',
-            // ----- 武行者 -----
-            '武行者_金钟破': '与目标距离少于3米时，对其的暴击伤害提升30%。',
-            '武行者_精神体': '当你的精神体消失时，有15%的几率重生。',
-            '武行者_七相拳': '发动攻击时，有15%的几率触发连击，额外攻击一次。',
-            '武行者_幻身击': '每位移1米，减少其冷却0.02秒。',
-            '武行者_爆裂掌': '伤害命中内伤状态的敌人，有10%机率触发爆炸且不移除内伤状态。',
-            '武行者_禁之拳': '命中被控制敌人时会产生一次额外的爆炸，造成33152点伤害，每0.5秒最多生效1次。',
-            '武行者_波动拳': '施放技能时，产生一道额外的波动攻击，对周围敌人造成18696点伤害，每0.5秒最多生效1次。',
-            '武行者_金轮阵': '技能范围内自己的闪避率增加5%。',
-            '武行者_翔龙': '释放技能时，生成两个额外的龙形子弹，自动攻击周围敌人造成30114点伤害。',
-            '武行者_踢击': '普攻命中敌人时，踢击冷却减少0.1秒。',
-            '武行者_风破': '攻击范围增加8%。',
-            '武行者_回天息': '施放技能时，会使自己和周围队友增加8%的急速，持续3秒。',
-            '武行者_禅护': '附加的护盾增加10%。',
-            // ----- 猎魔人 -----
-            '猎魔人_绳索射击': '每位移1米，减少其冷却0.02秒。',
-            '猎魔人_推射': '与敌人每距离1米，对其额外造成3%的伤害，至多额外造成18%的伤害。',
-            '猎魔人_多重射击': '普攻命中敌人时，冷却减少0.1秒。',
-            '猎魔人_暗影飞刀': '飞刀数量增加1。（被多把飞刀命中时只会受到1次伤害）',
-            '猎魔人_憎恨之雨': '攻击范围增加8%。',
-            '猎魔人_飞轮刃': '使用技能时，产生1个小型飞轮刃跟随你旋转，对周围敌人造成12657点伤害，持续5秒。',
-            '猎魔人_箭塔': '每次攻击敌人时，都会有15%的概率额外发射一条激光炮，对敌人造成26927点伤害。',
-            '猎魔人_刀扇陷阱': '命中敌人时，会使敌人陷入捕鼠陷阱，减少24%的移速和急速，持续3秒。',
-            '猎魔人_逃脱': '使用技能后还会获得一个护盾，可以吸收18976点伤害。',
-            '猎魔人_烟雾弹': '命中敌人时，会给敌人附加一个视野丢失状态，持续1秒。',
-            '猎魔人_狩猎之眼': '施放技能时，会使自己和周围队友增加8%的急速，持续3秒。',
-            '猎魔人_憎恨': '命中敌人时会对其附加憎恨印记，持续3秒。状态期间每受到来自憎恨的3次攻击，都会触发一次爆炸，造成13427点伤害，每0.5秒最多触发1次。',
-            // ----- 圣教军 -----
-            '圣教军_战马拖行': '期间每秒移动2米有10%概率产生一次爆炸，造成17420点伤害。',
-            '圣教军_天罚之剑': '技能释放后，额外生成1把跟随的天罚剑（冷却3秒），遇到敌人会追踪造成32993点伤害。',
-            '圣教军_奉献': '处于技能范围内的敌人，造成伤害减少5%。',
-            '圣教军_萨卡兰姆圣旗': '增益期间，急速提高5%（对友方生效）。',
-            '圣教军_回旋盾': '普攻命中敌人时，冷却减少0.1秒。',
-            '圣教军_盾闪': '攻击范围增加8%。',
-            '圣教军_圣光护体': '增益期间，你的移速提高8%。',
-            '圣教军_天堂之拳': '使用技能后生成1个天堂之拳环绕着你，持续3秒，对周围敌人造成13891点伤害。',
-            '圣教军_盾牌冲锋': '每位移1米，减少其冷却0.02秒。',
-            '圣教军_神圣之链': '命中敌人时对其附加神圣印记，持续3秒。印记期间被攻击3次神圣印记爆发对其造成5759点伤害，每0.5秒最多触发1次。',
-            '圣教军_天谴': '对生命值低于30%的敌人，暴击伤害提高25%。',
-            '圣教军_横扫': '命中敌人时，会在目标处生成一道额外的链枷，攻击周围所有敌人造成18689点伤害。（每3秒最多生效1次）',
-            '圣教军_审判': '命中带有负面状态敌方玩家时，会在技能中心生成一道锁链，持续1秒，当目标挣脱锁链时，使他昏迷3秒。',
-            // ----- 死灵法师 -----
-            '死灵法师_号令石魔': '体积增加10%，普攻、技能范围增加10%。',
-            '死灵法师_亡者战士': '重生时有10%概率额外生成一只，亡者战士的上限相应调整。',
-            '死灵法师_邪矛': '释放后，你的移速提高10%，持续3秒。',
-            '死灵法师_亡者之墙': '技能范围增加8%。',
-            '死灵法师_尖硬地刺': '攻击附加6秒的15%减速效果。',
-            '死灵法师_亡者法师': '被召唤时获得黑暗护盾吸收121607点伤害。',
-            '死灵法师_鬼行术': '每位移1米，减少其冷却0.02秒。',
-            '死灵法师_以命续命': '使用技能时使你获得魂灵护体状态，状态期间受到的伤害降低40%，持续1秒。',
-            '死灵法师_亡者之甲': '增益期间你受到伤害的10%会分摊给周围的所有你的召唤物。',
-            '死灵法师_精魂引爆': '对每个消耗的精魂，有10%的概率不消耗。',
-            '死灵法师_黑暗诅咒': '每命中一个敌人会生成一个冤魂，随机攻击周围敌人，造成24110点伤害。（至多生成9个）',
-            '死灵法师_亡魂': '技能范围增加8%。',
-            '死灵法师_镰刀切割': '攻击附加6秒的15%减速效果。',
-            // ----- 狂骑士 -----
-            '狂骑士_潜行怒袭': '每位移1米，减少其冷却0.02秒。',
-            '狂骑士_引渡吞噬': '技能期间移速增加8%。',
-            '狂骑士_横扫千军': '技能范围增加8%。',
-            '狂骑士_暗影长枪': '普攻命中敌人时，冷却减少0.1秒。',
-            '狂骑士_暗影雾': '技能范围内的敌人移动速度降低12%。',
-            '狂骑士_无畏挑击': '攻击会使目标受到暴击的概率提升8%，持续3秒。',
-            '狂骑士_怒涛狂澜': '技能范围增加8%。',
-            '狂骑士_索魂链': '命中敌人后，会使目标的急速降低8%，每个目标会使自己的急速增加2%，最多增加8%。',
-            '狂骑士_蚀灵狂魔': '变身期间受到负面时长减少20%。',
-            '狂骑士_如影随形': '技能期间急速提高8%。',
-            '狂骑士_突刺连进': '使用技能后，你的移动速度增加10%，持续3秒。',
-            '狂骑士_暗影注能': '释放技能后，会使你获得1次的免疫击飞和击退效果，持续3秒。',
-            '狂骑士_蝠声掠影': '技能范围增加8%。',
-            // ----- 雾刃 -----
-            '雾刃_踏浪闪': '施放技能的同时获得持续4秒的护盾，吸收50044点伤害。',
-            '雾刃_飞流幻刃': '技能期间，每次普攻还会额外发出一道小水刃攻击敌人，对敌人造成5581点伤害。',
-            '雾刃_潮汐漩涡': '技能范围增加8%。',
-            '雾刃_碧波寒涛': '技能范围增加12%。',
-            '雾刃_疾风链影': '命中敌人后，使其被暴击的概率提高8%，持续3秒。',
-            '雾刃_暴风刃舞': '每消耗一个幻象，技能的暴击伤害提高12%。',
-            '雾刃_多重风刃': '每次释放技能时，在你周围生成1个风刃跟随自己移动，对敌人造成8162点伤害。',
-            '雾刃_移形换影': '使用技能后，当你和幻象同时命中一个目标时，使他在3秒内受到的伤害提升6%。',
-            '雾刃_风怒': '施放后，你的普攻速度提高15%，持续3秒。',
-            '雾刃_狂风斩': '每秒移动1米，减少其冷却0.02秒。',
-            '雾刃_雾影步': '效果期间，每0.45秒回复2%的最大生命值，最多回复6次。',
-            '雾刃_破浪袭': '生成幻象时有10%的概率额外生成1个幻象。',
-            '雾刃_海潮吞噬': '技能范围增加8%。',
-            // ----- 德鲁伊 -----
-            '德鲁伊_变形术·狼': '变形术·狼状态下，攻击生命值低于50%的目标时会使目标恐惧0.8秒。该效果对同一目标有12秒冷却。',
-            '德鲁伊_变形术·熊': '变形术·熊期间，每损失25%生命值，获得一个53303点的护盾，持续5秒。',
-            '德鲁伊_熔火漩涡': '技能范围增加8%。',
-            '德鲁伊_裂地震击': '技能范围增加8%。',
-            '德鲁伊_棘柱狂潮': '自然能量消耗降低10%。',
-            '德鲁伊_角鹿踏跃': '使用技能期间，受到的伤害降低15%。',
-            '德鲁伊_渡鸦幻遁': '使用时额外回复3点自然能量。',
-            '德鲁伊_野蛮生长': '状态持续期间，造成的伤害提高9%。',
-            '德鲁伊_自然契约·狼群': '攻击有15%的概率使狼进入狂暴状态，攻击速度提高15%，持续6秒。',
-            '德鲁伊_自然契约·暴熊': '召唤物的持续时间增加15%。',
-            '德鲁伊_荆棘铠甲': '获得护盾时会获得等同于护盾值8%的治疗效果。',
-            '德鲁伊_生命领域': '对于生命值低于50%的目标造成的治疗效果提高20%。',
-            '德鲁伊_自然契约·树精': '每存在1个树精，自身每秒回复0.6%生命值。',
-            // ----- 术士 -----
-            '术士_恶魔之门': '使用时有15%的概率额外召唤一个未选择的恶魔。',
-            '术士_原初降临': '原初恶魔的每次攻击会降低此技能0.1的冷却时间。',
-            '术士_炼狱苦刑': '命中生命值低于50%的目标时会产生锁链缠绕效果，禁锢敌人，持续1秒。对同一目标有12秒冷却。',
-            '术士_地狱烈焰': '自身周围每有一个处于点燃状态的敌人或友方恶魔，伤害提高3%，最多提高12%。',
-            '术士_暗影爆破': '技能范围增加8%。',
-            '术士_黑暗仪式': '友方目标受到此技能影响时，会产生一个持续4秒的黑暗领域，每秒对范围内的敌人造成11720点伤害和40%减速效果，此效果对同一目标有6秒冷却。',
-            '术士_深渊裂隙': '自身或队友使用此技能后，移动速度提高10%，持续4秒。',
-            '术士_血之契约': '施加的增益效果持续时间延长9%。',
-            '术士_暗影箭': '造成伤害时，获得1点献咒之力，此效果有2秒冷却时间。',
-            '术士_魔影掠空': '使用时，解除自身受到的移动速度降低的效果，并在1秒内免疫控制。此效果有15秒冷却时间。',
-            '术士_腐化虫群': '受到攻击的敌人同时会被衰弱化，降低4.5%急速，最多可以叠加3层。持续4秒。',
-            '术士_毁灭之爪': '成功控制、压制或击退目标时，使其受到的伤害提高9%，持续4秒。',
-            '术士_魔血殉爆': '对你的召唤物施加状态时，同时会使其狂化，普通攻击速度提高15%，持续4秒，此效果对同一目标每12秒最多触发1次。'
-        };
+<script>
+    // ================================================================
+    //  颜色映射
+    // ================================================================
 
-        // 获取某职业的所有技能
-        function getSkillsForClass(cls) {
-            var skills = [];
-            for (var key in SKILL_DESC) {
-                if (key.startsWith(cls + '_')) {
-                    var skillName = key.replace(cls + '_', '');
-                    skills.push({
-                        name: skillName,
-                        desc: SKILL_DESC[key]
-                    });
-                }
-            }
-            // 按技能名称排序
-            skills.sort(function(a, b) {
-                return a.name.localeCompare(b.name);
-            });
-            return skills;
+    var COLOR_MAP = {
+        '业火石': { class: 'color-yehui', bar: '#e06050' },
+        '地裂石': { class: 'color-dilie', bar: '#e89a4a' },
+        '震颤石': { class: 'color-zhenchan', bar: '#4a6a9e' },
+        '戒律石': { class: 'color-jielv', bar: '#f6d365' },
+        '屏障石': { class: 'color-pingzhang', bar: '#6cb4ee' },
+        '破坏石': { class: 'color-pohuai', bar: '#b088d0' }
+    };
+
+    // ================================================================
+    //  突破石数据（图鉴）
+    // ================================================================
+
+    var STONES = [
+        {
+            name: '业火石',
+            cost: '🔥 PVE 通用类型套装',
+            colorKey: '业火石',
+            setEffect: '你击败敌人后，有 2% 概率在其位置召唤多头蛇，用火球攻击周围的敌人。',
+            attrs: [
+                { tag: '智慧', desc: '普攻伤害提高', range: '2.0-4.0%' },
+                { tag: '卓越', desc: '技能伤害提高', range: '1.0-2.0%' },
+                { tag: '追猎', desc: '对生命低于 30% 的敌人伤害提高', range: '2.0-4.0%' },
+                { tag: '领悟', desc: '暴击伤害加成', range: '1.5-3.0%' },
+                { tag: '牺牲', desc: '阵亡时为队友回复其最大生命的', range: '1.0-2.0%' }
+            ]
+        },
+        {
+            name: '地裂石',
+            cost: '⚡ PVP 控制类型套装',
+            colorKey: '地裂石',
+            setEffect: '你造成普攻伤害时有 2% 概率释放先祖之力，造成 55524 伤害并震晕附近的敌人 1.5 秒。',
+            attrs: [
+                { tag: '重击', desc: '普攻使目标受到的治疗效果降低', range: '3.0-6.0%' },
+                { tag: '威', desc: '普攻使目标移速和攻速 3 秒内降低 20%', range: '3.0-6.0%' },
+                { tag: '护佑', desc: '受到的持续性伤害降低', range: '3.0-6.0%' },
+                { tag: '刚毅', desc: '昏迷抵抗率', range: '3.0-6.0%' },
+                { tag: '魁梧', desc: '击退抵抗率', range: '3.0-6.0%' }
+            ]
+        },
+        {
+            name: '震颤石',
+            cost: '⚔️ PVP 保命+反制套装',
+            colorKey: '震颤石',
+            setEffect: '受击时，有 2% 概率召唤雷电惩罚攻击者，并令其在原地麻痹定身。',
+            attrs: [
+                { tag: '灵巧', desc: '受到来自玩家的伤害降低', range: '0.5-1.0%' },
+                { tag: '禅护', desc: '在控制类状态下受到的伤害降低', range: '2.0-4.0%' },
+                { tag: '修行', desc: '致命抵抗率', range: '3.0-6.0%' },
+                { tag: '仙法', desc: '增益状态持续时间增加', range: '1.5-3.0%' },
+                { tag: '疾步', desc: '减速抵抗率', range: '3.0-6.0%' }
+            ]
+        },
+        {
+            name: '戒律石',
+            cost: '💥 PVE 极致输出 / PVP 输出类型套装',
+            colorKey: '戒律石',
+            setEffect: '你造成普攻伤害时有 2% 概率获得精神集中，使得在 1 秒内伤害提高 100%。',
+            attrs: [
+                { tag: '决心', desc: '急速', range: '1.0-2.0%' },
+                { tag: '无情', desc: '对玩家造成的伤害提高', range: '0.5-1.5%' },
+                { tag: '憎恨', desc: '对恶魔造成的伤害提高', range: '3.0-6.0%' },
+                { tag: '狩猎', desc: '对控制类状态下的敌人伤害提高', range: '2.5-5.0%' },
+                { tag: '戒律', desc: '对有护盾的目标造成的伤害提高', range: '3.0-6.0%' }
+            ]
+        },
+        {
+            name: '屏障石',
+            cost: '🛡️ PVP 生存类型套装',
+            colorKey: '屏障石',
+            setEffect: '受击时，有 2% 概率得到一个持续 6 秒的吸收伤害的护盾。',
+            attrs: [
+                { tag: '信仰', desc: '对亡灵造成的伤害提高', range: '3.0-6.0%' },
+                { tag: '守护', desc: '最大生命', range: '0.5-1.0%' },
+                { tag: '铁壁', desc: '附近的敌人对你的伤害减少', range: '1.0-2.0%' },
+                { tag: '盾墙', desc: '格挡率', range: '1.0-2.0%' },
+                { tag: '意志', desc: '恐惧抵抗率', range: '3.0-6.0%' }
+            ]
+        },
+        {
+            name: '破坏石',
+            cost: '🧟 召唤类专用套装',
+            colorKey: '破坏石',
+            setEffect: '你击败敌人时，有 2% 概率引爆精魂。',
+            attrs: [
+                { tag: '研究', desc: '治疗药水的冷却时间减少', range: '1.0-2.0%' },
+                { tag: '永生', desc: '生命恢复', range: '1.0-2.0%' },
+                { tag: '诅咒', desc: '对精英敌人造成的伤害提高', range: '3.0-6.0%' },
+                { tag: '石魔', desc: '你的召唤物造成的伤害提高', range: '2.0-4.0%' },
+                { tag: '遗言', desc: '你的召唤物受到的伤害降低', range: '2.0-4.0%' }
+            ]
         }
+    ];
 
-        // 数字高亮函数
-        function highlightNumbers(text) {
-            if (!text) return text;
-            return text.replace(/(\d+(?:\.\d+)?%?)/g, '<span class="highlight-number">$1</span>');
-        }
+    // ================================================================
+    //  推荐方案数据
+    // ================================================================
 
-        // ================================================================
-        //  初始化与渲染
-        // ================================================================
+    var SCHEMES = [{
+        name: 'PVE 戒律套',
+        scene: 'PVE 最强洗练',
+        stoneType: '戒律石',
+        colorKey: '戒律石',
+        setEffect: '你造成普攻伤害时有 2% 概率获得精神集中，使得在 1 秒内伤害提高 100%。',
+        attrs: [
+            { tag: '领悟', desc: '爆伤 3%', stoneType: '业火石' },
+            { tag: '仙法', desc: '增益时间延长 3%', stoneType: '震颤石' },
+            { tag: '决心', desc: '极速 2%', stoneType: '戒律石' },
+            { tag: '憎恨', desc: '对恶魔增伤 6%', stoneType: '戒律石' },
+            { tag: '狩猎', desc: '对控制状态下的敌人增伤 5%', stoneType: '戒律石' }
+        ]
+    }, {
+        name: 'PVP 护盾套（生存）',
+        scene: '玩家对战 · 生存',
+        stoneType: '屏障石',
+        colorKey: '屏障石',
+        setEffect: '受击时，有 2% 概率得到一个持续 6 秒的吸收伤害的护盾。',
+        attrs: [
+            { tag: '盾墙', desc: '格挡 2%', stoneType: '屏障石' },
+            { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
+            { tag: '铁壁', desc: '附近敌人对你伤害减少 2%', stoneType: '屏障石' },
+            { tag: '灵巧', desc: '受到玩家伤害降低 1%', stoneType: '震颤石' },
+            { tag: '无情', desc: '对玩家增伤 1.5%', stoneType: '戒律石' }
+        ]
+    }, {
+        name: 'PVP 全职业通用',
+        scene: '玩家对战 · 通用',
+        stoneType: '混合搭配',
+        colorKey: '屏障石',
+        setEffect: null,
+        attrs: [
+            { tag: '盾墙', desc: '格挡 2%', stoneType: '屏障石' },
+            { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
+            { tag: '仙法', desc: '增益时间延长 3%', stoneType: '震颤石' },
+            { tag: '灵巧', desc: '受到玩家伤害降低 1%', stoneType: '震颤石' },
+            { tag: '无情', desc: '对玩家增伤 1.5%', stoneType: '戒律石' }
+        ]
+    }, {
+        name: 'PVP 戒律套（输出）',
+        scene: '玩家对战 · 输出',
+        stoneType: '戒律石',
+        colorKey: '戒律石',
+        setEffect: '你造成普攻伤害时有 2% 概率获得精神集中，使得在 1 秒内伤害提高 100%。',
+        attrs: [
+            { tag: '无情', desc: '对玩家增伤 1.5%', stoneType: '戒律石' },
+            { tag: '狩猎', desc: '对控制状态下的敌人增伤 5%', stoneType: '戒律石' },
+            { tag: '戒律', desc: '对护盾状态下的敌人增伤 6%', stoneType: '戒律石' },
+            { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
+            { tag: '仙法', desc: '增益时间延长 3%', stoneType: '震颤石' }
+        ]
+    }];
 
-        window.onload = function() {
-            var sel = document.getElementById('classSelect');
-            CLASSES.forEach(function(cls) {
-                var opt = document.createElement('option');
-                opt.value = cls;
-                opt.textContent = cls;
-                sel.appendChild(opt);
+    // ================================================================
+    //  渲染函数
+    // ================================================================
+
+    function getTagColorClass(stoneType) {
+        if (!stoneType) return '';
+        var info = COLOR_MAP[stoneType];
+        return info ? info.class : '';
+    }
+
+    function renderStones() {
+        var grid = document.getElementById('stoneGrid');
+        var html = '';
+        STONES.forEach(function(s) {
+            var color = COLOR_MAP[s.colorKey];
+            var colorClass = color ? color.class : '';
+            var barColor = color ? color.bar : '#666';
+            html += '<div class="stone-card ' + colorClass + '">';
+            html += '<div class="color-bar" style="background:' + barColor + ';"></div>';
+            html += '<div class="stone-name">' + s.name + '</div>';
+            html += '<div class="stone-cost">' + s.cost + '</div>';
+            html += '<div class="set-effect"><span class="label">⚔️ 套装效果（3件激活）</span><br>' + s.setEffect + '</div>';
+            html += '<ul class="attr-list">';
+            s.attrs.forEach(function(a) {
+                html += '<li><span class="tag">' + a.tag + '</span> ' + a.desc + ' <span class="range">' + a.range + '</span></li>';
             });
-            // 默认选中圣教军
-            sel.value = '圣教军';
-            updateDisplay();
-        };
-
-        function updateDisplay() {
-            var cls = document.getElementById('classSelect').value;
-            var container = document.getElementById('resultContainer');
-            var stats = document.getElementById('stats');
-
-            if (!cls) {
-                stats.style.display = 'none';
-                container.innerHTML =
-                    '<div style="text-align:center;color:#5a6a7e;padding:30px 0;font-size:14px;">' +
-                    '<span style="font-size:32px;display:block;margin-bottom:8px;">📋</span>' +
-                    '请选择一个职业查看词条' +
-                    '</div>';
-                return;
-            }
-
-            var skills = getSkillsForClass(cls);
-            var total = skills.length;
-            var descCount = 0;
-            var missingCount = 0;
-
-            skills.forEach(function(s) {
-                if (s.desc) descCount++;
-                else missingCount++;
-            });
-
-            stats.style.display = 'flex';
-            document.getElementById('totalCount').textContent = total;
-            document.getElementById('descCount').textContent = descCount;
-            document.getElementById('missingCount').textContent = missingCount;
-
-            if (skills.length === 0) {
-                container.innerHTML = '<div class="no-result"><span class="icon">🔍</span>该职业暂无词条数据</div>';
-                return;
-            }
-
-            var html = '<div class="skill-grid">';
-            skills.forEach(function(s) {
-                html += '<div class="skill-item">';
-                html += '<div class="skill-name">' + s.name + '</div>';
-                html += '<div class="skill-desc">';
-                if (s.desc) {
-                    html += highlightNumbers(s.desc);
-                } else {
-                    html += '<span class="empty-desc">⚠️ 暂无描述</span>';
-                }
-                html += '</div>';
-                html += '</div>';
-            });
+            html += '</ul>';
             html += '</div>';
+        });
+        grid.innerHTML = html;
+    }
 
-            // 添加底部提示
-            html += '<div class="info-note">📌 共 ' + total + ' 个技能词条，' + descCount + ' 个已完善，' + missingCount +
-                ' 个待补充</div>';
+    function renderSchemes() {
+        var grid = document.getElementById('schemeGrid');
+        var html = '';
+        SCHEMES.forEach(function(s) {
+            var color = COLOR_MAP[s.colorKey];
+            var colorClass = color ? color.class : '';
+            var barColor = color ? color.bar : '#666';
+            html += '<div class="scheme-card ' + colorClass + '">';
+            html += '<div class="color-bar" style="background:' + barColor + ';"></div>';
+            html += '<div class="scheme-name">' + s.name + '</div>';
+            html += '<div class="scheme-scene">🎯 ' + s.scene + '</div>';
+            html += '<div class="scheme-stone">💎 ' + s.stoneType + '（3件激活套装）</div>';
 
-            container.innerHTML = html;
+            if (s.setEffect) {
+                html += '<div class="scheme-set"><span class="label">⚔️ 套装效果</span><br>' + s.setEffect + '</div>';
+            } else {
+                html += '<div class="scheme-set hidden"></div>';
+            }
+
+            html += '<ul class="scheme-list">';
+            s.attrs.forEach(function(a) {
+                var tagColorClass = getTagColorClass(a.stoneType);
+                html += '<li><span class="tag ' + tagColorClass + '">' + a.tag + '</span> ' + a.desc + '</li>';
+            });
+            html += '</ul>';
+            html += '</div>';
+        });
+        grid.innerHTML = html;
+    }
+
+    // ================================================================
+    //  Tab 切换
+    // ================================================================
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        document.getElementById('tab-' + tab).classList.add('active');
+        var btns = document.querySelectorAll('.tab-btn');
+        if (tab === 'tujian') {
+            btns[0].classList.add('active');
+        } else {
+            btns[1].classList.add('active');
         }
-    </script>
+    }
+
+    // ================================================================
+    //  初始化
+    // ================================================================
+
+    window.onload = function() {
+        renderStones();
+        renderSchemes();
+    };
+</script>
+
 </body>
 </html>
