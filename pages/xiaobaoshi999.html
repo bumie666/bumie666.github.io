@@ -3,565 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>暗黑不灭 · 小宝石升级计算器</title>
+    <title>小宝石升级计算器</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-primary: #0a0e14;
-            --bg-secondary: #151e27;
-            --bg-card: rgba(20, 25, 35, 0.80);
-            --border-color: #2a3a4a;
-            --border-glow: #c8a96e;
-            --gold: #c8a96e;
-            --gold-light: #f6d365;
-            --gold-gradient: linear-gradient(135deg, #c8a96e, #f6d365);
-            --text-primary: #e8edf4;
-            --text-secondary: #8a9aae;
-            --text-muted: #5a6a7e;
-            --font-display: 'Cinzel', 'Times New Roman', serif;
-            --font-body: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
-            background: var(--bg-primary);
+            background: #0a0e14;
             background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
-            color: var(--text-primary);
-            font-family: var(--font-body);
+            color: #e0e6ed;
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .page-wrap {
-            max-width: 880px;
+        .wrap {
+            max-width: 820px;
             width: 100%;
         }
+
         .header {
-            text-align: center;
-            padding: 20px 0 10px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #2a3a4a;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .header img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(200, 169, 110, 0.3);
         }
         .header h1 {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 30px;
-            letter-spacing: 4px;
-            background: var(--gold-gradient);
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 20px;
+            background: linear-gradient(135deg, #f6d365, #c8a96e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 20px rgba(200, 169, 110, 0.20);
         }
         .header .sub {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 6px;
-            letter-spacing: 2px;
-            font-weight: 300;
+            font-size: 12px;
+            color: #7a8a9e;
+            margin-left: auto;
         }
+
         .card {
-            background: var(--bg-card);
+            background: rgba(20, 25, 35, 0.8);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 28px 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-            transition: border-color 0.3s ease;
+            border: 1px solid #2a3a4a;
+            border-radius: 12px;
+            padding: 18px 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
-        .card:hover {
-            border-color: var(--border-glow);
+
+        .field {
+            margin-bottom: 16px;
         }
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px 20px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            flex: 1 1 calc(50% - 20px);
-            min-width: 140px;
-        }
-        .form-group label {
+        .field label {
             display: block;
             font-size: 13px;
+            color: #9aabbf;
+            margin-bottom: 4px;
             font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
         }
-        .form-group select {
+        .field input,
+        .field select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 12px;
             background: #0f161e;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border: 1px solid #2a3a4a;
+            border-radius: 8px;
             color: #fff;
             font-size: 16px;
-            font-weight: 500;
             outline: none;
             transition: 0.2s;
             -webkit-appearance: none;
-            appearance: none;
+        }
+        .field input:focus,
+        .field select:focus {
+            border-color: #c8a96e;
+            box-shadow: 0 0 0 2px rgba(200, 169, 110, 0.12);
+        }
+        .field input::placeholder {
+            color: #5a6a7e;
+        }
+
+        /* 单价输入行（带重置按钮） */
+        .price-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .price-row input {
+            flex: 1;
+        }
+        .price-row .reset-btn {
+            padding: 10px 14px;
+            background: #2a3a4a;
+            border: none;
+            border-radius: 8px;
+            color: #e0e6ed;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-        }
-        .form-group select:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
-        }
-        .form-group select option {
-            background: #1a212b;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0f161e;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 500;
-            outline: none;
+            white-space: nowrap;
             transition: 0.2s;
         }
-        .form-group input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+        .price-row .reset-btn:active {
+            transform: scale(0.95);
+            background: #3a4a5a;
         }
+
         .calc-btn {
             width: 100%;
-            padding: 16px;
-            background: var(--gold-gradient);
+            padding: 12px;
+            background: linear-gradient(135deg, #c8a96e, #f6d365);
             border: none;
-            border-radius: 14px;
+            border-radius: 8px;
+            color: #0b0e14;
             font-size: 18px;
             font-weight: 700;
-            color: #0b0e14;
             cursor: pointer;
-            transition: 0.25s;
-            letter-spacing: 3px;
-            margin-top: 4px;
-            font-family: var(--font-display);
-        }
-        .calc-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 24px rgba(200, 169, 110, 0.35);
+            transition: 0.2s;
+            margin-top: 8px;
         }
         .calc-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 6px;
-        }
-        .result-item {
-            background: #0f161e;
-            border-radius: 14px;
-            padding: 14px 10px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            transition: border-color 0.2s;
-        }
-        .result-item:hover {
-            border-color: var(--gold);
-        }
-        .result-item .label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .result-item .value {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--gold-light);
-            margin-top: 4px;
-        }
-        .result-item .value.green {
-            color: #5fcb9a;
-        }
-        .result-item .value.blue {
-            color: #6cb4ee;
-        }
-        .result-item .value.purple {
-            color: #b088d0;
-        }
-        .result-item .sub-text {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-        .table-wrap {
-            overflow-x: auto;
+
+        #result {
             margin-top: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
+            padding: 12px;
+            background: #0f161e;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #f6d365;
+            border: 1px solid #2a3a4a;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        #result .sub {
             font-size: 14px;
-            min-width: 450px;
+            font-weight: 400;
+            color: #8a9aae;
+            display: block;
+            margin-bottom: 4px;
         }
-        th {
-            background: #1a212b;
-            color: var(--gold);
-            font-weight: 600;
-            padding: 12px 8px;
-            text-align: center;
-            border-bottom: 2px solid var(--border-color);
-            font-family: var(--font-display);
-            letter-spacing: 1px;
-        }
-        td {
-            padding: 10px 6px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-size: 13px;
-        }
-        tr:last-child td {
-            border-bottom: none;
-        }
-        tr:hover td {
-            background: rgba(200, 169, 110, 0.05);
-        }
-        .highlight-row td {
-            background: rgba(200, 169, 110, 0.08);
-            font-weight: 600;
-            border-bottom: 2px solid var(--gold);
-        }
-        .info-note {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin-top: 14px;
-            text-align: center;
-            border-top: 1px dashed var(--border-color);
-            padding-top: 14px;
-        }
+
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 18px;
-            color: var(--text-muted);
-            font-size: 14px;
+            margin-top: 16px;
+            color: #5a6a7e;
+            font-size: 12px;
             text-decoration: none;
             transition: 0.2s;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
         .back-link:hover {
-            color: var(--gold);
+            color: #c8a96e;
         }
-        @media (max-width: 600px) {
-            .form-group {
-                flex: 1 1 100%;
-            }
-            .result-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .result-item .value {
-                font-size: 20px;
-            }
+
+        /* 移动端适配 */
+        @media (max-width: 480px) {
             .header h1 {
-                font-size: 22px;
+                font-size: 17px;
             }
-            .card {
-                padding: 16px 12px;
+            .header .sub {
+                font-size: 10px;
+                margin-left: 0;
+                width: 100%;
             }
-            table {
-                font-size: 12px;
-                min-width: 320px;
+            .field input,
+            .field select {
+                font-size: 15px;
+                padding: 8px 10px;
             }
-            td,
-            th {
-                padding: 6px 4px;
+            .price-row .reset-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            #result {
+                font-size: 18px;
+            }
+        }
+        @media (max-width: 380px) {
+            .field input,
+            .field select {
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="page-wrap">
+    <div class="wrap">
+
+        <!-- 头部（和首页风格一致） -->
         <div class="header">
-            <h1>⚔️ 小宝石升级</h1>
-            <div class="sub">暗黑不灭 · 消耗 &amp; 收益计算</div>
+            <img src="../images/douyintouxiang.png" alt="头像">
+            <h1>💎 小宝石升级计算器</h1>
+            <span class="sub">暗黑不朽 · 白金币估算</span>
         </div>
 
+        <!-- 计算卡片 -->
         <div class="card">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>💎 宝石类型</label>
-                    <select id="gemType">
-                        <option value="base">🟡 黄玉</option>
-                        <option value="base">🔵 蓝水晶</option>
-                        <option value="base">⚪ 月亮石</option>
-                        <option value="base">🟢 猫眼石</option>
-                        <option value="sun">🔴 太阳石</option>
-                        <option value="red">🟣 赤精石</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>📌 当前等级</label>
-                    <select id="currentLevel">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>🎯 目标等级</label>
-                    <select id="targetLevel">
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10" selected>10</option>
-                    </select>
-                </div>
+            <!-- 宝石等级 -->
+            <div class="field">
+                <label>宝石等级</label>
+                <select id="gemLevel">
+                    <option value="1">一星宝石</option>
+                    <option value="2">二星宝石</option>
+                    <option value="5" selected>五星宝石</option>
+                </select>
             </div>
 
-            <!-- 新增：自定义小宝石单价 -->
-            <div class="form-row" style="margin-bottom:20px;">
-                <div class="form-group" style="flex: 0 0 200px; min-width: 140px;">
-                    <label>💎 小宝石单价</label>
-                    <input type="number" id="gemPrice" value="50" min="0" step="1">
-                </div>
-                <div class="form-group" style="flex: 1; min-width: 100px; display: flex; align-items: flex-end; padding-bottom: 0;">
-                    <div style="color: var(--text-muted); font-size: 13px; padding-bottom: 6px;">白金币/个（可自定义）</div>
-                </div>
+            <!-- 宝石数量 -->
+            <div class="field">
+                <label>宝石数量（个）</label>
+                <input type="number" id="gemCount" value="1" min="1" step="1">
             </div>
 
-            <button class="calc-btn" onclick="calculate()">🧮 计算升级消耗</button>
-
-            <div id="resultArea" style="margin-top:20px; display:none;">
-                <div class="result-grid">
-                    <div class="result-item">
-                        <div class="label">💎 水晶石</div>
-                        <div class="value" id="totalCrystal">0</div>
-                        <div class="sub-text">累计消耗</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="label">💰 水晶石花费</div>
-                        <div class="value green" id="crystalGold">0</div>
-                        <div class="sub-text">500 白金币/个</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="label">💎 小宝石</div>
-                        <div class="value blue" id="totalGem">0</div>
-                        <div class="sub-text" id="gemSubLabel">最后一级消耗</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="label">💰 小宝石花费</div>
-                        <div class="value purple" id="gemGold">0</div>
-                        <div class="sub-text" id="gemPriceLabel">自定义单价</div>
-                    </div>
+            <!-- 单价（自定义 + 重置） -->
+            <div class="field">
+                <label>单价（白金币 / 个）</label>
+                <div class="price-row">
+                    <input type="number" id="unitPrice" value="50" min="0" step="0.01" placeholder="请输入单价">
+                    <button class="reset-btn" onclick="resetPrice()">重置 50</button>
                 </div>
+                <!-- 提示：可完全删除默认值后自行输入 -->
+                <div style="font-size:11px; color:#5a6a7e; margin-top:4px;">💡 可清空输入框，自行填写任意金额</div>
+            </div>
 
-                <div class="result-grid" style="margin-top:10px;">
-                    <div class="result-item" style="grid-column: span 2;">
-                        <div class="label">💰 总花费</div>
-                        <div class="value" id="totalGold">0</div>
-                        <div class="sub-text">水晶石 + 小宝石</div>
-                    </div>
-                    <div class="result-item" style="grid-column: span 2;">
-                        <div class="label">📈 属性收益</div>
-                        <div class="value blue" id="totalStat">+0</div>
-                        <div class="sub-text" id="statLabel">属性增长</div>
-                    </div>
-                </div>
+            <!-- 计算按钮 -->
+            <button class="calc-btn" onclick="calculate()">计算总消耗</button>
 
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>升级区间</th>
-                                <th>水晶石</th>
-                                <th>累计水晶石</th>
-                                <th>小宝石</th>
-                                <th>属性值</th>
-                            </tr>
-                        </thead>
-                        <tbody id="detailTableBody"></tbody>
-                    </table>
-                </div>
-                <div class="info-note" id="infoNote">💡 1~4级升级不需要水晶石，5级起每级消耗递增。</div>
+            <!-- 结果展示 -->
+            <div id="result">
+                <span class="sub">总消耗</span>
+                <span id="totalDisplay">0</span> 白金币
             </div>
         </div>
 
-        <a href="https://bumie666.github.io" class="back-link">🏠 返回暗黑不灭工具箱</a>
+        <!-- 返回首页 -->
+        <a href="index.html" class="back-link">🏠 返回首页</a>
+
     </div>
 
     <script>
-        // ================================================================
-        //  数据区
-        // ================================================================
-
-        // 宝石属性值：索引0=1级, 索引9=10级
-        var STATS = {
-            base: [8, 16, 24, 36, 56, 136, 368, 656, 952, 1256],
-            sun: [8, 16, 32, 56, 92, 148, 216, 292, 380, 480],
-            red: [80, 160, 320, 560, 920, 1480, 2160, 2920, 3800, 4800]
-        };
-
-        // 水晶石单级消耗 (索引0:1→2, 索引8:9→10)
-        var CRYSTAL_PER = [0, 0, 0, 0, 1, 5, 15, 35, 75];
-
-        // 按递推公式计算累计水晶石：累计(当前级) = 单级 + 3 * 上一级累计（从5级开始）
-        var CRYSTAL_CUM = [];
-        for (var i = 0; i < 10; i++) {
-            if (i < 5) {
-                CRYSTAL_CUM[i] = 0;
-            } else if (i === 5) {
-                CRYSTAL_CUM[i] = 1;
-            } else {
-                CRYSTAL_CUM[i] = CRYSTAL_PER[i - 1] + 3 * CRYSTAL_CUM[i - 1];
-            }
+        // 重置单价为 50
+        function resetPrice() {
+            document.getElementById('unitPrice').value = '50';
         }
 
-        // 小宝石累计消耗（至该等级）：索引0=1级, 索引9=10级
-        var GEM_CUM = [0, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683];
-
-        // 价格
-        var CRYSTAL_PRICE = 500;
-
-        var GEM_NAME = {
-            base: '黄玉/蓝水晶/月亮石/猫眼石',
-            sun: '太阳石',
-            red: '赤精石'
-        };
-
-        // ================================================================
-        //  核心计算（动态计算）
-        // ================================================================
-
+        // 计算总消耗
         function calculate() {
-            var gemKey = document.getElementById('gemType').value;
-            var cur = parseInt(document.getElementById('currentLevel').value);
-            var target = parseInt(document.getElementById('targetLevel').value);
+            var count = parseFloat(document.getElementById('gemCount').value);
+            var price = parseFloat(document.getElementById('unitPrice').value);
 
-            // 获取用户自定义的小宝石单价
-            var gemPriceInput = document.getElementById('gemPrice').value;
-            var gemPrice = parseFloat(gemPriceInput);
-            if (isNaN(gemPrice) || gemPrice < 0) {
-                gemPrice = 50;
-                document.getElementById('gemPrice').value = 50;
-            }
+            // 若输入为空或非数字，视为 0
+            if (isNaN(count) || count < 0) count = 0;
+            if (isNaN(price) || price < 0) price = 0;
 
-            if (cur >= target) {
-                alert('目标等级必须大于当前等级！');
-                return;
-            }
-
-            var stats = STATS[gemKey];
-            var name = GEM_NAME[gemKey];
-
-            // ----- 1. 水晶石实际消耗（单级累加 ×3 规则） -----
-            var crystalActual = 0;
-            for (var lv = cur; lv < target; lv++) {
-                var idx = lv - 1;
-                var single = CRYSTAL_PER[idx] || 0;
-                var exponent = target - lv - 1;
-                var multiplier = Math.pow(3, exponent);
-                crystalActual += single * multiplier;
-            }
-
-            // ----- 2. 小宝石实际消耗（累计值相减） -----
-            var gemActual = GEM_CUM[target - 1] - GEM_CUM[cur - 1];
-
-            // ----- 3. 价格计算（小宝石使用自定义单价） -----
-            var crystalGold = crystalActual * CRYSTAL_PRICE;
-            var gemGold = gemActual * gemPrice;
-            var totalGold = crystalGold + gemGold;
-
-            // ----- 4. 属性收益 -----
-            var curStat = stats[cur - 1] || 0;
-            var tarStat = stats[target - 1] || 0;
-            var statGain = tarStat - curStat;
-
-            // ----- 5. 明细行（从当前到目标的所有区间）-----
-            var rows = [];
-            for (var lv = cur; lv < target; lv++) {
-                var idx = lv - 1;
-                var c = CRYSTAL_PER[idx] || 0;
-                var cumC = CRYSTAL_CUM[lv] || 0;
-                var g = GEM_CUM[lv] - GEM_CUM[lv - 1] || 0;
-                rows.push({
-                    from: lv,
-                    to: lv + 1,
-                    crystal: c,
-                    crystalCum: cumC,
-                    gem: g,
-                    stat: stats[lv] || 0
-                });
-            }
-
-            // ---- 渲染结果卡片 ----
-            document.getElementById('resultArea').style.display = 'block';
-
-            document.getElementById('totalCrystal').textContent = crystalActual.toLocaleString();
-            document.getElementById('crystalGold').textContent = crystalGold.toLocaleString();
-            document.getElementById('totalGem').textContent = gemActual.toLocaleString();
-            document.getElementById('gemGold').textContent = gemGold.toLocaleString();
-            document.getElementById('totalGold').textContent = totalGold.toLocaleString();
-            document.getElementById('totalStat').textContent = (statGain >= 0 ? '+' : '') + statGain.toLocaleString();
-            document.getElementById('statLabel').textContent = name + ' 属性增长';
-
-            // 更新小宝石花费的副标题，显示自定义单价
-            document.getElementById('gemPriceLabel').textContent = gemPrice + ' 白金币/个';
-            document.getElementById('gemSubLabel').textContent = cur + '→' + target + ' 实际消耗';
-
-            // ---- 渲染表格 ----
-            var tbody = document.getElementById('detailTableBody');
-            tbody.innerHTML = '';
-            for (var i = 0; i < rows.length; i++) {
-                var r = rows[i];
-                var tr = document.createElement('tr');
-                if (i === rows.length - 1) {
-                    tr.className = 'highlight-row';
-                }
-                tr.innerHTML =
-                    '<td>' + r.from + ' → ' + r.to + '</td>' +
-                    '<td>' + r.crystal + '</td>' +
-                    '<td>' + r.crystalCum.toLocaleString() + '</td>' +
-                    '<td>' + r.gem.toLocaleString() + '</td>' +
-                    '<td>' + r.stat.toLocaleString() + '</td>';
-                tbody.appendChild(tr);
-            }
-
-            document.getElementById('infoNote').textContent =
-                '💡 从 ' + cur + ' 级升到 ' + target + ' 级，实际消耗 ' + crystalActual.toLocaleString() +
-                ' 水晶石（' + crystalGold.toLocaleString() + ' 白金币）+ ' + gemActual.toLocaleString() +
-                ' 小宝石（' + gemGold.toLocaleString() + ' 白金币，单价 ' + gemPrice + '），合计 ' + totalGold.toLocaleString() + ' 白金币。';
+            var total = count * price;
+            document.getElementById('totalDisplay').textContent = total.toFixed(2);
         }
 
-        // 监听单价输入变化，自动重新计算
-        document.getElementById('gemPrice').addEventListener('input', function() {
-            var resultArea = document.getElementById('resultArea');
-            if (resultArea.style.display !== 'none') {
-                calculate();
-            }
+        // 页面加载时自动计算一次（显示默认值）
+        window.addEventListener('DOMContentLoaded', function() {
+            calculate();
         });
 
-        window.onload = calculate;
+        // 当数量或单价变化时自动重新计算（实时反馈）
+        document.getElementById('gemCount').addEventListener('input', calculate);
+        document.getElementById('unitPrice').addEventListener('input', calculate);
+        document.getElementById('gemLevel').addEventListener('change', calculate);
     </script>
 </body>
 </html>
