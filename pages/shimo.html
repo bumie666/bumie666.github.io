@@ -27,7 +27,6 @@
             width: 100%;
         }
 
-        /* ===== 头部 ===== */
         .header {
             display: flex;
             align-items: center;
@@ -68,20 +67,24 @@
 
         /* ===== 筛选栏 ===== */
         .filter-bar {
+            background: rgba(20, 25, 35, 0.5);
+            border-radius: 12px;
+            padding: 14px 14px 10px;
+            border: 1px solid #2a3a4a;
+            margin-bottom: 14px;
+        }
+        .filter-row {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 16px;
-            background: rgba(20, 25, 35, 0.5);
-            border-radius: 12px;
-            padding: 12px 14px;
-            border: 1px solid #2a3a4a;
+            align-items: flex-end;
+            margin-bottom: 10px;
         }
-        .filter-bar .fg {
+        .filter-row .fg {
             flex: 1 1 0;
             min-width: 120px;
         }
-        .filter-bar .fg label {
+        .filter-row .fg label {
             display: block;
             font-size: 10px;
             font-weight: 600;
@@ -90,7 +93,7 @@
             letter-spacing: 0.5px;
             margin-bottom: 3px;
         }
-        .filter-bar .fg select {
+        .filter-row .fg select {
             width: 100%;
             padding: 8px 10px;
             background: #0f161e;
@@ -104,16 +107,14 @@
             appearance: none;
             height: 38px;
         }
-        .filter-bar .fg select:focus {
+        .filter-row .fg select:focus {
             border-color: #c8a96e;
         }
-        .filter-bar .btn-reset {
+        .filter-row .btn-action {
             flex: 0 0 auto;
-            padding: 8px 18px;
-            background: #2a3a4a;
+            padding: 8px 16px;
             border: none;
             border-radius: 8px;
-            color: #e0e6ed;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
@@ -121,8 +122,49 @@
             height: 38px;
             align-self: flex-end;
         }
-        .filter-bar .btn-reset:hover {
+        .btn-add {
+            background: rgba(200, 169, 110, 0.15);
+            color: #c8a96e;
+            border: 1px solid rgba(200, 169, 110, 0.2) !important;
+        }
+        .btn-add:hover {
+            background: rgba(200, 169, 110, 0.25);
+        }
+        .btn-reset {
+            background: #2a3a4a;
+            color: #e0e6ed;
+        }
+        .btn-reset:hover {
             background: #3a4a5a;
+        }
+
+        /* ===== 条件标签 ===== */
+        .condition-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 8px;
+            margin-top: 2px;
+        }
+        .condition-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(200, 169, 110, 0.10);
+            border: 1px solid rgba(200, 169, 110, 0.15);
+            border-radius: 20px;
+            padding: 4px 10px 4px 14px;
+            font-size: 13px;
+            color: #f6d365;
+        }
+        .condition-tag .del {
+            color: #7a8a9e;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .condition-tag .del:hover {
+            color: #f87171;
         }
 
         /* ===== 统计 ===== */
@@ -205,6 +247,12 @@
             transition: 0.2s;
             cursor: default;
         }
+        .familiar-card .trait-tag.matched {
+            background: rgba(246, 211, 101, 0.15);
+            border-color: #f6d365;
+            color: #f6d365;
+            font-weight: 600;
+        }
         .familiar-card .trait-tag:hover {
             background: rgba(200, 169, 110, 0.15);
         }
@@ -226,8 +274,26 @@
             color: #b0c4d9;
             font-weight: 500;
         }
+        .familiar-card .match-info {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #5fcb9a;
+        }
 
-        /* ===== 特性效果对照表（底部） ===== */
+        .no-result {
+            text-align: center;
+            color: #7a8a9e;
+            padding: 30px 0;
+            font-size: 15px;
+            grid-column: 1 / -1;
+        }
+        .no-result .icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ===== 特性效果对照表 ===== */
         .trait-reference {
             margin-top: 16px;
             background: rgba(20, 25, 35, 0.5);
@@ -262,20 +328,6 @@
             color: #7a8a9e;
         }
 
-        .no-result {
-            text-align: center;
-            color: #7a8a9e;
-            padding: 30px 0;
-            font-size: 15px;
-            grid-column: 1 / -1;
-        }
-        .no-result .icon {
-            font-size: 36px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        /* ===== 底部 ===== */
         .back-link {
             display: block;
             text-align: center;
@@ -298,7 +350,6 @@
             padding-top: 12px;
         }
 
-        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
             .familiar-grid {
                 grid-template-columns: 1fr;
@@ -310,21 +361,13 @@
             .header .sub {
                 font-size: 11px;
             }
-            .filter-bar .fg {
+            .filter-row .fg {
                 min-width: 100px;
+                flex: 1 1 100%;
             }
-            .filter-bar .fg select {
-                font-size: 13px;
-                height: 34px;
-                padding: 6px 8px;
-            }
-            .filter-bar .btn-reset {
-                font-size: 12px;
-                height: 34px;
-                padding: 6px 14px;
-            }
-            .familiar-card .name {
-                font-size: 16px;
+            .filter-row .btn-action {
+                flex: 1 1 100%;
+                text-align: center;
             }
             .trait-reference .ref-grid {
                 grid-template-columns: 1fr;
@@ -338,17 +381,6 @@
                 width: 32px;
                 height: 32px;
             }
-            .filter-bar .fg {
-                min-width: 80px;
-            }
-            .filter-bar .fg select {
-                font-size: 12px;
-                height: 30px;
-            }
-            .filter-bar .btn-reset {
-                font-size: 11px;
-                height: 30px;
-            }
             .familiar-card {
                 padding: 12px 10px;
             }
@@ -358,6 +390,10 @@
             .familiar-card .trait-tag {
                 font-size: 10px;
                 padding: 1px 8px;
+            }
+            .condition-tag {
+                font-size: 12px;
+                padding: 3px 8px 3px 12px;
             }
         }
     </style>
@@ -371,38 +407,40 @@
         <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
         <div class="title-group">
             <h1>⚔️ 使魔特性查询</h1>
-            <span class="sub">暗黑不灭 · 图鉴</span>
+            <span class="sub">暗黑不灭 · 组合筛选</span>
         </div>
     </div>
 
-    <!-- 筛选栏 -->
+    <!-- ===== 筛选栏 ===== -->
     <div class="filter-bar">
-        <div class="fg">
-            <label>🎯 使魔</label>
-            <select id="familiarFilter" onchange="applyFilter()">
-                <option value="">全部使魔</option>
-            </select>
+
+        <!-- 第一行：使魔名称 + 操作按钮 -->
+        <div class="filter-row">
+            <div class="fg">
+                <label>🎯 使魔名称</label>
+                <select id="familiarFilter" onchange="applyFilter()">
+                    <option value="">全部使魔</option>
+                </select>
+            </div>
+            <button class="btn-action btn-add" onclick="addCondition()">➕ 添加效果条件</button>
+            <button class="btn-action btn-reset" onclick="resetFilter()">重置</button>
         </div>
-        <div class="fg">
-            <label>⚡ 特性</label>
-            <select id="traitFilter" onchange="applyFilter()">
-                <option value="">全部特性</option>
-            </select>
-        </div>
-        <button class="btn-reset" onclick="resetFilter()">重置</button>
+
+        <!-- 条件标签（显示当前筛选条件） -->
+        <div class="condition-tags" id="conditionTags"></div>
     </div>
 
-    <!-- 统计 -->
+    <!-- ===== 统计 ===== -->
     <div class="stats">
         <div class="item"><div class="l">使魔总数</div><div class="v" id="totalCount">0</div></div>
         <div class="item"><div class="l">当前显示</div><div class="v" id="showCount">0</div></div>
         <div class="item"><div class="l">特性种类</div><div class="v" id="traitCount">0</div></div>
     </div>
 
-    <!-- 卡片网格 -->
+    <!-- ===== 卡片网格 ===== -->
     <div class="familiar-grid" id="familiarGrid"></div>
 
-    <!-- 特性效果对照表 -->
+    <!-- ===== 特性效果对照表 ===== -->
     <div class="trait-reference">
         <div class="ref-title">📋 特性效果对照</div>
         <div class="ref-grid" id="refGrid"></div>
@@ -464,6 +502,7 @@
         subAttr: '敏捷'
     }];
 
+    // 特性名称 → 效果 映射
     var TRAIT_EFFECTS = {
         '狂牙利爪': '暴击率',
         '元素共鸣': '技能伤害',
@@ -475,13 +514,27 @@
         '满腔怒火': '爆伤提升'
     };
 
+    // 效果 → 特性名称 反向映射
+    var EFFECT_TO_TRAIT = {};
+    for (var key in TRAIT_EFFECTS) {
+        EFFECT_TO_TRAIT[TRAIT_EFFECTS[key]] = key;
+    }
+
+    var ALL_EFFECTS = Object.values(TRAIT_EFFECTS);
     var ALL_TRAITS = Object.keys(TRAIT_EFFECTS);
+
+    // ================================================================
+    //  状态
+    // ================================================================
+
+    var conditions = []; // 存储选中的效果名称
 
     // ================================================================
     //  初始化
     // ================================================================
 
     window.onload = function() {
+        // 填充使魔下拉
         var familiarSel = document.getElementById('familiarFilter');
         FAMILIARS.forEach(function(f) {
             var opt = document.createElement('option');
@@ -490,32 +543,89 @@
             familiarSel.appendChild(opt);
         });
 
-        var traitSel = document.getElementById('traitFilter');
-        ALL_TRAITS.forEach(function(t) {
-            var opt = document.createElement('option');
-            opt.value = t;
-            opt.textContent = t + ' → ' + TRAIT_EFFECTS[t];
-            traitSel.appendChild(opt);
-        });
-
         renderReference();
+        renderConditions();
         applyFilter();
     };
 
     // ================================================================
-    //  渲染参考表
+    //  条件管理
     // ================================================================
 
-    function renderReference() {
-        var grid = document.getElementById('refGrid');
-        var html = '';
-        ALL_TRAITS.forEach(function(t) {
-            html += '<div class="ref-item">' +
-                '<span class="trait-name">' + t + '</span>' +
-                '<span class="trait-effect">' + TRAIT_EFFECTS[t] + '</span>' +
-                '</div>';
+    function addCondition() {
+        // 如果所有效果都已添加，提示
+        if (conditions.length >= ALL_EFFECTS.length) {
+            alert('已添加所有特性效果，无法继续添加');
+            return;
+        }
+        conditions.push(null);
+        renderConditions();
+        applyFilter();
+    }
+
+    function removeCondition(index) {
+        conditions.splice(index, 1);
+        renderConditions();
+        applyFilter();
+    }
+
+    function updateCondition(index, value) {
+        conditions[index] = value;
+        renderConditions();
+        applyFilter();
+    }
+
+    function getAvailableEffects() {
+        var used = {};
+        conditions.forEach(function(c) {
+            if (c) used[c] = true;
         });
-        grid.innerHTML = html;
+        return ALL_EFFECTS.filter(function(e) {
+            return !used[e];
+        });
+    }
+
+    // ================================================================
+    //  渲染条件标签
+    // ================================================================
+
+    function renderConditions() {
+        var container = document.getElementById('conditionTags');
+        if (conditions.length === 0) {
+            container.innerHTML = '<span style="color:#5a6a7e;font-size:13px;">点击 "添加效果条件" 开始组合筛选</span>';
+            return;
+        }
+
+        var html = '';
+        var available = getAvailableEffects();
+        conditions.forEach(function(cond, index) {
+            var currentVal = cond || '';
+            var selectHtml = '<select onchange="updateCondition(' + index + ', this.value)" style="background:#0f161e;border:1px solid #2a3a4a;border-radius:6px;color:#fff;padding:2px 6px;font-size:13px;outline:none;cursor:pointer;min-width:80px;">';
+            selectHtml += '<option value="">选择效果</option>';
+            ALL_EFFECTS.forEach(function(e) {
+                var selected = (e === currentVal) ? 'selected' : '';
+                // 检查是否已被其他条件使用
+                var isUsed = false;
+                conditions.forEach(function(c, idx) {
+                    if (idx !== index && c === e) isUsed = true;
+                });
+                if (isUsed && e !== currentVal) return;
+                selectHtml += '<option value="' + e + '" ' + selected + '>' + e + '</option>';
+            });
+            selectHtml += '</select>';
+
+            html += '<span class="condition-tag">' +
+                selectHtml +
+                '<span class="del" onclick="removeCondition(' + index + ')">✕</span>' +
+                '</span>';
+        });
+        container.innerHTML = html;
+
+        // 如果有条件且还有可用效果，显示添加按钮（在标签末尾）
+        if (available.length > 0) {
+            html += '<span class="condition-tag" style="background:rgba(200,169,110,0.05);border-color:rgba(200,169,110,0.1);cursor:pointer;" onclick="addCondition()">➕</span>';
+            container.innerHTML = html;
+        }
     }
 
     // ================================================================
@@ -524,18 +634,30 @@
 
     function applyFilter() {
         var familiarFilter = document.getElementById('familiarFilter').value;
-        var traitFilter = document.getElementById('traitFilter').value;
+
+        // 获取所有选中的效果对应的特性名称
+        var selectedEffects = conditions.filter(function(c) { return c; });
+        var selectedTraits = selectedEffects.map(function(e) {
+            return EFFECT_TO_TRAIT[e] || null;
+        }).filter(function(t) { return t; });
 
         var filtered = FAMILIARS.filter(function(f) {
-            var matchFamiliar = true;
-            var matchTrait = true;
-            if (familiarFilter) {
-                matchFamiliar = f.name === familiarFilter;
+            // 按使魔名称筛选
+            if (familiarFilter && f.name !== familiarFilter) return false;
+
+            // 按效果组合筛选（所有选中的特性都必须存在）
+            if (selectedTraits.length > 0) {
+                var hasAll = true;
+                for (var i = 0; i < selectedTraits.length; i++) {
+                    if (f.traits.indexOf(selectedTraits[i]) === -1) {
+                        hasAll = false;
+                        break;
+                    }
+                }
+                if (!hasAll) return false;
             }
-            if (traitFilter) {
-                matchTrait = f.traits.indexOf(traitFilter) !== -1;
-            }
-            return matchFamiliar && matchTrait;
+
+            return true;
         });
 
         // 统计
@@ -553,12 +675,26 @@
         var html = '';
         filtered.forEach(function(f) {
             var traitsHtml = f.traits.map(function(t) {
-                return '<span class="trait-tag">' + t + '</span>';
+                var effect = TRAIT_EFFECTS[t] || t;
+                var isMatched = selectedTraits.indexOf(t) !== -1;
+                var cls = isMatched ? 'trait-tag matched' : 'trait-tag';
+                return '<span class="' + cls + '" title="' + effect + '">' + t + '</span>';
             }).join('');
+
+            var matchInfo = '';
+            if (selectedTraits.length > 0) {
+                var matchedCount = f.traits.filter(function(t) {
+                    return selectedTraits.indexOf(t) !== -1;
+                }).length;
+                matchInfo = '✅ 匹配 ' + matchedCount + '/' + selectedTraits.length + ' 个特性';
+            }
+
             html += '<div class="familiar-card">';
             html += '<div class="name">' + f.name + '</div>';
-            html += '<div class="attrs"><span class="label">特性</span></div>';
             html += '<div class="traits">' + traitsHtml + '</div>';
+            if (matchInfo) {
+                html += '<div class="match-info">' + matchInfo + '</div>';
+            }
             html += '<div class="meta">' +
                 '<span>主属性 <span class="val">' + f.mainAttr + '</span></span>' +
                 '<span>副属性 <span class="val">' + f.subAttr + '</span></span>' +
@@ -574,10 +710,27 @@
 
     function resetFilter() {
         document.getElementById('familiarFilter').value = '';
-        document.getElementById('traitFilter').value = '';
+        conditions = [];
+        renderConditions();
         applyFilter();
     }
-</script>
 
+    // ================================================================
+    //  渲染参考表
+    // ================================================================
+
+    function renderReference() {
+        var grid = document.getElementById('refGrid');
+        var html = '';
+        var sorted = ALL_TRAITS.sort();
+        sorted.forEach(function(t) {
+            html += '<div class="ref-item">' +
+                '<span class="trait-name">' + t + '</span>' +
+                '<span class="trait-effect">' + TRAIT_EFFECTS[t] + '</span>' +
+                '</div>';
+        });
+        grid.innerHTML = html;
+    }
+</script>
 </body>
 </html>
