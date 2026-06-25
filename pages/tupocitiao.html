@@ -6,7 +6,6 @@
     <title>暗黑不灭 · 突破属性图鉴</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== 全局样式 ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0e14;
@@ -21,7 +20,6 @@
         }
         .page-wrap { max-width: 1000px; width: 100%; }
 
-        /* ===== 头部 ===== */
         .header {
             display: flex;
             align-items: center;
@@ -60,7 +58,6 @@
             letter-spacing: 1px;
         }
 
-        /* ===== Tab 切换 ===== */
         .tab-bar {
             display: flex;
             gap: 0;
@@ -102,7 +99,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== 颜色图例 ===== */
         .legend {
             display: flex;
             flex-wrap: wrap;
@@ -129,14 +125,12 @@
         .dot-lightblue { background: #6cb4ee; }
         .dot-purple { background: #b088d0; }
 
-        /* ===== 卡片网格 ===== */
         .stone-grid, .scheme-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
         }
 
-        /* ===== 卡片通用样式 ===== */
         .stone-card, .scheme-card {
             background: rgba(20, 25, 35, 0.75);
             backdrop-filter: blur(6px);
@@ -205,19 +199,10 @@
             gap: 6px;
         }
         .stone-card .attr-list li:last-child { border-bottom: none; }
-        .stone-card .attr-list .tag {
-            font-weight: 600;
-            font-size: 12px;
-            min-width: 44px;
-        }
-        .stone-card .attr-list .range {
-            font-size: 12px;
-            font-weight: 500;
-            margin-left: auto;
-            white-space: nowrap;
-        }
+        .stone-card .attr-list .tag { font-weight: 600; font-size: 12px; min-width: 44px; }
+        .stone-card .attr-list .range { font-size: 12px; font-weight: 500; margin-left: auto; white-space: nowrap; }
 
-        /* ===== 方案卡片（与图鉴卡片格式统一） ===== */
+        /* ===== 方案卡片 ===== */
         .scheme-card .scheme-name {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 18px;
@@ -282,8 +267,14 @@
             font-size: 12px;
             min-width: 44px;
         }
+        .scheme-card .scheme-list .range {
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: auto;
+            white-space: nowrap;
+        }
 
-        /* ===== 颜色方案（6种突破石） ===== */
+        /* ===== 颜色方案 ===== */
         .color-yehui .stone-name, .color-yehui .scheme-name { color: #e06050; }
         .color-yehui .set-effect { border-color: #e06050; }
         .color-yehui .set-effect .label { color: #e06050; }
@@ -338,7 +329,6 @@
         .color-pohuai .attr-list .range { color: #b088d0; }
         .color-pohuai .stone-cost { color: #b088d0; }
 
-        /* ===== 底部 ===== */
         .back-link {
             display: block;
             text-align: center;
@@ -360,7 +350,6 @@
             padding-top: 12px;
         }
 
-        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
             .stone-grid, .scheme-grid { grid-template-columns: 1fr; gap: 12px; }
             .header h1 { font-size: 18px; }
@@ -436,7 +425,7 @@
     };
 
     // ================================================================
-    //  突破石数据（图鉴）
+    //  图鉴数据（完整词条）
     // ================================================================
 
     var STONES = [
@@ -521,8 +510,21 @@
     ];
 
     // ================================================================
-    //  推荐方案数据
+    //  推荐方案数据（词条从图鉴中摘取）
     // ================================================================
+
+    // 构建一个从 tag 到图鉴词条的映射表，方便查找
+    var TAG_TO_ATTR = {};
+    STONES.forEach(function(stone) {
+        stone.attrs.forEach(function(attr) {
+            TAG_TO_ATTR[attr.tag] = {
+                desc: attr.desc,
+                range: attr.range,
+                stoneType: stone.name,
+                colorKey: stone.colorKey
+            };
+        });
+    });
 
     var SCHEMES = [{
         name: 'PVE 戒律套',
@@ -530,61 +532,61 @@
         stoneType: '戒律石',
         colorKey: '戒律石',
         setEffect: '你造成普攻伤害时有 2% 概率获得精神集中，使得在 1 秒内伤害提高 100%。',
-        attrs: [
-            { tag: '领悟', desc: '爆伤 3%', stoneType: '业火石' },
-            { tag: '仙法', desc: '增益时间延长 3%', stoneType: '震颤石' },
-            { tag: '决心', desc: '极速 2%', stoneType: '戒律石' },
-            { tag: '憎恨', desc: '对恶魔增伤 6%', stoneType: '戒律石' },
-            { tag: '狩猎', desc: '对控制状态下的敌人增伤 5%', stoneType: '戒律石' }
-        ]
+        tags: ['领悟', '仙法', '决心', '憎恨', '狩猎']
     }, {
         name: 'PVP 护盾套（生存）',
         scene: '玩家对战 · 生存',
         stoneType: '屏障石',
         colorKey: '屏障石',
         setEffect: '受击时，有 2% 概率得到一个持续 6 秒的吸收伤害的护盾。',
-        attrs: [
-            { tag: '盾墙', desc: '格挡 2%', stoneType: '屏障石' },
-            { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
-            { tag: '铁壁', desc: '附近敌人对你伤害减少 2%', stoneType: '屏障石' },
-            { tag: '灵巧', desc: '受到玩家伤害降低 1%', stoneType: '震颤石' },
-            { tag: '无情', desc: '对玩家增伤 1.5%', stoneType: '戒律石' }
-        ]
+        tags: ['盾墙', '守护', '铁壁', '灵巧', '无情']
     }, {
         name: 'PVP 全职业通用',
         scene: '玩家对战 · 通用',
         stoneType: '混合搭配',
         colorKey: '屏障石',
         setEffect: null,
-        attrs: [
-            { tag: '盾墙', desc: '格挡 2%', stoneType: '屏障石' },
-            { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
-            { tag: '仙法', desc: '增益时间延长 3%', stoneType: '震颤石' },
-            { tag: '灵巧', desc: '受到玩家伤害降低 1%', stoneType: '震颤石' },
-            { tag: '无情', desc: '对玩家增伤 1.5%', stoneType: '戒律石' }
-        ]
+        tags: ['盾墙', '守护', '仙法', '灵巧', '无情']
     }, {
         name: 'PVP 戒律套（输出）',
         scene: '玩家对战 · 输出',
         stoneType: '戒律石',
         colorKey: '戒律石',
         setEffect: '你造成普攻伤害时有 2% 概率获得精神集中，使得在 1 秒内伤害提高 100%。',
-        attrs: [
-            { tag: '无情', desc: '对玩家增伤 1.5%', stoneType: '戒律石' },
-            { tag: '狩猎', desc: '对控制状态下的敌人增伤 5%', stoneType: '戒律石' },
-            { tag: '戒律', desc: '对护盾状态下的敌人增伤 6%', stoneType: '戒律石' },
-            { tag: '守护', desc: '生命 1%', stoneType: '屏障石' },
-            { tag: '仙法', desc: '增益时间延长 3%', stoneType: '震颤石' }
-        ]
+        tags: ['无情', '狩猎', '戒律', '守护', '仙法']
     }];
+
+    // 根据 tags 从图鉴中提取完整词条信息
+    function getAttrFromTags(tags) {
+        return tags.map(function(tag) {
+            var info = TAG_TO_ATTR[tag];
+            if (info) {
+                return {
+                    tag: tag,
+                    desc: info.desc,
+                    range: info.range,
+                    stoneType: info.stoneType,
+                    colorKey: info.colorKey
+                };
+            } else {
+                return {
+                    tag: tag,
+                    desc: '未知词条',
+                    range: '—',
+                    stoneType: '未知',
+                    colorKey: '屏障石'
+                };
+            }
+        });
+    }
 
     // ================================================================
     //  渲染函数
     // ================================================================
 
-    function getTagColorClass(stoneType) {
-        if (!stoneType) return '';
-        var info = COLOR_MAP[stoneType];
+    function getTagColorClass(colorKey) {
+        if (!colorKey) return '';
+        var info = COLOR_MAP[colorKey];
         return info ? info.class : '';
     }
 
@@ -617,6 +619,10 @@
             var color = COLOR_MAP[s.colorKey];
             var colorClass = color ? color.class : '';
             var barColor = color ? color.bar : '#666';
+
+            // 从图鉴中摘取词条
+            var attrs = getAttrFromTags(s.tags);
+
             html += '<div class="scheme-card ' + colorClass + '">';
             html += '<div class="color-bar" style="background:' + barColor + ';"></div>';
             html += '<div class="scheme-name">' + s.name + '</div>';
@@ -630,9 +636,9 @@
             }
 
             html += '<ul class="scheme-list">';
-            s.attrs.forEach(function(a) {
-                var tagColorClass = getTagColorClass(a.stoneType);
-                html += '<li><span class="tag ' + tagColorClass + '">' + a.tag + '</span> ' + a.desc + '</li>';
+            attrs.forEach(function(a) {
+                var tagColorClass = getTagColorClass(a.colorKey);
+                html += '<li><span class="tag ' + tagColorClass + '">' + a.tag + '</span> ' + a.desc + ' <span class="range">' + a.range + '</span></li>';
             });
             html += '</ul>';
             html += '</div>';
