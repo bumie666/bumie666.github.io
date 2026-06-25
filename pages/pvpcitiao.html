@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>暗黑不灭 · PVP词条衰减大全</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0e14;
+            background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
+            color: #e0e6ed;
+            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .page-wrap {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #2a3a4a;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(200, 169, 110, 0.3);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .header .title-group {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #f6d365, #c8a96e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .sub {
+            font-size: 13px;
+            color: #7a8a9e;
+            letter-spacing: 1px;
+        }
+
+        /* ===== 筛选栏 ===== */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            background: rgba(20, 25, 35, 0.5);
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid #2a3a4a;
+        }
+        .filter-bar .fg {
+            flex: 1 1 0;
+            min-width: 120px;
+        }
+        .filter-bar .fg label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            color: #7a8a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+        .filter-bar .fg select {
+            width: 100%;
+            padding: 8px 10px;
+            background: #0f161e;
+            border: 1px solid #2a3a4a;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 38px;
+        }
+        .filter-bar .fg select:focus {
+            border-color: #c8a96e;
+        }
+        .filter-bar .btn-reset {
+            flex: 0 0 auto;
+            padding: 8px 18px;
+            background: #2a3a4a;
+            border: none;
+            border-radius: 8px;
+            color: #e0e6ed;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            height: 38px;
+            align-self: flex-end;
+        }
+        .filter-bar .btn-reset:hover {
+            background: #3a4a5a;
+        }
+
+        /* ===== 统计 ===== */
+        .stats {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .stats .item {
+            background: #0f161e;
+            border: 1px solid #2a3a4a;
+            border-radius: 8px;
+            padding: 4px 14px;
+            text-align: center;
+            flex: 1;
+            min-width: 70px;
+        }
+        .stats .item .l {
+            font-size: 9px;
+            color: #7a8a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .stats .item .v {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f6d365;
+        }
+
+        /* ===== 套装网格 ===== */
+        .set-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .set-card {
+            background: rgba(20, 25, 35, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid #2a3a4a;
+            border-radius: 14px;
+            padding: 16px 14px;
+            transition: border-color 0.25s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .set-card:hover {
+            border-color: #c8a96e;
+            transform: translateY(-2px);
+        }
+        .set-card .color-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        .set-card .set-name {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+        .set-card .set-sub {
+            font-size: 12px;
+            color: #7a8a9e;
+            margin-bottom: 8px;
+        }
+        .set-card .attr-item {
+            font-size: 13px;
+            color: #d0d8e0;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(42, 58, 74, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 4px 6px;
+        }
+        .set-card .attr-item:last-child {
+            border-bottom: none;
+        }
+        .set-card .attr-item .prefix {
+            font-weight: 600;
+            min-width: 48px;
+        }
+        .set-card .attr-item .desc {
+            flex: 1;
+            min-width: 80px;
+        }
+        .set-card .attr-item .tag-decay {
+            font-size: 11px;
+            padding: 1px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .tag-decay.decay {
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.10);
+            border: 1px solid rgba(248, 113, 113, 0.15);
+        }
+        .tag-decay.no-decay {
+            color: #5fcb9a;
+            background: rgba(95, 203, 154, 0.10);
+            border: 1px solid rgba(95, 203, 154, 0.15);
+        }
+        .tag-decay.summons {
+            color: #6cb4ee;
+            background: rgba(108, 180, 238, 0.10);
+            border: 1px solid rgba(108, 180, 238, 0.15);
+        }
+
+        /* 颜色方案 */
+        .color-dilie .set-name { color: #e89a4a; }
+        .color-dilie .color-bar { background: #e89a4a; }
+        .color-dilie .prefix { color: #e89a4a; }
+
+        .color-zhenchan .set-name { color: #4a6a9e; }
+        .color-zhenchan .color-bar { background: #4a6a9e; }
+        .color-zhenchan .prefix { color: #4a6a9e; }
+
+        .color-yehui .set-name { color: #e06050; }
+        .color-yehui .color-bar { background: #e06050; }
+        .color-yehui .prefix { color: #e06050; }
+
+        .color-jielv .set-name { color: #f6d365; }
+        .color-jielv .color-bar { background: #f6d365; }
+        .color-jielv .prefix { color: #f6d365; }
+
+        .color-pingzhang .set-name { color: #6cb4ee; }
+        .color-pingzhang .color-bar { background: #6cb4ee; }
+        .color-pingzhang .prefix { color: #6cb4ee; }
+
+        .color-pohuai .set-name { color: #b088d0; }
+        .color-pohuai .color-bar { background: #b088d0; }
+        .color-pohuai .prefix { color: #b088d0; }
+
+        .no-result {
+            text-align: center;
+            color: #7a8a9e;
+            padding: 30px 0;
+            font-size: 15px;
+            grid-column: 1 / -1;
+        }
+        .no-result .icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #5a6a7e;
+            font-size: 13px;
+            text-decoration: none;
+            transition: 0.2s;
+            letter-spacing: 0.5px;
+        }
+        .back-link:hover {
+            color: #c8a96e;
+        }
+        .footer-note {
+            font-size: 11px;
+            color: #4a5a6e;
+            text-align: center;
+            margin-top: 12px;
+            border-top: 1px solid #1e2c38;
+            padding-top: 12px;
+        }
+
+        @media (max-width: 780px) {
+            .set-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 520px) {
+            .set-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 18px;
+            }
+            .header .sub {
+                font-size: 11px;
+            }
+            .filter-bar .fg {
+                min-width: 100px;
+                flex: 1 1 100%;
+            }
+            .filter-bar .btn-reset {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+            .set-card .attr-item {
+                font-size: 12px;
+            }
+            .set-card .attr-item .tag-decay {
+                font-size: 10px;
+            }
+            .stats .item .v {
+                font-size: 16px;
+            }
+        }
+        @media (max-width: 400px) {
+            .header .avatar {
+                width: 32px;
+                height: 32px;
+            }
+            .set-card {
+                padding: 12px 10px;
+            }
+            .set-card .set-name {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+    <!-- 头部 -->
+    <div class="header">
+        <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
+        <div class="title-group">
+            <h1>⚔️ PVP 词条衰减大全</h1>
+            <span class="sub">暗黑不灭 · 洗炼套装 · 衰减一览</span>
+        </div>
+    </div>
+
+    <!-- 筛选栏 -->
+    <div class="filter-bar">
+        <div class="fg">
+            <label>🎯 套装筛选</label>
+            <select id="setFilter" onchange="applyFilter()">
+                <option value="">全部套装</option>
+                <option value="地裂套装">地裂套装</option>
+                <option value="震颤套装">震颤套装</option>
+                <option value="业火套装">业火套装</option>
+                <option value="戒律套装">戒律套装</option>
+                <option value="屏障套装">屏障套装</option>
+                <option value="破坏套装">破坏套装</option>
+            </select>
+        </div>
+        <div class="fg">
+            <label>⚡ 衰减状态</label>
+            <select id="decayFilter" onchange="applyFilter()">
+                <option value="">全部</option>
+                <option value="衰减">⚠️ 衰减</option>
+                <option value="不会衰减">✅ 不会衰减</option>
+            </select>
+        </div>
+        <button class="btn-reset" onclick="resetFilter()">重置</button>
+    </div>
+
+    <!-- 统计 -->
+    <div class="stats">
+        <div class="item"><div class="l">词条总数</div><div class="v" id="totalCount">0</div></div>
+        <div class="item"><div class="l">衰减</div><div class="v" id="decayCount">0</div></div>
+        <div class="item"><div class="l">不会衰减</div><div class="v" id="noDecayCount">0</div></div>
+    </div>
+
+    <!-- 套装网格 -->
+    <div class="set-grid" id="setGrid"></div>
+
+    <a href="https://ahbm8888.top" class="back-link">🏠 返回暗黑不朽百宝箱</a>
+    <div class="footer-note">数据仅供参考 · 以游戏内为准</div>
+</div>
+
+<script>
+    // ================================================================
+    //  数据（根据两张图整理）
+    // ================================================================
+
+    var SETS = [{
+        name: '地裂套装',
+        colorKey: 'dilie',
+        attrs: [
+            { prefix: '重击', desc: '普攻使目标受到的治疗效果降低', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '威惧', desc: '普攻有概率降低目标移速和攻速', decay: '不会衰减', summons: '词条生效' },
+            { prefix: '护佑', desc: '受到的持续性伤害降低', decay: '衰减', summons: '词条不生效' },
+            { prefix: '刚毅', desc: '昏迷抵抗率', decay: '衰减', summons: '词条不生效' },
+            { prefix: '魁梧', desc: '击退抵抗率', decay: '衰减', summons: '词条不生效' }
+        ]
+    }, {
+        name: '震颤套装',
+        colorKey: 'zhenchan',
+        attrs: [
+            { prefix: '灵巧', desc: '受到来自玩家的伤害降低', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '禅护', desc: '在控制类状态下受到的伤害降低', decay: '衰减', summons: '词条不生效' },
+            { prefix: '修行', desc: '致命抵抗率', decay: '衰减', summons: '词条不生效' },
+            { prefix: '仙法', desc: '增益状态持续时间增加', decay: '衰减', summons: '词条不生效' },
+            { prefix: '疾步', desc: '减速抵抗率', decay: '衰减', summons: '词条不生效' }
+        ]
+    }, {
+        name: '业火套装',
+        colorKey: 'yehui',
+        attrs: [
+            { prefix: '智慧', desc: '普攻伤害提高', decay: '衰减', summons: '词条生效' },
+            { prefix: '卓越', desc: '技能伤害提高', decay: '衰减', summons: '词条不生效' },
+            { prefix: '追猎', desc: '对生命低于30%的敌人伤害提高', decay: '衰减', summons: '词条不生效' },
+            { prefix: '领悟', desc: '暴击伤害加成率', decay: '衰减', summons: '词条生效' },
+            { prefix: '牺牲', desc: '阵亡时为队友回复其最大生命', decay: '不会衰减', summons: '词条不生效' }
+        ]
+    }, {
+        name: '戒律套装',
+        colorKey: 'jielv',
+        attrs: [
+            { prefix: '决心', desc: '急速', decay: '衰减', summons: '词条不生效' },
+            { prefix: '无情', desc: '对玩家造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '憎恨', desc: '对恶魔造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '狩猎', desc: '对控制类状态下的敌人伤害提高', decay: '衰减', summons: '词条不生效' },
+            { prefix: '戒律', desc: '对有护盾的目标造成的伤害提高', decay: '衰减', summons: '词条不生效' }
+        ]
+    }, {
+        name: '屏障套装',
+        colorKey: 'pingzhang',
+        attrs: [
+            { prefix: '信仰', desc: '对亡灵造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '守护', desc: '最大生命', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '铁壁', desc: '附近的敌人对你的伤害减少', decay: '衰减', summons: '词条不生效' },
+            { prefix: '盾墙', desc: '格挡率', decay: '衰减', summons: '词条不生效' },
+            { prefix: '意志', desc: '恐惧抵抗率', decay: '衰减', summons: '词条不生效' }
+        ]
+    }, {
+        name: '破坏套装',
+        colorKey: 'pohuai',
+        attrs: [
+            { prefix: '研究', desc: '治疗药水的冷却时间减少', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '永生', desc: '生命恢复', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '诅咒', desc: '对精英敌人造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+            { prefix: '石魔', desc: '你的召唤物造成的伤害提高', decay: '衰减', summons: '词条生效' },
+            { prefix: '遗言', desc: '你的召唤物受到的伤害降低', decay: '衰减', summons: '词条生效' }
+        ]
+    }];
+
+    // 颜色映射
+    var COLOR_CLASS = {
+        'dilie': 'color-dilie',
+        'zhenchan': 'color-zhenchan',
+        'yehui': 'color-yehui',
+        'jielv': 'color-jielv',
+        'pingzhang': 'color-pingzhang',
+        'pohuai': 'color-pohuai'
+    };
+
+    // ================================================================
+    //  渲染
+    // ================================================================
+
+    var currentFilter = { set: '', decay: '' };
+
+    function applyFilter() {
+        var setFilter = document.getElementById('setFilter').value;
+        var decayFilter = document.getElementById('decayFilter').value;
+        currentFilter.set = setFilter;
+        currentFilter.decay = decayFilter;
+
+        var filteredSets = SETS.filter(function(set) {
+            if (setFilter && set.name !== setFilter) return false;
+            return true;
+        });
+
+        // 统计
+        var total = 0;
+        var decayCount = 0;
+        var noDecayCount = 0;
+
+        filteredSets.forEach(function(set) {
+            set.attrs.forEach(function(attr) {
+                if (decayFilter && attr.decay !== decayFilter) return;
+                total++;
+                if (attr.decay === '衰减') decayCount++;
+                else if (attr.decay === '不会衰减') noDecayCount++;
+            });
+        });
+
+        document.getElementById('totalCount').textContent = total;
+        document.getElementById('decayCount').textContent = decayCount;
+        document.getElementById('noDecayCount').textContent = noDecayCount;
+
+        var grid = document.getElementById('setGrid');
+        if (total === 0) {
+            grid.innerHTML = '<div class="no-result"><span class="icon">🔍</span>未找到匹配的词条</div>';
+            return;
+        }
+
+        var html = '';
+        filteredSets.forEach(function(set) {
+            var colorClass = COLOR_CLASS[set.colorKey] || '';
+            var filteredAttrs = set.attrs.filter(function(attr) {
+                if (decayFilter && attr.decay !== decayFilter) return false;
+                return true;
+            });
+            if (filteredAttrs.length === 0) return;
+
+            html += '<div class="set-card ' + colorClass + '">';
+            html += '<div class="color-bar"></div>';
+            html += '<div class="set-name">' + set.name + '</div>';
+            html += '<div class="set-sub">共 ' + filteredAttrs.length + ' 个词条</div>';
+
+            filteredAttrs.forEach(function(attr) {
+                var decayClass = attr.decay === '衰减' ? 'decay' : 'no-decay';
+                var decayLabel = attr.decay === '衰减' ? '⚠️ 衰减' : '✅ 不会衰减';
+                html += '<div class="attr-item">';
+                html += '<span class="prefix">[' + attr.prefix + ']</span>';
+                html += '<span class="desc">' + attr.desc + '</span>';
+                html += '<span class="tag-decay ' + decayClass + '">' + decayLabel + '</span>';
+                html += '</div>';
+            });
+
+            html += '</div>';
+        });
+
+        grid.innerHTML = html;
+    }
+
+    function resetFilter() {
+        document.getElementById('setFilter').value = '';
+        document.getElementById('decayFilter').value = '';
+        applyFilter();
+    }
+
+    // ================================================================
+    //  初始化
+    // ================================================================
+
+    window.onload = function() {
+        applyFilter();
+    };
+</script>
+
+</body>
+</html>
