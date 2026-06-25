@@ -65,7 +65,6 @@
             letter-spacing: 1px;
         }
 
-        /* ===== 筛选栏 ===== */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -124,7 +123,6 @@
             background: #3a4a5a;
         }
 
-        /* ===== 统计 ===== */
         .stats {
             display: flex;
             gap: 8px;
@@ -152,7 +150,104 @@
             color: #f6d365;
         }
 
-        /* ===== 套装网格 ===== */
+        /* ===== 类别切换 ===== */
+        .category-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #2a3a4a;
+            background: #0f161e;
+        }
+        .category-tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            color: #7a8a9e;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            letter-spacing: 0.5px;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+        }
+        .category-tab:hover {
+            color: #c8a96e;
+            background: rgba(200, 169, 110, 0.05);
+        }
+        .category-tab.active {
+            color: #f6d365;
+            background: rgba(200, 169, 110, 0.10);
+            border-bottom: 2px solid #c8a96e;
+        }
+        .category-tab:not(:last-child) {
+            border-right: 1px solid #2a3a4a;
+        }
+
+        /* ===== 词条网格 ===== */
+        .attr-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .attr-card {
+            background: rgba(20, 25, 35, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid #2a3a4a;
+            border-radius: 14px;
+            padding: 14px 14px;
+            transition: border-color 0.25s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .attr-card:hover {
+            border-color: #c8a96e;
+            transform: translateY(-2px);
+        }
+        .attr-card .attr-desc {
+            font-size: 14px;
+            color: #d0d8e0;
+            font-weight: 500;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .attr-card .attr-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 8px;
+            margin-top: 4px;
+        }
+        .attr-card .tag {
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .tag-decay {
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.10);
+            border: 1px solid rgba(248, 113, 113, 0.15);
+        }
+        .tag-no-decay {
+            color: #5fcb9a;
+            background: rgba(95, 203, 154, 0.10);
+            border: 1px solid rgba(95, 203, 154, 0.15);
+        }
+        .tag-summons-on {
+            color: #6cb4ee;
+            background: rgba(108, 180, 238, 0.10);
+            border: 1px solid rgba(108, 180, 238, 0.15);
+        }
+        .tag-summons-off {
+            color: #7a8a9e;
+            background: rgba(122, 138, 158, 0.08);
+            border: 1px solid rgba(122, 138, 158, 0.12);
+        }
+
+        /* ===== 套装卡片（保持原有风格） ===== */
         .set-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -221,23 +316,8 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        .tag-decay.decay {
-            color: #f87171;
-            background: rgba(248, 113, 113, 0.10);
-            border: 1px solid rgba(248, 113, 113, 0.15);
-        }
-        .tag-decay.no-decay {
-            color: #5fcb9a;
-            background: rgba(95, 203, 154, 0.10);
-            border: 1px solid rgba(95, 203, 154, 0.15);
-        }
-        .tag-decay.summons {
-            color: #6cb4ee;
-            background: rgba(108, 180, 238, 0.10);
-            border: 1px solid rgba(108, 180, 238, 0.15);
-        }
 
-        /* 颜色方案 */
+        /* 颜色方案（套装） */
         .color-dilie .set-name { color: #e89a4a; }
         .color-dilie .color-bar { background: #e89a4a; }
         .color-dilie .prefix { color: #e89a4a; }
@@ -297,12 +377,31 @@
             padding-top: 12px;
         }
 
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 780px) {
+            .attr-grid {
+                grid-template-columns: 1fr;
+            }
             .set-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
         @media (max-width: 520px) {
+            .attr-grid {
+                grid-template-columns: 1fr;
+            }
             .set-grid {
                 grid-template-columns: 1fr;
             }
@@ -320,11 +419,15 @@
                 flex: 1 1 100%;
                 text-align: center;
             }
+            .category-tab {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            .attr-card .attr-desc {
+                font-size: 13px;
+            }
             .set-card .attr-item {
                 font-size: 12px;
-            }
-            .set-card .attr-item .tag-decay {
-                font-size: 10px;
             }
             .stats .item .v {
                 font-size: 16px;
@@ -341,6 +444,9 @@
             .set-card .set-name {
                 font-size: 15px;
             }
+            .attr-card {
+                padding: 12px 10px;
+            }
         }
     </style>
 </head>
@@ -353,30 +459,26 @@
         <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
         <div class="title-group">
             <h1>⚔️ PVP 词条衰减大全</h1>
-            <span class="sub">暗黑不灭 · 洗炼套装 · 衰减一览</span>
+            <span class="sub">暗黑不灭 · 魔法属性 · 洗炼套装</span>
         </div>
     </div>
 
     <!-- 筛选栏 -->
     <div class="filter-bar">
         <div class="fg">
-            <label>🎯 套装筛选</label>
-            <select id="setFilter" onchange="applyFilter()">
-                <option value="">全部套装</option>
-                <option value="地裂套装">地裂套装</option>
-                <option value="震颤套装">震颤套装</option>
-                <option value="业火套装">业火套装</option>
-                <option value="戒律套装">戒律套装</option>
-                <option value="屏障套装">屏障套装</option>
-                <option value="破坏套装">破坏套装</option>
-            </select>
-        </div>
-        <div class="fg">
-            <label>⚡ 衰减状态</label>
+            <label>🎯 衰减状态</label>
             <select id="decayFilter" onchange="applyFilter()">
                 <option value="">全部</option>
                 <option value="衰减">⚠️ 衰减</option>
                 <option value="不会衰减">✅ 不会衰减</option>
+            </select>
+        </div>
+        <div class="fg">
+            <label>🧙 召唤物生效</label>
+            <select id="summonsFilter" onchange="applyFilter()">
+                <option value="">全部</option>
+                <option value="词条生效">✅ 生效</option>
+                <option value="词条不生效">❌ 不生效</option>
             </select>
         </div>
         <button class="btn-reset" onclick="resetFilter()">重置</button>
@@ -389,8 +491,21 @@
         <div class="item"><div class="l">不会衰减</div><div class="v" id="noDecayCount">0</div></div>
     </div>
 
-    <!-- 套装网格 -->
-    <div class="set-grid" id="setGrid"></div>
+    <!-- 类别切换 -->
+    <div class="category-tabs">
+        <button class="category-tab active" data-tab="magic" onclick="switchCategory('magic')">📖 魔法属性</button>
+        <button class="category-tab" data-tab="set" onclick="switchCategory('set')">⚔️ 洗炼套装</button>
+    </div>
+
+    <!-- ===== 魔法属性内容 ===== -->
+    <div id="tab-magic" class="tab-content active">
+        <div class="attr-grid" id="magicGrid"></div>
+    </div>
+
+    <!-- ===== 洗炼套装内容 ===== -->
+    <div id="tab-set" class="tab-content">
+        <div class="set-grid" id="setGrid"></div>
+    </div>
 
     <a href="https://ahbm8888.top" class="back-link">🏠 返回暗黑不朽百宝箱</a>
     <div class="footer-note">数据仅供参考 · 以游戏内为准</div>
@@ -398,9 +513,54 @@
 
 <script>
     // ================================================================
-    //  数据（根据两张图整理）
+    //  数据
     // ================================================================
 
+    // ----- 魔法属性数据（来自第一张图） -----
+    var MAGIC_ATTRS = [
+        { desc: '暴击伤害加成率', decay: '衰减', summons: '词条生效' },
+        { desc: '暴击率', decay: '衰减', summons: '词条生效' },
+        { desc: '普攻伤害提高', decay: '衰减', summons: '词条生效' },
+        { desc: '技能伤害提高', decay: '衰减', summons: '词条不生效' },
+        { desc: '最大生命', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '受到的所有伤害降低', decay: '衰减', summons: '词条生效' },
+        { desc: '增益状态持续时间增加', decay: '衰减', summons: '词条不生效' },
+        { desc: '对玩家造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '受到来自玩家的伤害降低', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '移动速度', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '冷却缩减', decay: '衰减', summons: '词条不生效' },
+        { desc: '治疗药水的冷却时间减少', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '装备基础伤害', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '装备基础生命', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '昏迷抵抗率', decay: '衰减', summons: '词条不生效' },
+        { desc: '击退抵抗率', decay: '衰减', summons: '词条不生效' },
+        { desc: '减速抵抗率', decay: '衰减', summons: '词条不生效' },
+        { desc: '急速', decay: '衰减', summons: '词条不生效' },
+        { desc: '阵亡时为队友回复其最大生命', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '恐惧抵抗率', decay: '衰减', summons: '词条不生效' },
+        { desc: '对恶魔造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '对野兽造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '对亡灵造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '对未受过伤的敌人伤害提高', decay: '衰减', summons: '词条不生效' },
+        { desc: '命中率', decay: '衰减', summons: '词条生效' },
+        { desc: '对控制类状态下的敌人伤害提高', decay: '衰减', summons: '词条不生效' },
+        { desc: '普攻使目标受到的治疗效果降低', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '普攻5%概率降低目标移速和攻速', decay: '不会衰减', summons: '词条生效' },
+        { desc: '移动时受到的伤害降低', decay: '衰减', summons: '词条不生效' },
+        { desc: '受到的持续性伤害降低', decay: '衰减', summons: '词条不生效' },
+        { desc: '3米内的敌人对你造成的伤害降低', decay: '衰减', summons: '词条不生效' },
+        { desc: '在控制类状态下受到的伤害降低', decay: '衰减', summons: '词条不生效' },
+        { desc: '格挡率', decay: '衰减', summons: '词条不生效' },
+        { desc: '致命抵抗率', decay: '衰减', summons: '词条不生效' },
+        { desc: '对精英敌人造成的伤害提高', decay: '不会衰减', summons: '词条不生效' },
+        { desc: '你的每个队友使你的伤害提高', decay: '衰减', summons: '词条生效（召唤物享受增伤效果，但不参与队友数量计算）' },
+        { desc: '你的召唤物造成的伤害提高', decay: '衰减', summons: '词条生效' },
+        { desc: '你的召唤物受到的伤害降低', decay: '衰减', summons: '词条生效' },
+        { desc: '对生命低于X的敌人伤害提高', decay: '衰减', summons: '词条不生效' },
+        { desc: '对有护盾的目标造成的伤害提高', decay: '衰减', summons: '词条不生效' }
+    ];
+
+    // ----- 洗炼套装数据（来自第二张图） -----
     var SETS = [{
         name: '地裂套装',
         colorKey: 'dilie',
@@ -463,7 +623,7 @@
         ]
     }];
 
-    // 颜色映射
+    // 颜色映射（套装）
     var COLOR_CLASS = {
         'dilie': 'color-dilie',
         'zhenchan': 'color-zhenchan',
@@ -474,43 +634,79 @@
     };
 
     // ================================================================
-    //  渲染
+    //  状态
     // ================================================================
 
-    var currentFilter = { set: '', decay: '' };
+    var currentCategory = 'magic';
+    var currentFilter = { decay: '', summons: '' };
 
-    function applyFilter() {
-        var setFilter = document.getElementById('setFilter').value;
+    // ================================================================
+    //  渲染函数
+    // ================================================================
+
+    function renderMagic() {
+        var grid = document.getElementById('magicGrid');
         var decayFilter = document.getElementById('decayFilter').value;
-        currentFilter.set = setFilter;
-        currentFilter.decay = decayFilter;
+        var summonsFilter = document.getElementById('summonsFilter').value;
 
-        var filteredSets = SETS.filter(function(set) {
-            if (setFilter && set.name !== setFilter) return false;
+        var filtered = MAGIC_ATTRS.filter(function(attr) {
+            if (decayFilter && attr.decay !== decayFilter) return false;
+            if (summonsFilter && attr.summons !== summonsFilter) return false;
             return true;
         });
 
-        // 统计
-        var total = 0;
-        var decayCount = 0;
-        var noDecayCount = 0;
+        // 更新统计
+        updateStats(filtered);
 
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="no-result"><span class="icon">🔍</span>未找到匹配的魔法属性词条</div>';
+            return;
+        }
+
+        var html = '';
+        filtered.forEach(function(attr) {
+            var decayLabel = attr.decay === '衰减' ? '⚠️ 衰减' : '✅ 不会衰减';
+            var decayClass = attr.decay === '衰减' ? 'tag-decay' : 'tag-no-decay';
+            var summonsClass = attr.summons === '词条生效' ? 'tag-summons-on' : 'tag-summons-off';
+            html += '<div class="attr-card">';
+            html += '<div class="attr-desc">' + attr.desc + '</div>';
+            html += '<div class="attr-tags">';
+            html += '<span class="tag ' + decayClass + '">' + decayLabel + '</span>';
+            html += '<span class="tag ' + summonsClass + '">' + attr.summons + '</span>';
+            html += '</div>';
+            html += '</div>';
+        });
+        grid.innerHTML = html;
+    }
+
+    function renderSets() {
+        var grid = document.getElementById('setGrid');
+        var decayFilter = document.getElementById('decayFilter').value;
+        var summonsFilter = document.getElementById('summonsFilter').value;
+
+        var filteredSets = SETS.filter(function(set) {
+            // 检查套装中是否有任何词条匹配筛选条件
+            var hasMatch = set.attrs.some(function(attr) {
+                if (decayFilter && attr.decay !== decayFilter) return false;
+                if (summonsFilter && attr.summons !== summonsFilter) return false;
+                return true;
+            });
+            return hasMatch;
+        });
+
+        // 统计所有匹配的词条
+        var allAttrs = [];
         filteredSets.forEach(function(set) {
             set.attrs.forEach(function(attr) {
                 if (decayFilter && attr.decay !== decayFilter) return;
-                total++;
-                if (attr.decay === '衰减') decayCount++;
-                else if (attr.decay === '不会衰减') noDecayCount++;
+                if (summonsFilter && attr.summons !== summonsFilter) return;
+                allAttrs.push(attr);
             });
         });
+        updateStats(allAttrs);
 
-        document.getElementById('totalCount').textContent = total;
-        document.getElementById('decayCount').textContent = decayCount;
-        document.getElementById('noDecayCount').textContent = noDecayCount;
-
-        var grid = document.getElementById('setGrid');
-        if (total === 0) {
-            grid.innerHTML = '<div class="no-result"><span class="icon">🔍</span>未找到匹配的词条</div>';
+        if (filteredSets.length === 0 || allAttrs.length === 0) {
+            grid.innerHTML = '<div class="no-result"><span class="icon">🔍</span>未找到匹配的洗炼套装词条</div>';
             return;
         }
 
@@ -519,6 +715,7 @@
             var colorClass = COLOR_CLASS[set.colorKey] || '';
             var filteredAttrs = set.attrs.filter(function(attr) {
                 if (decayFilter && attr.decay !== decayFilter) return false;
+                if (summonsFilter && attr.summons !== summonsFilter) return false;
                 return true;
             });
             if (filteredAttrs.length === 0) return;
@@ -529,7 +726,7 @@
             html += '<div class="set-sub">共 ' + filteredAttrs.length + ' 个词条</div>';
 
             filteredAttrs.forEach(function(attr) {
-                var decayClass = attr.decay === '衰减' ? 'decay' : 'no-decay';
+                var decayClass = attr.decay === '衰减' ? 'tag-decay' : 'tag-no-decay';
                 var decayLabel = attr.decay === '衰减' ? '⚠️ 衰减' : '✅ 不会衰减';
                 html += '<div class="attr-item">';
                 html += '<span class="prefix">[' + attr.prefix + ']</span>';
@@ -544,9 +741,44 @@
         grid.innerHTML = html;
     }
 
+    function updateStats(items) {
+        var total = items.length;
+        var decayCount = 0;
+        var noDecayCount = 0;
+        items.forEach(function(item) {
+            if (item.decay === '衰减') decayCount++;
+            else if (item.decay === '不会衰减') noDecayCount++;
+        });
+        document.getElementById('totalCount').textContent = total;
+        document.getElementById('decayCount').textContent = decayCount;
+        document.getElementById('noDecayCount').textContent = noDecayCount;
+    }
+
+    // ================================================================
+    //  筛选与切换
+    // ================================================================
+
+    function applyFilter() {
+        if (currentCategory === 'magic') {
+            renderMagic();
+        } else {
+            renderSets();
+        }
+    }
+
+    function switchCategory(category) {
+        currentCategory = category;
+        document.querySelectorAll('.category-tab').forEach(function(tab) {
+            tab.classList.toggle('active', tab.dataset.tab === category);
+        });
+        document.getElementById('tab-magic').classList.toggle('active', category === 'magic');
+        document.getElementById('tab-set').classList.toggle('active', category === 'set');
+        applyFilter();
+    }
+
     function resetFilter() {
-        document.getElementById('setFilter').value = '';
         document.getElementById('decayFilter').value = '';
+        document.getElementById('summonsFilter').value = '';
         applyFilter();
     }
 
@@ -558,6 +790,5 @@
         applyFilter();
     };
 </script>
-
 </body>
 </html>
