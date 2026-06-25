@@ -2,11 +2,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>暗黑不朽百宝箱 · 工具箱</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>暗黑不朽百宝箱 · 首页</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== 原有样式 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -16,413 +15,249 @@
             background: #0a0e14;
             background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
             color: #e0e6ed;
-            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
+            padding: 12px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
         }
-        .container {
-            max-width: 700px;
+        .wrap {
+            max-width: 820px;
             width: 100%;
         }
 
+        /* ----- 头部 ----- */
         .header {
-            text-align: center;
-            margin-bottom: 36px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #2a3a4a;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
         }
-        .header .main-title {
+        .header img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(200, 169, 110, 0.3);
+        }
+        .header h1 {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 38px;
-            font-weight: 700;
-            letter-spacing: 4px;
+            font-size: 20px;
             background: linear-gradient(135deg, #f6d365, #c8a96e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 30px rgba(200, 169, 110, 0.10);
-            margin-bottom: 4px;
         }
-        .header .brand-name {
-            font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: #8a9aae;
-            margin-top: 2px;
-        }
-        .header .sub-title {
+        .header .sub {
+            font-size: 12px;
             color: #7a8a9e;
-            font-size: 13px;
-            letter-spacing: 2px;
-            margin-top: 6px;
-            border-top: 1px solid rgba(30, 44, 56, 0.6);
-            padding-top: 10px;
+            margin-left: auto;
         }
 
-        .tool-grid {
+        /* ----- 功能网格（两列） ----- */
+        .func-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-        .tool-card {
-            display: block;
-            padding: 20px 18px;
-            background: rgba(20, 25, 35, 0.72);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(42, 58, 74, 0.6);
-            border-radius: 16px;
-            color: #e0e6ed;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .tool-card:hover {
-            border-color: #c8a96e;
-            background: rgba(200, 169, 110, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-        }
-        .tool-card .icon {
-            font-size: 28px;
-            display: block;
-            margin-bottom: 6px;
-        }
-        .tool-card .name {
-            font-size: 17px;
-            font-weight: 600;
-            display: block;
-            letter-spacing: 0.5px;
-        }
-        .tool-card .desc {
-            font-size: 13px;
-            color: #6a7a8e;
-            margin-top: 4px;
-            display: block;
-        }
-        .tool-card .badge {
-            position: absolute;
-            top: 12px;
-            right: 14px;
-            font-size: 10px;
-            background: rgba(200, 169, 110, 0.15);
-            color: #c8a96e;
-            padding: 2px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(200, 169, 110, 0.15);
-            letter-spacing: 0.5px;
-        }
-        .tool-card.full {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 22px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-        }
-        .tool-card.full .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid rgba(200, 169, 110, 0.3);
-            flex-shrink: 0;
-            object-fit: cover;
-        }
-        .tool-card.full .info {
-            text-align: left;
-        }
-        .tool-card.full .info .name {
-            font-size: 17px;
-            font-weight: 600;
-        }
-        .tool-card.full .info .desc {
-            font-size: 13px;
-            color: #6a7a8e;
+            gap: 10px;
+            margin: 12px 0;
         }
 
-        .footer {
-            text-align: center;
-            border-top: 1px solid rgba(30, 44, 56, 0.6);
-            padding-top: 20px;
-            margin-top: 6px;
-        }
-        .footer p {
-            color: #4a5a6e;
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        @media (max-width: 520px) {
-            .tool-grid { grid-template-columns: 1fr; }
-            .header .main-title { font-size: 28px; }
-            .header .brand-name { font-size: 14px; }
-            .header .sub-title { font-size: 11px; }
-            .tool-card .badge { position: static; display: inline-block; margin-top: 6px; }
-            .tool-card.full { flex-direction: column; text-align: center; }
-            .tool-card.full .info { text-align: center; }
-        }
-
-        /* ===== 密码锁样式 ===== */
-        #lockScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 14, 20, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 20px;
-            transition: opacity 0.4s ease;
-        }
-        #lockScreen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .lock-box {
-            background: rgba(20, 25, 35, 0.85);
+        .func-card {
+            background: rgba(20, 25, 35, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             border: 1px solid #2a3a4a;
-            border-radius: 20px;
-            padding: 40px 32px;
-            max-width: 420px;
-            width: 100%;
+            border-radius: 10px;
+            padding: 14px 8px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-        }
-        .lock-box .lock-icon {
-            font-size: 48px;
-            display: block;
-            margin-bottom: 12px;
-        }
-        .lock-box .lock-title {
-            font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 20px;
-            color: #f6d365;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-        .lock-box .lock-desc {
-            font-size: 14px;
-            color: #8a9aae;
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-        .lock-box input {
-            width: 100%;
-            padding: 14px 18px;
-            background: #0f161e;
-            border: 1px solid #2a3a4a;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 20px;
-            font-weight: 600;
-            text-align: center;
-            letter-spacing: 8px;
-            outline: none;
             transition: 0.2s;
-        }
-        .lock-box input:focus {
-            border-color: #c8a96e;
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
-        }
-        .lock-box button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 16px;
-            background: linear-gradient(135deg, #c8a96e, #f6d365);
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #0b0e14;
             cursor: pointer;
-            transition: 0.25s;
-            font-family: 'Cinzel', 'Times New Roman', serif;
-            letter-spacing: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-decoration: none;
+            color: inherit;
         }
-        .lock-box button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 24px rgba(200, 169, 110, 0.35);
+        .func-card:active {
+            transform: scale(0.96);
+            border-color: #c8a96e;
         }
-        .lock-box button:active {
-            transform: scale(0.98);
+        .func-card .icon {
+            font-size: 22px;
+            line-height: 1.2;
         }
-        .lock-box .lock-error {
-            color: #f87171;
+        .func-card .title {
             font-size: 14px;
-            margin-top: 12px;
-            min-height: 24px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            font-weight: 700;
+            color: #e8edf4;
+            line-height: 1.3;
         }
-        .lock-box .lock-error.show {
-            opacity: 1;
+        .func-card .title .hot {
+            background: #c8a96e;
+            color: #0b0e14;
+            font-size: 9px;
+            padding: 0 6px;
+            border-radius: 3px;
+            margin-left: 4px;
+            font-weight: 700;
+            vertical-align: middle;
         }
+        .func-card .desc {
+            font-size: 11px;
+            color: #8a9aae;
+            line-height: 1.4;
+            border-top: 1px dashed #1f2a36;
+            padding-top: 5px;
+        }
+
+        /* 全宽横幅（关注抖音） */
+        .func-grid .full-width {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1a212b, #0f161e);
+            border-color: #c8a96e;
+            border-width: 1px 1px 1px 4px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 10px;
+        }
+        .func-grid .full-width .title {
+            font-size: 15px;
+            color: #f6d365;
+        }
+        .func-grid .full-width .desc {
+            border: none;
+            padding: 0;
+            font-size: 11px;
+            color: #7a8a9e;
+        }
+
+        /* ----- 底部返回链接（模仿原风格） ----- */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #5a6a7e;
+            font-size: 12px;
+            text-decoration: none;
+            transition: 0.2s;
+            letter-spacing: 0.5px;
+        }
+        .back-link:hover {
+            color: #c8a96e;
+        }
+
+        /* ----- 移动端微调 ----- */
         @media (max-width: 480px) {
-            .lock-box { padding: 30px 20px; }
-            .lock-box .lock-title { font-size: 18px; }
-            .lock-box .lock-desc { font-size: 13px; }
-            .lock-box input { font-size: 18px; padding: 12px 14px; }
+            .header h1 {
+                font-size: 17px;
+            }
+            .header .sub {
+                font-size: 10px;
+                margin-left: 0;
+                width: 100%;
+            }
+            .func-card {
+                padding: 12px 6px;
+            }
+            .func-card .title {
+                font-size: 13px;
+            }
+            .func-card .desc {
+                font-size: 10px;
+            }
+            .func-grid .full-width .title {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 380px) {
+            .func-card .title {
+                font-size: 12px;
+            }
+            .func-card .icon {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="wrap">
 
-    <!-- ===== 密码锁遮罩 ===== -->
-    <div id="lockScreen">
-        <div class="lock-box">
-            <span class="lock-icon">🔐</span>
-            <div class="lock-title">工具箱正在开发期间</div>
-            <div class="lock-desc">想提前体验的朋友请加不灭粉丝群获取密码</div>
-            <input type="password" id="passwordInput" placeholder="输入密码" maxlength="20" autofocus>
-            <button onclick="unlock()">解锁</button>
-            <div class="lock-error" id="lockError">❌ 密码错误，请重试</div>
-        </div>
-    </div>
-
-    <!-- ===== 主内容（原有） ===== -->
-    <div class="container">
-
+        <!-- ====== 头部 ====== -->
         <div class="header">
-            <div class="main-title">⚔️ 暗黑不朽百宝箱</div>
-            <div class="brand-name">暗黑の不灭</div>
-            <div class="sub-title">— 暗黑不朽数据工具箱 —</div>
+            <!-- 头像图片路径请根据实际情况调整，默认指向 ../images/douyintouxiang.png -->
+            <img src="../images/douyintouxiang.png" alt="头像">
+            <h1>⚔️ 暗黑不朽百宝箱</h1>
+            <span class="sub">暗黑の不灭 · 数据工具箱</span>
         </div>
 
-        <div class="tool-grid">
+        <!-- ====== 功能网格 ====== -->
+        <div class="func-grid">
 
-            <!-- 小宝石升级 -->
-            <a href="pages/xiaobaoshi999.html" class="tool-card">
+            <!-- 1. 小宝石升级计算器 -->
+            <a class="func-card" href="#">
                 <span class="icon">💎</span>
-                <span class="name">小宝石升级计算器</span>
-                <span class="desc">消耗 &amp; 白金币模拟</span>
-                <span class="badge">推荐</span>
-            </a>
-
-            <!-- 传奇宝石消耗计算 -->
-            <a href="pages/chuanqi999.html" class="tool-card">
-                <span class="icon">⭐</span>
-                <span class="name">传奇宝石消耗计算</span>
+                <span class="title">小宝石升级计算器 <span class="hot">推荐</span></span>
                 <span class="desc">一星 / 二星 / 五星</span>
-                <span class="badge">热门</span>
             </a>
 
-            <!-- 赫拉迪姆遗志 -->
-            <a href="pages/xiashuidao999.html" class="tool-card">
-                <span class="icon">🏛️</span>
-                <span class="name">赫拉迪姆遗志计算器</span>
+            <!-- 2. 传奇宝石消耗计算 -->
+            <a class="func-card" href="#">
+                <span class="icon">🔥</span>
+                <span class="title">传奇宝石消耗计算 <span class="hot">热门</span></span>
+                <span class="desc">消耗 &amp; 白金币模拟</span>
+            </a>
+
+            <!-- 3. 赫拉迪姆遗忘计算器 -->
+            <a class="func-card" href="#">
+                <span class="icon">📜</span>
+                <span class="title">赫拉迪姆遗忘计算器 <span class="hot">热门</span></span>
                 <span class="desc">三种材料独立计算 · 天数模拟</span>
-                <span class="badge">新</span>
             </a>
 
-            <!-- 技能词条转换 -->
-            <a href="pages/skill_convert.html" class="tool-card">
+            <!-- 4. 技能词条转换 -->
+            <a class="func-card" href="#">
                 <span class="icon">🔄</span>
-                <span class="name">技能词条转换</span>
+                <span class="title">技能词条转换</span>
                 <span class="desc">职业技能 · 部位映射</span>
-                <span class="badge">热门</span>
             </a>
 
-            <!-- 服务器互通查询 -->
-            <a href="pages/fuwuqi.html" class="tool-card">
-                <span class="icon">🌐</span>
-                <span class="name">服务器互通查询</span>
-                <span class="desc">四大互通 · 一键搜索</span>
-                <span class="badge">新</span>
+            <!-- 5. 服务器互通查询 -->
+            <a class="func-card" href="#">
+                <span class="icon">⚔️</span>
+                <span class="title">服务器互通查询 <span class="hot">热门</span></span>
+                <span class="desc">四大互通，一键搜索</span>
             </a>
 
-            <!-- 各职业技能词条一览图 -->
-            <a href="pages/jinengcitiao.html" class="tool-card">
-                <span class="icon">📋</span>
-                <span class="name">各职业技能词条一览图</span>
+            <!-- 6. 各职业技能词条一览图 -->
+            <a class="func-card" href="#">
+                <span class="icon">📊</span>
+                <span class="title">各职业技能词条一览图</span>
                 <span class="desc">全职业词条汇总 · 一键查阅</span>
-                <span class="badge">新</span>
             </a>
 
-            <!-- 突破属性图鉴及推荐 -->
-            <a href="pages/tupocitiao.html" class="tool-card">
-                <span class="icon">📖</span>
-                <span class="name">突破属性图鉴及推荐</span>
+            <!-- 7. 突破属性图鉴及推荐 -->
+            <a class="func-card" href="#">
+                <span class="icon">🛡️</span>
+                <span class="title">突破属性图鉴及推荐</span>
                 <span class="desc">6种突破石 · 词条 &amp; 方案</span>
-                <span class="badge">新</span>
             </a>
 
-            <!-- 关注抖音 -->
-            <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full" style="border-color: rgba(30, 44, 56, 0.6);">
-                <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
-                <div class="info">
-                    <span class="name">关注抖音：暗黑の不灭</span>
-                    <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
-                </div>
+            <!-- 8. 底部横幅：关注抖音（占满一行） -->
+            <a class="func-card full-width" href="https://www.douyin.com/" target="_blank">
+                <span class="icon">📱</span>
+                <span class="title">关注抖音：暗黑の不灭</span>
+                <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
             </a>
 
         </div>
 
-        <div class="footer">
-            <p>数据仅供参考 · 以游戏内为准</p>
-        </div>
+        <!-- ====== 底部链接（可选） ====== -->
+        <a href="https://bumie666.github.io" class="back-link">🏠 返回暗黑不朽百宝箱</a>
 
     </div>
-
-    <script>
-        // ===== 密码锁逻辑 =====
-        (function() {
-            var CORRECT_PASSWORD = '8888';
-            var lockScreen = document.getElementById('lockScreen');
-            var passwordInput = document.getElementById('passwordInput');
-            var lockError = document.getElementById('lockError');
-
-            // 检查 sessionStorage 是否已解锁
-            if (sessionStorage.getItem('index_unlocked') === 'true') {
-                lockScreen.classList.add('hidden');
-                passwordInput.disabled = true;
-                return;
-            }
-
-            // 解锁函数
-            function unlock() {
-                var inputVal = passwordInput.value.trim();
-                if (inputVal === CORRECT_PASSWORD) {
-                    sessionStorage.setItem('index_unlocked', 'true');
-                    lockScreen.classList.add('hidden');
-                    passwordInput.disabled = true;
-                    lockError.classList.remove('show');
-                } else {
-                    lockError.classList.add('show');
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    passwordInput.style.borderColor = '#f87171';
-                    setTimeout(function() {
-                        passwordInput.style.borderColor = '';
-                    }, 500);
-                }
-            }
-
-            // 绑定事件
-            document.querySelector('.lock-box button').addEventListener('click', unlock);
-            passwordInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    unlock();
-                }
-            });
-
-            // 自动聚焦
-            passwordInput.focus();
-
-            // 暴露 unlock 给 onclick 使用
-            window.unlock = unlock;
-        })();
-    </script>
-
 </body>
 </html>
