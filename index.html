@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>暗黑不朽百宝箱 · 工具箱</title>
+    <title>暗黑不朽工具箱</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- ===== 预加载功能模块（提升点击速度） ===== -->
+    <!-- ===== 预加载功能模块 ===== -->
     <link rel="prefetch" href="pages/xiaobaoshi999.html">
     <link rel="prefetch" href="pages/chuanqi999.html">
     <link rel="prefetch" href="pages/xiashuidao999.html">
@@ -23,7 +23,6 @@
             box-sizing: border-box;
         }
         body {
-            /* 背景图片 + 半透明遮罩叠加层，确保文字清晰 */
             background-image: 
                 linear-gradient(rgba(10, 14, 20, 0.75), rgba(10, 14, 20, 0.85)),
                 url('images/lilisi.png');
@@ -46,7 +45,7 @@
 
         /* ===== 头部 ===== */
         .header {
-            text-align: center;
+            text-align: left;
             margin-bottom: 36px;
         }
         .header-top {
@@ -54,7 +53,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .header-top .main-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
@@ -66,7 +65,6 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 30px rgba(200, 169, 110, 0.10);
             flex: 1;
-            text-align: left;
         }
         .refresh-btn {
             background: none;
@@ -90,24 +88,18 @@
         }
         .brand-name {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: 4px;
-            color: #8a9aae;
-            margin-top: 2px;
+            letter-spacing: 2px;
+            color: #c8a96e;
+            margin-top: 0px;
             text-align: left;
         }
         .sub-title {
-            color: #7a8a9e;
-            font-size: 13px;
-            letter-spacing: 2px;
-            margin-top: 6px;
-            border-top: 1px solid rgba(30, 44, 56, 0.6);
-            padding-top: 10px;
-            text-align: left;
+            display: none;  /* 隐藏原来的副标题 */
         }
 
-        /* ===== 工具卡片 ===== */
+        /* ===== 工具卡片网格 ===== */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -172,25 +164,36 @@
             letter-spacing: 0.5px;
         }
 
-        .tool-card.douyin .avatar {
-            width: 40px;
-            height: 40px;
+        /* 全宽卡片（关注抖音） */
+        .tool-card.full-width {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 18px 16px;
+            min-height: auto;
+            text-align: center;
+        }
+        .tool-card.full-width .avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: 2px solid rgba(200, 169, 110, 0.3);
             object-fit: cover;
-            margin-bottom: 6px;
+            flex-shrink: 0;
         }
-        .tool-card.douyin .info {
+        .tool-card.full-width .info {
             display: flex;
             flex-direction: column;
-            width: 100%;
+            align-items: flex-start;
         }
-        .tool-card.douyin .info .name {
-            font-size: 15px;
+        .tool-card.full-width .info .name {
+            font-size: 17px;
             margin-bottom: 0;
         }
-        .tool-card.douyin .info .desc {
-            font-size: 12px;
+        .tool-card.full-width .info .desc {
+            font-size: 13px;
             color: #6a7a8e;
         }
 
@@ -229,16 +232,24 @@
                 top: 8px;
                 right: 8px;
             }
-            .tool-card.douyin .avatar {
-                width: 34px;
-                height: 34px;
-                margin-bottom: 4px;
+            .tool-card.full-width {
+                flex-direction: column;
+                gap: 8px;
+                padding: 16px 12px;
             }
-            .tool-card.douyin .info .name {
-                font-size: 13px;
+            .tool-card.full-width .info {
+                align-items: center;
+                text-align: center;
             }
-            .tool-card.douyin .info .desc {
-                font-size: 11px;
+            .tool-card.full-width .avatar {
+                width: 38px;
+                height: 38px;
+            }
+            .tool-card.full-width .info .name {
+                font-size: 15px;
+            }
+            .tool-card.full-width .info .desc {
+                font-size: 12px;
             }
             .header-top .main-title {
                 font-size: 28px;
@@ -247,10 +258,7 @@
                 font-size: 24px;
             }
             .brand-name {
-                font-size: 14px;
-            }
-            .sub-title {
-                font-size: 11px;
+                font-size: 16px;
             }
         }
 
@@ -271,12 +279,6 @@
             .tool-card .desc {
                 font-size: 10px;
             }
-            .tool-card.douyin .info .name {
-                font-size: 12px;
-            }
-            .tool-card.douyin .info .desc {
-                font-size: 10px;
-            }
             .tool-card .badge {
                 display: none;
             }
@@ -285,6 +287,9 @@
             }
             .refresh-btn {
                 font-size: 20px;
+            }
+            .brand-name {
+                font-size: 14px;
             }
         }
 
@@ -424,21 +429,21 @@
 
         <div class="header">
             <div class="header-top">
-                <div class="main-title">⚔️ 暗黑不朽百宝箱</div>
+                <div class="main-title">⚔️ 暗黑不朽工具箱</div>
                 <button class="refresh-btn" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
             </div>
-            <div class="brand-name">暗黑の不灭</div>
-            <div class="sub-title">— 暗黑不朽数据工具箱 —</div>
+            <div class="brand-name">作者：暗黑の不灭</div>
         </div>
 
         <div class="tool-grid">
+
+            <!-- 第一行：小宝石升级 + 传奇宝石消耗 -->
             <a href="pages/xiaobaoshi999.html" class="tool-card">
                 <span class="icon">💎</span>
                 <span class="name">小宝石升级计算器</span>
                 <span class="desc">消耗 &amp; 白金币模拟</span>
                 <span class="badge">推荐</span>
             </a>
-
             <a href="pages/chuanqi999.html" class="tool-card">
                 <span class="icon">⭐</span>
                 <span class="name">传奇宝石消耗计算</span>
@@ -446,13 +451,13 @@
                 <span class="badge">热门</span>
             </a>
 
-            <a href="pages/xiashuidao999.html" class="tool-card">
-                <span class="icon">🏛️</span>
-                <span class="name">赫拉迪姆遗志计算器</span>
-                <span class="desc">三种材料独立计算 · 天数模拟</span>
+            <!-- 第二行：各职业技能词条一览图 + 技能词条转换 -->
+            <a href="pages/jinengcitiao.html" class="tool-card">
+                <span class="icon">📋</span>
+                <span class="name">各职业技能词条一览图</span>
+                <span class="desc">全职业词条汇总 · 一键查阅</span>
                 <span class="badge">新</span>
             </a>
-
             <a href="pages/skill_convert.html" class="tool-card">
                 <span class="icon">🔄</span>
                 <span class="name">技能词条转换</span>
@@ -460,27 +465,13 @@
                 <span class="badge">热门</span>
             </a>
 
-            <a href="pages/fuwuqi.html" class="tool-card">
-                <span class="icon">🌐</span>
-                <span class="name">服务器互通查询</span>
-                <span class="desc">四大互通 · 一键搜索</span>
+            <!-- 第三行：赫拉迪姆遗志 + 使魔特性查询 -->
+            <a href="pages/xiashuidao999.html" class="tool-card">
+                <span class="icon">🏛️</span>
+                <span class="name">赫拉迪姆遗志计算器</span>
+                <span class="desc">三种材料独立计算 · 天数模拟</span>
                 <span class="badge">新</span>
             </a>
-
-            <a href="pages/jinengcitiao.html" class="tool-card">
-                <span class="icon">📋</span>
-                <span class="name">各职业技能词条一览图</span>
-                <span class="desc">全职业词条汇总 · 一键查阅</span>
-                <span class="badge">新</span>
-            </a>
-
-            <a href="pages/tupocitiao.html" class="tool-card">
-                <span class="icon">📖</span>
-                <span class="name">突破属性图鉴及推荐</span>
-                <span class="desc">6种突破石 · 词条 &amp; 方案</span>
-                <span class="badge">新</span>
-            </a>
-
             <a href="pages/shimo.html" class="tool-card">
                 <span class="icon">🐾</span>
                 <span class="name">使魔特性查询</span>
@@ -488,7 +479,22 @@
                 <span class="badge">新</span>
             </a>
 
-            <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card douyin">
+            <!-- 第四行：服务器互通查询 + 突破属性图鉴及推荐 -->
+            <a href="pages/fuwuqi.html" class="tool-card">
+                <span class="icon">🌐</span>
+                <span class="name">服务器互通查询</span>
+                <span class="desc">四大互通 · 一键搜索</span>
+                <span class="badge">新</span>
+            </a>
+            <a href="pages/tupocitiao.html" class="tool-card">
+                <span class="icon">📖</span>
+                <span class="name">突破属性图鉴及推荐</span>
+                <span class="desc">6种突破石 · 词条 &amp; 方案</span>
+                <span class="badge">新</span>
+            </a>
+
+            <!-- 第五行：关注抖音（全宽） -->
+            <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
                 <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
                 <div class="info">
                     <span class="name">关注抖音：暗黑の不灭</span>
