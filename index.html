@@ -27,7 +27,6 @@
             width: 100%;
         }
 
-        /* ----- 头部 ----- */
         .header {
             display: flex;
             align-items: center;
@@ -56,7 +55,6 @@
             margin-left: auto;
         }
 
-        /* ----- 功能网格（两列） ----- */
         .func-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -79,6 +77,7 @@
             gap: 4px;
             text-decoration: none;
             color: inherit;
+            user-select: none;
         }
         .func-card:active {
             transform: scale(0.96);
@@ -112,7 +111,6 @@
             padding-top: 5px;
         }
 
-        /* 全宽横幅（关注抖音） */
         .func-grid .full-width {
             grid-column: 1 / -1;
             background: linear-gradient(135deg, #1a212b, #0f161e);
@@ -135,7 +133,6 @@
             color: #7a8a9e;
         }
 
-        /* ----- 底部返回链接（模仿原风格） ----- */
         .back-link {
             display: block;
             text-align: center;
@@ -150,7 +147,6 @@
             color: #c8a96e;
         }
 
-        /* ----- 移动端微调 ----- */
         @media (max-width: 480px) {
             .header h1 {
                 font-size: 17px;
@@ -186,67 +182,58 @@
 <body>
     <div class="wrap">
 
-        <!-- ====== 头部 ====== -->
         <div class="header">
-            <!-- 头像图片路径请根据实际情况调整，默认指向 ../images/douyintouxiang.png -->
             <img src="../images/douyintouxiang.png" alt="头像">
             <h1>⚔️ 暗黑不朽百宝箱</h1>
             <span class="sub">暗黑の不灭 · 数据工具箱</span>
         </div>
 
-        <!-- ====== 功能网格 ====== -->
         <div class="func-grid">
 
-            <!-- 1. 小宝石升级计算器 -->
-            <a class="func-card" href="#">
+            <!-- 每个卡片用 data-page 标识，点击由 JS 统一跳转 -->
+            <div class="func-card" data-page="gem">
                 <span class="icon">💎</span>
                 <span class="title">小宝石升级计算器 <span class="hot">推荐</span></span>
                 <span class="desc">一星 / 二星 / 五星</span>
-            </a>
+            </div>
 
-            <!-- 2. 传奇宝石消耗计算 -->
-            <a class="func-card" href="#">
+            <div class="func-card" data-page="legendary">
                 <span class="icon">🔥</span>
                 <span class="title">传奇宝石消耗计算 <span class="hot">热门</span></span>
                 <span class="desc">消耗 &amp; 白金币模拟</span>
-            </a>
+            </div>
 
-            <!-- 3. 赫拉迪姆遗忘计算器 -->
-            <a class="func-card" href="#">
+            <div class="func-card" data-page="horadrim">
                 <span class="icon">📜</span>
                 <span class="title">赫拉迪姆遗忘计算器 <span class="hot">热门</span></span>
                 <span class="desc">三种材料独立计算 · 天数模拟</span>
-            </a>
+            </div>
 
-            <!-- 4. 技能词条转换 -->
-            <a class="func-card" href="#">
+            <div class="func-card" data-page="skill">
                 <span class="icon">🔄</span>
                 <span class="title">技能词条转换</span>
                 <span class="desc">职业技能 · 部位映射</span>
-            </a>
+            </div>
 
-            <!-- 5. 服务器互通查询 -->
-            <a class="func-card" href="#">
+            <div class="func-card" data-page="server">
                 <span class="icon">⚔️</span>
                 <span class="title">服务器互通查询 <span class="hot">热门</span></span>
                 <span class="desc">四大互通，一键搜索</span>
-            </a>
+            </div>
 
-            <!-- 6. 各职业技能词条一览图 -->
-            <a class="func-card" href="#">
+            <div class="func-card" data-page="skillmap">
                 <span class="icon">📊</span>
                 <span class="title">各职业技能词条一览图</span>
                 <span class="desc">全职业词条汇总 · 一键查阅</span>
-            </a>
+            </div>
 
-            <!-- 7. 突破属性图鉴及推荐 -->
-            <a class="func-card" href="#">
+            <div class="func-card" data-page="breakthrough">
                 <span class="icon">🛡️</span>
                 <span class="title">突破属性图鉴及推荐</span>
                 <span class="desc">6种突破石 · 词条 &amp; 方案</span>
-            </a>
+            </div>
 
-            <!-- 8. 底部横幅：关注抖音（占满一行） -->
+            <!-- 关注抖音（外链，直接跳转） -->
             <a class="func-card full-width" href="https://www.douyin.com/" target="_blank">
                 <span class="icon">📱</span>
                 <span class="title">关注抖音：暗黑の不灭</span>
@@ -255,9 +242,35 @@
 
         </div>
 
-        <!-- ====== 底部链接（可选） ====== -->
         <a href="https://bumie666.github.io" class="back-link">🏠 返回暗黑不朽百宝箱</a>
 
     </div>
+
+    <script>
+        // ========== 页面地址映射表（你只需要在这里改文件名） ==========
+        const PAGE_MAP = {
+            gem: 'gem.html',             // 小宝石升级计算器
+            legendary: 'legendary.html', // 传奇宝石消耗计算
+            horadrim: 'horadrim.html',   // 赫拉迪姆遗忘计算器
+            skill: 'skill.html',         // 技能词条转换
+            server: 'server.html',       // 服务器互通查询
+            skillmap: 'skillmap.html',   // 各职业技能词条一览图
+            breakthrough: 'breakthrough.html' // 突破属性图鉴及推荐
+        };
+
+        // ========== 点击跳转逻辑 ==========
+        document.querySelectorAll('.func-card[data-page]').forEach(function(card) {
+            card.addEventListener('click', function(e) {
+                var pageKey = this.getAttribute('data-page');
+                var url = PAGE_MAP[pageKey];
+                if (url) {
+                    window.location.href = url;
+                } else {
+                    alert('页面地址未配置，请检查 PAGE_MAP');
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
