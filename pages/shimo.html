@@ -65,106 +65,88 @@
             letter-spacing: 1px;
         }
 
-        /* ===== 筛选栏 ===== */
-        .filter-bar {
+        /* ===== 特性效果筛选区（核心） ===== */
+        .effect-filter-section {
             background: rgba(20, 25, 35, 0.5);
             border-radius: 12px;
-            padding: 14px 14px 10px;
+            padding: 14px 16px 10px;
             border: 1px solid #2a3a4a;
             margin-bottom: 14px;
         }
-        .filter-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: flex-end;
-            margin-bottom: 10px;
-        }
-        .filter-row .fg {
-            flex: 1 1 0;
-            min-width: 120px;
-        }
-        .filter-row .fg label {
-            display: block;
-            font-size: 10px;
+        .effect-filter-section .section-label {
+            font-size: 12px;
             font-weight: 600;
             color: #7a8a9e;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 3px;
+            margin-bottom: 8px;
         }
-        .filter-row .fg select {
-            width: 100%;
-            padding: 8px 10px;
-            background: #0f161e;
-            border: 1px solid #2a3a4a;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 38px;
-        }
-        .filter-row .fg select:focus {
-            border-color: #c8a96e;
-        }
-        .filter-row .btn-action {
-            flex: 0 0 auto;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.2s;
-            height: 38px;
-            align-self: flex-end;
-        }
-        .btn-add {
-            background: rgba(200, 169, 110, 0.15);
-            color: #c8a96e;
-            border: 1px solid rgba(200, 169, 110, 0.2) !important;
-        }
-        .btn-add:hover {
-            background: rgba(200, 169, 110, 0.25);
-        }
-        .btn-reset {
-            background: #2a3a4a;
-            color: #e0e6ed;
-        }
-        .btn-reset:hover {
-            background: #3a4a5a;
-        }
-
-        /* ===== 条件标签 ===== */
-        .condition-tags {
+        .effect-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px 8px;
-            margin-top: 2px;
         }
-        .condition-tag {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(200, 169, 110, 0.10);
-            border: 1px solid rgba(200, 169, 110, 0.15);
+        .effect-tag {
+            padding: 6px 14px;
+            background: rgba(200, 169, 110, 0.06);
+            border: 1px solid rgba(200, 169, 110, 0.12);
             border-radius: 20px;
-            padding: 4px 10px 4px 14px;
             font-size: 13px;
-            color: #f6d365;
-        }
-        .condition-tag .del {
-            color: #7a8a9e;
+            color: #b0c4d9;
             cursor: pointer;
-            font-size: 16px;
-            line-height: 1;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+        .effect-tag:hover {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: rgba(200, 169, 110, 0.25);
+        }
+        .effect-tag.active {
+            background: rgba(246, 211, 101, 0.15);
+            border-color: #f6d365;
+            color: #f6d365;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(246, 211, 101, 0.05);
+        }
+        .effect-tag .count {
+            font-size: 10px;
+            color: #5a6a7e;
+            margin-left: 4px;
+            font-weight: 400;
+        }
+        .effect-tag.active .count {
+            color: #c8a96e;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-actions .btn {
+            padding: 6px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
             transition: 0.2s;
         }
-        .condition-tag .del:hover {
-            color: #f87171;
+        .btn-clear {
+            background: #2a3a4a;
+            color: #e0e6ed;
+        }
+        .btn-clear:hover {
+            background: #3a4a5a;
+        }
+        .btn-familiar {
+            background: rgba(200, 169, 110, 0.10);
+            color: #c8a96e;
+            border: 1px solid rgba(200, 169, 110, 0.15);
+        }
+        .btn-familiar:hover {
+            background: rgba(200, 169, 110, 0.20);
         }
 
         /* ===== 统计 ===== */
@@ -209,6 +191,7 @@
             border-radius: 14px;
             padding: 16px 14px;
             transition: border-color 0.25s, transform 0.2s;
+            border-left: 3px solid transparent;
         }
         .familiar-card:hover {
             border-color: #c8a96e;
@@ -222,39 +205,27 @@
             letter-spacing: 1px;
             margin-bottom: 2px;
         }
-        .familiar-card .attrs {
-            font-size: 12px;
-            color: #b0c4d9;
-            margin-bottom: 6px;
-        }
-        .familiar-card .attrs .label {
-            color: #7a8a9e;
-            font-size: 11px;
-        }
         .familiar-card .traits {
             display: flex;
             flex-wrap: wrap;
             gap: 4px 6px;
-            margin-top: 6px;
+            margin-top: 4px;
         }
         .familiar-card .trait-tag {
-            background: rgba(200, 169, 110, 0.08);
-            border: 1px solid rgba(200, 169, 110, 0.15);
+            background: rgba(200, 169, 110, 0.06);
+            border: 1px solid rgba(200, 169, 110, 0.10);
             border-radius: 20px;
             padding: 2px 10px;
             font-size: 11px;
-            color: #c8a96e;
+            color: #8a9aae;
             transition: 0.2s;
             cursor: default;
         }
         .familiar-card .trait-tag.matched {
-            background: rgba(246, 211, 101, 0.15);
+            background: rgba(246, 211, 101, 0.12);
             border-color: #f6d365;
             color: #f6d365;
             font-weight: 600;
-        }
-        .familiar-card .trait-tag:hover {
-            background: rgba(200, 169, 110, 0.15);
         }
         .familiar-card .meta {
             display: flex;
@@ -273,11 +244,6 @@
         .familiar-card .meta .val {
             color: #b0c4d9;
             font-weight: 500;
-        }
-        .familiar-card .match-info {
-            margin-top: 6px;
-            font-size: 11px;
-            color: #5fcb9a;
         }
 
         .no-result {
@@ -361,19 +327,15 @@
             .header .sub {
                 font-size: 11px;
             }
-            .filter-row .fg {
-                min-width: 100px;
-                flex: 1 1 100%;
-            }
-            .filter-row .btn-action {
-                flex: 1 1 100%;
-                text-align: center;
-            }
             .trait-reference .ref-grid {
                 grid-template-columns: 1fr;
             }
             .stats .item .v {
                 font-size: 16px;
+            }
+            .effect-tag {
+                font-size: 12px;
+                padding: 5px 10px;
             }
         }
         @media (max-width: 400px) {
@@ -391,10 +353,6 @@
                 font-size: 10px;
                 padding: 1px 8px;
             }
-            .condition-tag {
-                font-size: 12px;
-                padding: 3px 8px 3px 12px;
-            }
         }
     </style>
 </head>
@@ -407,34 +365,25 @@
         <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
         <div class="title-group">
             <h1>⚔️ 使魔特性查询</h1>
-            <span class="sub">暗黑不灭 · 组合筛选</span>
+            <span class="sub">暗黑不灭 · 效果筛选</span>
         </div>
     </div>
 
-    <!-- ===== 筛选栏 ===== -->
-    <div class="filter-bar">
-
-        <!-- 第一行：使魔名称 + 操作按钮 -->
-        <div class="filter-row">
-            <div class="fg">
-                <label>🎯 使魔名称</label>
-                <select id="familiarFilter" onchange="applyFilter()">
-                    <option value="">全部使魔</option>
-                </select>
-            </div>
-            <button class="btn-action btn-add" onclick="addCondition()">➕ 添加效果条件</button>
-            <button class="btn-action btn-reset" onclick="resetFilter()">重置</button>
+    <!-- ===== 特性效果筛选区 ===== -->
+    <div class="effect-filter-section">
+        <div class="section-label">🎯 点击特性效果，筛选拥有该效果的使魔</div>
+        <div class="effect-tags" id="effectTags"></div>
+        <div class="filter-actions">
+            <button class="btn btn-clear" onclick="clearFilters()">清除筛选</button>
+            <button class="btn btn-familiar" onclick="showAll()">显示全部</button>
         </div>
-
-        <!-- 条件标签（显示当前筛选条件） -->
-        <div class="condition-tags" id="conditionTags"></div>
     </div>
 
     <!-- ===== 统计 ===== -->
     <div class="stats">
         <div class="item"><div class="l">使魔总数</div><div class="v" id="totalCount">0</div></div>
         <div class="item"><div class="l">当前显示</div><div class="v" id="showCount">0</div></div>
-        <div class="item"><div class="l">特性种类</div><div class="v" id="traitCount">0</div></div>
+        <div class="item"><div class="l">已选效果</div><div class="v" id="selectedCount">0</div></div>
     </div>
 
     <!-- ===== 卡片网格 ===== -->
@@ -502,7 +451,6 @@
         subAttr: '敏捷'
     }];
 
-    // 特性名称 → 效果 映射
     var TRAIT_EFFECTS = {
         '狂牙利爪': '暴击率',
         '元素共鸣': '技能伤害',
@@ -514,118 +462,90 @@
         '满腔怒火': '爆伤提升'
     };
 
-    // 效果 → 特性名称 反向映射
+    var ALL_TRAITS = Object.keys(TRAIT_EFFECTS);
+    var ALL_EFFECTS = Object.values(TRAIT_EFFECTS);
+
+    // 效果 → 特性 反向映射
     var EFFECT_TO_TRAIT = {};
     for (var key in TRAIT_EFFECTS) {
         EFFECT_TO_TRAIT[TRAIT_EFFECTS[key]] = key;
     }
 
-    var ALL_EFFECTS = Object.values(TRAIT_EFFECTS);
-    var ALL_TRAITS = Object.keys(TRAIT_EFFECTS);
+    // 计算每个效果对应的使魔数量
+    function getEffectCount(effect) {
+        var trait = EFFECT_TO_TRAIT[effect];
+        if (!trait) return 0;
+        var count = 0;
+        FAMILIARS.forEach(function(f) {
+            if (f.traits.indexOf(trait) !== -1) count++;
+        });
+        return count;
+    }
 
     // ================================================================
     //  状态
     // ================================================================
 
-    var conditions = []; // 存储选中的效果名称
+    var selectedEffects = []; // 用户选中的效果名称列表
 
     // ================================================================
     //  初始化
     // ================================================================
 
     window.onload = function() {
-        // 填充使魔下拉
-        var familiarSel = document.getElementById('familiarFilter');
-        FAMILIARS.forEach(function(f) {
-            var opt = document.createElement('option');
-            opt.value = f.name;
-            opt.textContent = f.name;
-            familiarSel.appendChild(opt);
-        });
-
+        renderEffectTags();
         renderReference();
-        renderConditions();
         applyFilter();
     };
 
     // ================================================================
-    //  条件管理
+    //  渲染效果标签
     // ================================================================
 
-    function addCondition() {
-        // 如果所有效果都已添加，提示
-        if (conditions.length >= ALL_EFFECTS.length) {
-            alert('已添加所有特性效果，无法继续添加');
-            return;
-        }
-        conditions.push(null);
-        renderConditions();
-        applyFilter();
-    }
-
-    function removeCondition(index) {
-        conditions.splice(index, 1);
-        renderConditions();
-        applyFilter();
-    }
-
-    function updateCondition(index, value) {
-        conditions[index] = value;
-        renderConditions();
-        applyFilter();
-    }
-
-    function getAvailableEffects() {
-        var used = {};
-        conditions.forEach(function(c) {
-            if (c) used[c] = true;
-        });
-        return ALL_EFFECTS.filter(function(e) {
-            return !used[e];
-        });
-    }
-
-    // ================================================================
-    //  渲染条件标签
-    // ================================================================
-
-    function renderConditions() {
-        var container = document.getElementById('conditionTags');
-        if (conditions.length === 0) {
-            container.innerHTML = '<span style="color:#5a6a7e;font-size:13px;">点击 "添加效果条件" 开始组合筛选</span>';
-            return;
-        }
-
+    function renderEffectTags() {
+        var container = document.getElementById('effectTags');
         var html = '';
-        var available = getAvailableEffects();
-        conditions.forEach(function(cond, index) {
-            var currentVal = cond || '';
-            var selectHtml = '<select onchange="updateCondition(' + index + ', this.value)" style="background:#0f161e;border:1px solid #2a3a4a;border-radius:6px;color:#fff;padding:2px 6px;font-size:13px;outline:none;cursor:pointer;min-width:80px;">';
-            selectHtml += '<option value="">选择效果</option>';
-            ALL_EFFECTS.forEach(function(e) {
-                var selected = (e === currentVal) ? 'selected' : '';
-                // 检查是否已被其他条件使用
-                var isUsed = false;
-                conditions.forEach(function(c, idx) {
-                    if (idx !== index && c === e) isUsed = true;
-                });
-                if (isUsed && e !== currentVal) return;
-                selectHtml += '<option value="' + e + '" ' + selected + '>' + e + '</option>';
-            });
-            selectHtml += '</select>';
-
-            html += '<span class="condition-tag">' +
-                selectHtml +
-                '<span class="del" onclick="removeCondition(' + index + ')">✕</span>' +
+        ALL_EFFECTS.forEach(function(effect) {
+            var count = getEffectCount(effect);
+            var isActive = selectedEffects.indexOf(effect) !== -1;
+            var cls = isActive ? 'effect-tag active' : 'effect-tag';
+            html += '<span class="' + cls + '" onclick="toggleEffect(\'' + effect + '\')">' +
+                effect +
+                '<span class="count">(' + count + ')</span>' +
                 '</span>';
         });
         container.innerHTML = html;
+    }
 
-        // 如果有条件且还有可用效果，显示添加按钮（在标签末尾）
-        if (available.length > 0) {
-            html += '<span class="condition-tag" style="background:rgba(200,169,110,0.05);border-color:rgba(200,169,110,0.1);cursor:pointer;" onclick="addCondition()">➕</span>';
-            container.innerHTML = html;
+    // ================================================================
+    //  切换效果选择
+    // ================================================================
+
+    function toggleEffect(effect) {
+        var idx = selectedEffects.indexOf(effect);
+        if (idx === -1) {
+            selectedEffects.push(effect);
+        } else {
+            selectedEffects.splice(idx, 1);
         }
+        renderEffectTags();
+        applyFilter();
+    }
+
+    // ================================================================
+    //  清除筛选 / 显示全部
+    // ================================================================
+
+    function clearFilters() {
+        selectedEffects = [];
+        renderEffectTags();
+        applyFilter();
+    }
+
+    function showAll() {
+        selectedEffects = [];
+        renderEffectTags();
+        applyFilter();
     }
 
     // ================================================================
@@ -633,42 +553,35 @@
     // ================================================================
 
     function applyFilter() {
-        var familiarFilter = document.getElementById('familiarFilter').value;
-
-        // 获取所有选中的效果对应的特性名称
-        var selectedEffects = conditions.filter(function(c) { return c; });
+        // 获取选中的效果对应的特性名称
         var selectedTraits = selectedEffects.map(function(e) {
             return EFFECT_TO_TRAIT[e] || null;
         }).filter(function(t) { return t; });
 
         var filtered = FAMILIARS.filter(function(f) {
-            // 按使魔名称筛选
-            if (familiarFilter && f.name !== familiarFilter) return false;
+            // 如果没有任何选中的效果，显示全部
+            if (selectedTraits.length === 0) return true;
 
-            // 按效果组合筛选（所有选中的特性都必须存在）
-            if (selectedTraits.length > 0) {
-                var hasAll = true;
-                for (var i = 0; i < selectedTraits.length; i++) {
-                    if (f.traits.indexOf(selectedTraits[i]) === -1) {
-                        hasAll = false;
-                        break;
-                    }
+            // 必须同时拥有所有选中的特性
+            var hasAll = true;
+            for (var i = 0; i < selectedTraits.length; i++) {
+                if (f.traits.indexOf(selectedTraits[i]) === -1) {
+                    hasAll = false;
+                    break;
                 }
-                if (!hasAll) return false;
             }
-
-            return true;
+            return hasAll;
         });
 
-        // 统计
+        // 更新统计
         document.getElementById('totalCount').textContent = FAMILIARS.length;
         document.getElementById('showCount').textContent = filtered.length;
-        document.getElementById('traitCount').textContent = ALL_TRAITS.length;
+        document.getElementById('selectedCount').textContent = selectedEffects.length;
 
         // 渲染卡片
         var grid = document.getElementById('familiarGrid');
         if (filtered.length === 0) {
-            grid.innerHTML = '<div class="no-result"><span class="icon">🔍</span>未找到匹配的使魔</div>';
+            grid.innerHTML = '<div class="no-result"><span class="icon">🔍</span>未找到同时拥有这些效果的使魔</div>';
             return;
         }
 
@@ -681,20 +594,9 @@
                 return '<span class="' + cls + '" title="' + effect + '">' + t + '</span>';
             }).join('');
 
-            var matchInfo = '';
-            if (selectedTraits.length > 0) {
-                var matchedCount = f.traits.filter(function(t) {
-                    return selectedTraits.indexOf(t) !== -1;
-                }).length;
-                matchInfo = '✅ 匹配 ' + matchedCount + '/' + selectedTraits.length + ' 个特性';
-            }
-
             html += '<div class="familiar-card">';
             html += '<div class="name">' + f.name + '</div>';
             html += '<div class="traits">' + traitsHtml + '</div>';
-            if (matchInfo) {
-                html += '<div class="match-info">' + matchInfo + '</div>';
-            }
             html += '<div class="meta">' +
                 '<span>主属性 <span class="val">' + f.mainAttr + '</span></span>' +
                 '<span>副属性 <span class="val">' + f.subAttr + '</span></span>' +
@@ -705,24 +607,13 @@
     }
 
     // ================================================================
-    //  重置
-    // ================================================================
-
-    function resetFilter() {
-        document.getElementById('familiarFilter').value = '';
-        conditions = [];
-        renderConditions();
-        applyFilter();
-    }
-
-    // ================================================================
     //  渲染参考表
     // ================================================================
 
     function renderReference() {
         var grid = document.getElementById('refGrid');
         var html = '';
-        var sorted = ALL_TRAITS.sort();
+        var sorted = ALL_TRAITS.slice().sort();
         sorted.forEach(function(t) {
             html += '<div class="ref-item">' +
                 '<span class="trait-name">' + t + '</span>' +
