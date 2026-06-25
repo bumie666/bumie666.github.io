@@ -60,13 +60,13 @@
             padding-top: 10px;
         }
 
-        /* 工具卡片网格：始终两列（含手机） */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
             margin-bottom: 30px;
         }
+
         .tool-card {
             display: block;
             padding: 16px 14px;
@@ -123,7 +123,7 @@
             border: 1px solid rgba(200, 169, 110, 0.15);
             letter-spacing: 0.5px;
         }
-        /* 关注抖音卡片 */
+
         .tool-card.douyin .avatar {
             width: 40px;
             height: 40px;
@@ -158,7 +158,6 @@
             letter-spacing: 1px;
         }
 
-        /* 手机端：保持两列，缩小内边距和字体 */
         @media (max-width: 480px) {
             .tool-grid {
                 gap: 10px;
@@ -204,7 +203,6 @@
             }
         }
 
-        /* 超小屏（宽度<380px）仍保持两列，进一步缩小 */
         @media (max-width: 380px) {
             .tool-grid {
                 gap: 8px;
@@ -233,7 +231,7 @@
             }
         }
 
-        /* ===== 密码锁样式（保持不变） ===== */
+        /* ===== 密码锁样式 ===== */
         #lockScreen {
             position: fixed;
             top: 0;
@@ -428,6 +426,14 @@
                 <span class="icon">📖</span>
                 <span class="name">突破属性图鉴及推荐</span>
                 <span class="desc">6种突破石 · 词条 &amp; 方案</span>
+                <span class="badge">新</span>
+            </a>
+
+            <!-- 使魔特性查询（新增） -->
+            <a href="pages/shimo.html" class="tool-card">
+                <span class="icon">🐾</span>
+                <span class="name">使魔特性查询</span>
+                <span class="desc">使魔图鉴 · 特性对照</span>
                 <span class="badge">新</span>
             </a>
 
