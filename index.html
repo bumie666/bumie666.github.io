@@ -81,7 +81,7 @@
             text-align: left;
         }
 
-        /* ===== 导航栏：全部 / 热门 / 新 + 刷新按钮 + 文字 ===== */
+        /* ===== 导航栏 ===== */
         .nav-bar {
             display: flex;
             gap: 20px;
@@ -111,34 +111,26 @@
             color: #f6d365;
             border-bottom-color: #f6d365;
         }
-        .nav-bar .nav-refresh {
+        /* 刷新主页文字 - 可点击 */
+        .nav-bar .refresh-label {
             margin-left: auto;
-            background: none;
-            border: none;
             color: #c8a96e;
-            font-size: 22px;
+            font-size: 14px;
             cursor: pointer;
-            transition: 0.25s;
             padding: 4px 8px;
-            border-radius: 8px;
-            line-height: 1;
-            flex-shrink: 0;
+            border-radius: 6px;
+            transition: 0.25s;
+            user-select: none;
+            white-space: nowrap;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
-        .nav-bar .nav-refresh:hover {
-            transform: rotate(60deg);
+        .nav-bar .refresh-label:hover {
             color: #f6d365;
             background: rgba(200, 169, 110, 0.08);
         }
-        .nav-bar .nav-refresh:active {
-            transform: rotate(120deg) scale(0.9);
-        }
-        /* 刷新主页文字 */
-        .nav-bar .refresh-label {
-            color: #7a8a9e;
-            font-size: 13px;
-            margin-left: 2px;
-            user-select: none;
-            white-space: nowrap;
+        .nav-bar .refresh-label:active {
+            transform: scale(0.94);
         }
 
         /* ===== 卡片网格 ===== */
@@ -227,10 +219,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('images/shimobeijingtu.png');
+            background-image: url('images/shimobeijing.png');
             background-size: cover;
             background-position: center;
-            opacity: 0.25;
+            opacity: 0.3;
             z-index: 0;
             border-radius: 16px;
             pointer-events: none;
@@ -344,11 +336,8 @@
             .nav-bar .nav-tab {
                 font-size: 13px;
             }
-            .nav-bar .nav-refresh {
-                font-size: 20px;
-            }
             .nav-bar .refresh-label {
-                font-size: 12px;
+                font-size: 13px;
             }
         }
 
@@ -390,11 +379,8 @@
             .nav-bar .nav-tab {
                 font-size: 12px;
             }
-            .nav-bar .nav-refresh {
-                font-size: 18px;
-            }
             .nav-bar .refresh-label {
-                font-size: 11px;
+                font-size: 12px;
             }
         }
 
@@ -543,8 +529,7 @@
                 <span class="nav-tab active" data-filter="all">📋 全部</span>
                 <span class="nav-tab" data-filter="hot">🔥 热门</span>
                 <span class="nav-tab" data-filter="new">✨ 新</span>
-                <button class="nav-refresh" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
-                <span class="refresh-label">刷新主页</span>
+                <span class="refresh-label" onclick="location.reload()">⟳ 刷新主页</span>
             </div>
         </div>
 
@@ -561,7 +546,7 @@
 
     <script>
         // ================================================================
-        //  工具数据（共 10 个工具）
+        //  工具数据
         // ================================================================
 
         const TOOLS = [
@@ -648,7 +633,7 @@
         ];
 
         // ================================================================
-        //  渲染函数（全部 / 热门 / 新）
+        //  渲染函数
         // ================================================================
 
         function renderTools(filter = 'all') {
@@ -672,7 +657,6 @@
                     badgesHtml += `<span class="badge ${cls}">${b}</span>`;
                 });
 
-                // 为使魔特性查询卡片添加特殊类
                 const shimoClass = tool.id === 'shimo' ? ' tool-card-shimo' : '';
 
                 html += `
@@ -685,7 +669,7 @@
                 `;
             });
 
-            // ===== 固定追加：关注抖音（全宽卡片，始终显示在最底部） =====
+            // 关注抖音（固定显示）
             html += `
                 <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
                     <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
