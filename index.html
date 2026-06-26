@@ -2,9 +2,9 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>暗黑不朽工具箱</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
 
     <!-- ===== 预加载功能模块 ===== -->
     <link rel="prefetch" href="pages/xiaobaoshi999.html">
@@ -25,53 +25,49 @@
             box-sizing: border-box;
         }
         body {
-            background-image: 
-                linear-gradient(rgba(10, 14, 20, 0.75), rgba(10, 14, 20, 0.85)),
-                url('images/lilisi.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background: #0a0e14;
+            background-image: radial-gradient(ellipse at 50% 0%, #1a212b 0%, #0b0e14 70%);
             color: #e0e6ed;
             font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
         }
         .container {
             max-width: 700px;
             width: 100%;
         }
 
+        /* ===== 头部 ===== */
         .header {
             text-align: left;
-            margin-bottom: 36px;
+            padding: 12px 0 16px 0;
+            border-bottom: 1px solid #2a3a4a;
+            margin-bottom: 18px;
         }
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            margin-bottom: 2px;
         }
         .header-top .main-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 38px;
+            font-size: 32px;
             font-weight: 700;
             letter-spacing: 4px;
             background: linear-gradient(135deg, #f6d365, #c8a96e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 30px rgba(200, 169, 110, 0.10);
             flex: 1;
         }
         .refresh-btn {
             background: none;
             border: none;
             color: #c8a96e;
-            font-size: 28px;
+            font-size: 26px;
             cursor: pointer;
             transition: 0.25s;
             padding: 4px 8px;
@@ -87,94 +83,144 @@
         .refresh-btn:active {
             transform: rotate(120deg) scale(0.9);
         }
-        .brand-name {
-            font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #c8a96e;
-            margin-top: 0px;
-            text-align: left;
+        .header .sub-title {
+            font-size: 14px;
+            color: #7a8a9e;
+            letter-spacing: 1px;
+            margin-top: 2px;
         }
-        .sub-title { display: none; }
+        .header .author {
+            font-size: 13px;
+            color: #5a6a7e;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+        .header .author span {
+            color: #c8a96e;
+        }
 
+        /* ===== 分类标签 ===== */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .category-tabs .tab {
+            padding: 6px 22px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(20, 25, 35, 0.5);
+            border: 1px solid #2a3a4a;
+            color: #7a8a9e;
+            cursor: pointer;
+            transition: 0.25s;
+            user-select: none;
+            font-family: inherit;
+        }
+        .category-tabs .tab:hover {
+            border-color: #c8a96e;
+            color: #d0d8e0;
+        }
+        .category-tabs .tab.active {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: #c8a96e;
+            color: #f6d365;
+        }
+
+        /* ===== 工具卡片网格 ===== */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .tool-card {
             display: block;
-            padding: 16px 14px;
+            padding: 16px 14px 12px 14px;
             background: rgba(20, 25, 35, 0.72);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(42, 58, 74, 0.6);
-            border-radius: 16px;
+            border-radius: 14px;
             color: #e0e6ed;
             text-decoration: none;
             transition: all 0.25s ease;
             position: relative;
-            overflow: hidden;
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            min-height: 110px;
         }
         .tool-card:hover {
             border-color: #c8a96e;
-            background: rgba(200, 169, 110, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            background: rgba(200, 169, 110, 0.06);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
         .tool-card .icon {
-            font-size: 26px;
+            font-size: 24px;
             display: block;
             margin-bottom: 4px;
         }
         .tool-card .name {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             display: block;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             margin-bottom: 2px;
-            line-height: 1.2;
+            line-height: 1.25;
         }
         .tool-card .desc {
             font-size: 12px;
             color: #6a7a8e;
             display: block;
-            flex: 1;
-            line-height: 1.3;
+            line-height: 1.35;
         }
+        /* 右上角徽章 */
         .tool-card .badge {
             position: absolute;
             top: 10px;
             right: 12px;
-            font-size: 9px;
-            background: rgba(200, 169, 110, 0.15);
-            color: #c8a96e;
-            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 10px;
             border-radius: 20px;
-            border: 1px solid rgba(200, 169, 110, 0.15);
             letter-spacing: 0.5px;
+            border: 1px solid transparent;
+        }
+        .badge-recommend {
+            background: rgba(246, 211, 101, 0.12);
+            border-color: rgba(246, 211, 101, 0.25);
+            color: #f6d365;
+        }
+        .badge-hot {
+            background: rgba(224, 96, 80, 0.12);
+            border-color: rgba(224, 96, 80, 0.25);
+            color: #e06050;
+        }
+        .badge-new {
+            background: rgba(95, 203, 154, 0.12);
+            border-color: rgba(95, 203, 154, 0.25);
+            color: #5fcb9a;
         }
 
+        /* 全宽卡片（关注抖音） */
         .tool-card.full-width {
             grid-column: 1 / -1;
             flex-direction: row;
             align-items: center;
             justify-content: center;
             gap: 14px;
-            padding: 18px 16px;
+            padding: 14px 16px;
             min-height: auto;
             text-align: center;
         }
         .tool-card.full-width .avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 2px solid rgba(200, 169, 110, 0.3);
             object-fit: cover;
@@ -186,85 +232,63 @@
             align-items: flex-start;
         }
         .tool-card.full-width .info .name {
-            font-size: 17px;
+            font-size: 16px;
             margin-bottom: 0;
         }
         .tool-card.full-width .info .desc {
-            font-size: 13px;
+            font-size: 12px;
             color: #6a7a8e;
         }
 
+        /* ===== 底部 ===== */
         .footer {
             text-align: center;
             border-top: 1px solid rgba(30, 44, 56, 0.6);
-            padding-top: 20px;
-            margin-top: 6px;
+            padding-top: 18px;
+            margin-top: 4px;
         }
-        .footer p {
-            color: #4a5a6e;
-            font-size: 13px;
-            letter-spacing: 1px;
+        .footer .follow-btn {
+            display: inline-block;
+            background: rgba(200, 169, 110, 0.08);
+            border: 1px solid rgba(200, 169, 110, 0.25);
+            color: #c8a96e;
+            padding: 8px 28px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.25s;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+        }
+        .footer .follow-btn:hover {
+            background: rgba(200, 169, 110, 0.18);
+            box-shadow: 0 0 24px rgba(200, 169, 110, 0.08);
+        }
+        .footer .copyright {
+            font-size: 12px;
+            color: #5a6a7e;
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+        .footer .copyright .highlight {
+            color: #c8a96e;
+        }
+        .footer .copyright .small-note {
+            font-size: 10px;
+            color: #3a4a5e;
+            display: block;
+            margin-top: 2px;
         }
 
+        /* ===== 响应式 ===== */
         @media (max-width: 480px) {
             .tool-grid {
                 gap: 10px;
             }
             .tool-card {
-                padding: 12px 10px;
-                min-height: 90px;
-            }
-            .tool-card .icon {
-                font-size: 22px;
-            }
-            .tool-card .name {
-                font-size: 14px;
-            }
-            .tool-card .desc {
-                font-size: 11px;
-            }
-            .tool-card .badge {
-                font-size: 8px;
-                padding: 1px 6px;
-                top: 8px;
-                right: 8px;
-            }
-            .tool-card.full-width {
-                flex-direction: column;
-                gap: 8px;
-                padding: 16px 12px;
-            }
-            .tool-card.full-width .info {
-                align-items: center;
-                text-align: center;
-            }
-            .tool-card.full-width .avatar {
-                width: 38px;
-                height: 38px;
-            }
-            .tool-card.full-width .info .name {
-                font-size: 15px;
-            }
-            .tool-card.full-width .info .desc {
-                font-size: 12px;
-            }
-            .header-top .main-title {
-                font-size: 28px;
-            }
-            .refresh-btn {
-                font-size: 24px;
-            }
-            .brand-name {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .tool-grid {
-                gap: 8px;
-            }
-            .tool-card {
-                padding: 10px 8px;
+                padding: 12px 10px 10px 10px;
                 min-height: 80px;
             }
             .tool-card .icon {
@@ -274,19 +298,70 @@
                 font-size: 13px;
             }
             .tool-card .desc {
+                font-size: 11px;
+            }
+            .tool-card .badge {
+                font-size: 9px;
+                padding: 1px 8px;
+                top: 8px;
+                right: 8px;
+            }
+            .tool-card.full-width {
+                flex-direction: row;
+                gap: 10px;
+                padding: 12px 14px;
+            }
+            .tool-card.full-width .avatar {
+                width: 34px;
+                height: 34px;
+            }
+            .tool-card.full-width .info .name {
+                font-size: 14px;
+            }
+            .tool-card.full-width .info .desc {
+                font-size: 11px;
+            }
+            .header-top .main-title {
+                font-size: 26px;
+                letter-spacing: 2px;
+            }
+            .refresh-btn {
+                font-size: 22px;
+            }
+            .header .sub-title {
+                font-size: 12px;
+            }
+            .category-tabs .tab {
+                padding: 4px 14px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .tool-grid {
+                gap: 8px;
+            }
+            .tool-card {
+                padding: 10px 8px 8px 8px;
+                min-height: 70px;
+            }
+            .tool-card .icon {
+                font-size: 18px;
+            }
+            .tool-card .name {
+                font-size: 12px;
+            }
+            .tool-card .desc {
                 font-size: 10px;
             }
             .tool-card .badge {
                 display: none;
             }
             .header-top .main-title {
-                font-size: 24px;
+                font-size: 22px;
             }
             .refresh-btn {
                 font-size: 20px;
-            }
-            .brand-name {
-                font-size: 14px;
             }
         }
 
@@ -297,9 +372,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 14, 20, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 14, 20, 0.94);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -312,31 +387,31 @@
             pointer-events: none;
         }
         .lock-box {
-            background: rgba(20, 25, 35, 0.85);
+            background: rgba(20, 25, 35, 0.9);
             border: 1px solid #2a3a4a;
             border-radius: 20px;
-            padding: 40px 32px;
-            max-width: 420px;
+            padding: 36px 28px;
+            max-width: 400px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
         }
         .lock-box .lock-icon {
-            font-size: 48px;
+            font-size: 44px;
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .lock-box .lock-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 20px;
             color: #f6d365;
             letter-spacing: 2px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .lock-box .lock-desc {
             font-size: 14px;
             color: #8a9aae;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
             line-height: 1.6;
         }
         .lock-box input {
@@ -349,13 +424,13 @@
             font-size: 20px;
             font-weight: 600;
             text-align: center;
-            letter-spacing: 8px;
+            letter-spacing: 10px;
             outline: none;
             transition: 0.2s;
         }
         .lock-box input:focus {
             border-color: #c8a96e;
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.12);
         }
         .lock-box button {
             width: 100%;
@@ -374,10 +449,10 @@
         }
         .lock-box button:hover {
             transform: scale(1.02);
-            box-shadow: 0 6px 24px rgba(200, 169, 110, 0.35);
+            box-shadow: 0 6px 28px rgba(200, 169, 110, 0.30);
         }
         .lock-box button:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
         .lock-box .lock-error {
             color: #f87171;
@@ -392,7 +467,7 @@
         }
         @media (max-width: 480px) {
             .lock-box {
-                padding: 30px 20px;
+                padding: 28px 18px;
             }
             .lock-box .lock-title {
                 font-size: 18px;
@@ -403,6 +478,7 @@
             .lock-box input {
                 font-size: 18px;
                 padding: 12px 14px;
+                letter-spacing: 8px;
             }
         }
     </style>
@@ -413,10 +489,10 @@
     <div id="lockScreen">
         <div class="lock-box">
             <span class="lock-icon">🔐</span>
-            <div class="lock-title">工具箱正在开发期间</div>
+            <div class="lock-title">工具箱开发中</div>
             <div class="lock-desc">想提前体验的朋友请加不灭粉丝群获取密码</div>
             <input type="password" id="passwordInput" placeholder="输入密码" maxlength="20" autofocus>
-            <button onclick="unlock()">解锁</button>
+            <button onclick="unlock()">解 锁</button>
             <div class="lock-error" id="lockError">❌ 密码错误，请重试</div>
         </div>
     </div>
@@ -424,111 +500,233 @@
     <!-- ===== 主内容 ===== -->
     <div class="container">
 
+        <!-- 头部 -->
         <div class="header">
             <div class="header-top">
                 <div class="main-title">⚔️ 暗黑不朽工具箱</div>
-                <button class="refresh-btn" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
+                <button class="refresh-btn" onclick="location.reload()" title="刷新页面">⟳</button>
             </div>
-            <div class="brand-name">作者：暗黑の不灭</div>
+            <div class="sub-title">实用工具集合，助你畅玩不朽世界</div>
+            <div class="author">作者：<span>暗黑の不灭</span></div>
         </div>
 
-        <div class="tool-grid">
-
-            <!-- 第一行 -->
-            <a href="pages/xiaobaoshi999.html" class="tool-card">
-                <span class="icon">💎</span>
-                <span class="name">小宝石升级计算器</span>
-                <span class="desc">消耗 &amp; 白金币模拟</span>
-                <span class="badge">推荐</span>
-            </a>
-            <a href="pages/chuanqi999.html" class="tool-card">
-                <span class="icon">⭐</span>
-                <span class="name">传奇宝石消耗计算</span>
-                <span class="desc">一星 / 二星 / 五星</span>
-                <span class="badge">热门</span>
-            </a>
-
-            <!-- 第二行 -->
-            <a href="pages/jinengcitiao.html" class="tool-card">
-                <span class="icon">📋</span>
-                <span class="name">各职业技能词条一览图</span>
-                <span class="desc">全职业词条汇总 · 一键查阅</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/skill_convert.html" class="tool-card">
-                <span class="icon">🔄</span>
-                <span class="name">技能词条转换</span>
-                <span class="desc">职业技能 · 部位映射</span>
-                <span class="badge">热门</span>
-            </a>
-
-            <!-- 第三行 -->
-            <a href="pages/xiashuidao999.html" class="tool-card">
-                <span class="icon">🏛️</span>
-                <span class="name">赫拉迪姆遗志计算器</span>
-                <span class="desc">三种材料独立计算 · 天数模拟</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/shimo.html" class="tool-card">
-                <span class="icon">🐾</span>
-                <span class="name">使魔特性查询</span>
-                <span class="desc">使魔图鉴 · 特性对照</span>
-                <span class="badge">新</span>
-            </a>
-
-            <!-- 第四行 -->
-            <a href="pages/fuwuqi.html" class="tool-card">
-                <span class="icon">🌐</span>
-                <span class="name">服务器互通查询</span>
-                <span class="desc">四大互通 · 一键搜索</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/tupocitiao.html" class="tool-card">
-                <span class="icon">📖</span>
-                <span class="name">突破属性图鉴及推荐</span>
-                <span class="desc">6种突破石 · 词条 &amp; 方案</span>
-                <span class="badge">新</span>
-            </a>
-
-            <!-- 第五行 -->
-            <a href="pages/pvpcitiao.html" class="tool-card">
-                <span class="icon">⚔️</span>
-                <span class="name">PVP词条衰减大全</span>
-                <span class="desc">洗炼套装 · 衰减一览</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/yaoshi.html" class="tool-card">
-                <span class="icon">🔑</span>
-                <span class="name">强化不朽钥匙攻略</span>
-                <span class="desc">获取渠道 · 月度汇总</span>
-                <span class="badge">新</span>
-            </a>
-
-            <!-- 第六行：关注抖音（全宽） -->
-            <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
-                <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
-                <div class="info">
-                    <span class="name">关注抖音：暗黑の不灭</span>
-                    <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
-                </div>
-            </a>
-
+        <!-- 分类标签 -->
+        <div class="category-tabs" id="categoryTabs">
+            <button class="tab active" data-filter="all">🏆 推荐</button>
+            <button class="tab" data-filter="hot">🔥 热门</button>
+            <button class="tab" data-filter="new">✨ 新</button>
         </div>
 
+        <!-- 工具卡片网格 -->
+        <div class="tool-grid" id="toolGrid">
+            <!-- 由 JavaScript 动态生成 -->
+        </div>
+
+        <!-- 底部 -->
         <div class="footer">
-            <p>数据仅供参考 · 以游戏内为准</p>
+            <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="follow-btn">📱 关注抖音：暗黑の不灭</a>
+            <div class="copyright">
+                关注获取更多工具与游戏攻略<br>
+                <span class="highlight">暗黑不朽工具箱 · 实用工具集合</span>
+                <span class="small-note">数据仅供参考 · 以游戏内为准</span>
+            </div>
         </div>
 
     </div>
 
     <script>
-        // ===== 密码锁逻辑 =====
+        // ================================================================
+        //  工具数据（按目标网站标签整理）
+        // ================================================================
+
+        var TOOLS = [
+            {
+                id: 'xiaobaoshi999',
+                icon: '💎',
+                name: '小宝石升级计算器',
+                desc: '消耗 &amp; 白金币模拟',
+                badge: '推荐',
+                badgeClass: 'badge-recommend',
+                category: 'recommend',
+                url: 'pages/xiaobaoshi999.html'
+            },
+            {
+                id: 'chuanqi999',
+                icon: '⭐',
+                name: '传奇宝石消耗计算',
+                desc: '一星 / 二星 / 五星',
+                badge: '热门',
+                badgeClass: 'badge-hot',
+                category: 'hot',
+                url: 'pages/chuanqi999.html'
+            },
+            {
+                id: 'jinengcitiao',
+                icon: '📋',
+                name: '各职业技能词条一览图',
+                desc: '全职业词条汇总 · 一键查阅',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/jinengcitiao.html'
+            },
+            {
+                id: 'skill_convert',
+                icon: '🔄',
+                name: '技能词条转换',
+                desc: '职业技能 · 部位映射',
+                badge: '热门',
+                badgeClass: 'badge-hot',
+                category: 'hot',
+                url: 'pages/skill_convert.html'
+            },
+            {
+                id: 'xiashuidao999',
+                icon: '🏛️',
+                name: '赫拉迪姆遗志计算器',
+                desc: '三种材料独立计算 · 天数模拟',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/xiashuidao999.html'
+            },
+            {
+                id: 'shimo',
+                icon: '🐾',
+                name: '使魔特性查询',
+                desc: '使魔图鉴 · 特性对照',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/shimo.html'
+            },
+            {
+                id: 'fuwuqi',
+                icon: '🌐',
+                name: '服务器互通查询',
+                desc: '四大互通 · 一键搜索',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/fuwuqi.html'
+            },
+            {
+                id: 'tupocitiao',
+                icon: '📖',
+                name: '突破属性图鉴及推荐',
+                desc: '6种突破石 · 词条 &amp; 方案',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/tupocitiao.html'
+            },
+            {
+                id: 'pvpcitiao',
+                icon: '⚔️',
+                name: 'PVP词条衰减大全',
+                desc: '洗炼套装 · 衰减一览',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/pvpcitiao.html'
+            },
+            {
+                id: 'yaoshi',
+                icon: '🔑',
+                name: '强化不朽钥匙攻略',
+                desc: '获取渠道 · 月度汇总',
+                badge: '新',
+                badgeClass: 'badge-new',
+                category: 'new',
+                url: 'pages/yaoshi.html'
+            }
+        ];
+
+        // ================================================================
+        //  渲染函数
+        // ================================================================
+
+        function renderTools(filter) {
+            var grid = document.getElementById('toolGrid');
+            var filtered = [];
+
+            if (filter === 'all') {
+                filtered = TOOLS;
+            } else if (filter === 'recommend') {
+                filtered = TOOLS.filter(function(t) { return t.category === 'recommend'; });
+            } else if (filter === 'hot') {
+                filtered = TOOLS.filter(function(t) { return t.category === 'hot'; });
+            } else if (filter === 'new') {
+                filtered = TOOLS.filter(function(t) { return t.category === 'new'; });
+            }
+
+            var html = '';
+            for (var i = 0; i < filtered.length; i++) {
+                var t = filtered[i];
+                html += '<a href="' + t.url + '" class="tool-card">';
+                html += '  <span class="icon">' + t.icon + '</span>';
+                html += '  <span class="name">' + t.name + '</span>';
+                html += '  <span class="desc">' + t.desc + '</span>';
+                html += '  <span class="badge ' + t.badgeClass + '">' + t.badge + '</span>';
+                html += '</a>';
+            }
+
+            // 如果没有数据，显示占位
+            if (filtered.length === 0) {
+                html = '<div style="grid-column:1/-1;text-align:center;color:#4a5a6e;padding:30px 0;">该分类暂无工具</div>';
+            }
+
+            // 追加"关注抖音"全宽卡片（始终显示）
+            html += `
+                <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
+                    <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
+                    <div class="info">
+                        <span class="name">关注抖音：暗黑の不灭</span>
+                        <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
+                    </div>
+                </a>
+            `;
+
+            grid.innerHTML = html;
+        }
+
+        // ================================================================
+        //  分类切换逻辑
+        // ================================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabs = document.querySelectorAll('.tab');
+
+            for (var i = 0; i < tabs.length; i++) {
+                (function(index) {
+                    tabs[index].addEventListener('click', function() {
+                        // 切换 active 状态
+                        for (var j = 0; j < tabs.length; j++) {
+                            tabs[j].classList.remove('active');
+                        }
+                        this.classList.add('active');
+
+                        var filter = this.dataset.filter;
+                        renderTools(filter);
+                    });
+                })(i);
+            }
+
+            // 初始渲染：推荐（与默认 active 匹配）
+            renderTools('all');
+        });
+
+        // ================================================================
+        //  密码锁逻辑
+        // ================================================================
+
         (function() {
             var CORRECT_PASSWORD = '8888';
             var lockScreen = document.getElementById('lockScreen');
             var passwordInput = document.getElementById('passwordInput');
             var lockError = document.getElementById('lockError');
 
+            // 检查 sessionStorage 是否已解锁
             if (sessionStorage.getItem('index_unlocked') === 'true') {
                 lockScreen.classList.add('hidden');
                 passwordInput.disabled = true;
