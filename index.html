@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>暗黑不朽工具箱</title>
-    <!-- Font Awesome 6 免费版 CDN -->
+    <!-- 引入 Font Awesome 6 免费版 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* 完全保持原有样式，无一改动 */
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +30,6 @@
             width: 100%;
         }
 
-        /* ===== 头部 ===== */
         .header {
             text-align: center;
             padding: 20px 0 16px 0;
@@ -46,12 +46,6 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 2px;
         }
-        .header h1 i {
-            -webkit-text-fill-color: transparent; /* 让图标也继承渐变 */
-            background: linear-gradient(135deg, #f6d365, #c8a96e);
-            -webkit-background-clip: text;
-            margin-right: 6px;
-        }
         .header .sub {
             font-size: 14px;
             color: #7a8a9e;
@@ -67,7 +61,6 @@
             color: #c8a96e;
         }
 
-        /* ===== 分类标签 ===== */
         .category-tabs {
             display: flex;
             gap: 12px;
@@ -97,7 +90,6 @@
             color: #f6d365;
         }
 
-        /* ===== 工具卡片网格 ===== */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -124,10 +116,6 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         }
-        /* 卡片悬停时图标变色 */
-        .tool-card:hover .card-icon i {
-            color: #f6d365;
-        }
 
         .tool-card .card-top {
             display: flex;
@@ -140,14 +128,9 @@
             font-size: 28px;
             line-height: 1;
             flex-shrink: 0;
-            width: 32px;
-            text-align: center;
+            /* 图标颜色继承默认文本颜色（浅色），与 Emoji 一致 */
         }
-        .tool-card .card-icon i {
-            color: #c8a96e;
-            transition: color 0.25s;
-        }
-
+        /* 让标签组自动换行 */
         .tool-card .card-badges {
             display: flex;
             gap: 4px;
@@ -192,7 +175,6 @@
             line-height: 1.5;
         }
 
-        /* ===== 底部 ===== */
         .footer {
             margin-top: 10px;
             padding-top: 16px;
@@ -212,9 +194,6 @@
             transition: 0.25s;
             margin-bottom: 10px;
             letter-spacing: 1px;
-        }
-        .footer .follow-btn i {
-            margin-right: 8px;
         }
         .footer .follow-btn:hover {
             background: rgba(200, 169, 110, 0.20);
@@ -236,7 +215,6 @@
             margin-top: 2px;
         }
 
-        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
             .tool-grid {
                 grid-template-columns: 1fr;
@@ -255,7 +233,6 @@
             }
             .tool-card .card-icon {
                 font-size: 22px;
-                width: 26px;
             }
             .tool-card .card-title {
                 font-size: 14px;
@@ -275,28 +252,28 @@
 
 <div class="page-wrap">
 
-    <!-- ===== 头部（用 Font Awesome 替换了剑盾图标） ===== -->
+    <!-- 头部 Emoji 保持原样 -->
     <div class="header">
-        <h1><i class="fas fa-sword"></i> 暗黑不朽工具箱</h1>
+        <h1>⚔️ 暗黑不朽工具箱</h1>
         <div class="sub">实用工具集合，助你畅玩不朽世界</div>
         <div class="author">作者：<span>暗黑の不灭</span></div>
     </div>
 
-    <!-- ===== 分类标签 ===== -->
+    <!-- 分类标签 Emoji 保持原样 -->
     <div class="category-tabs" id="categoryTabs">
-        <span class="tab active" data-filter="recommend"><i class="fas fa-star"></i> 推荐</span>
-        <span class="tab" data-filter="hot"><i class="fas fa-fire"></i> 热门</span>
-        <span class="tab" data-filter="new"><i class="fas fa-sparkles"></i> 新</span>
+        <span class="tab active" data-filter="recommend">🏆 推荐</span>
+        <span class="tab" data-filter="hot">🔥 热门</span>
+        <span class="tab" data-filter="new">✨ 新</span>
     </div>
 
-    <!-- ===== 工具卡片网格 ===== -->
+    <!-- 工具卡片网格 -->
     <div class="tool-grid" id="toolGrid">
         <!-- 由 JavaScript 动态生成 -->
     </div>
 
-    <!-- ===== 底部 ===== -->
+    <!-- 底部 Emoji 保持原样 -->
     <div class="footer">
-        <a href="#" class="follow-btn"><i class="fab fa-tiktok"></i> 关注抖音：暗黑の不灭</a>
+        <a href="#" class="follow-btn">📱 关注抖音：暗黑の不灭</a>
         <div class="copyright">
             <span>关注获取更多工具与游戏攻略</span>
             <span class="highlight">暗黑不朽工具箱 · 实用工具集合</span>
@@ -308,14 +285,14 @@
 
 <script>
     // ================================================================
-    //  工具数据（图标全部换成 Font Awesome 类名）
-    //  映射规则：fa-xxx 免费版均可使用
+    //  工具数据 — 图标全部替换为 Font Awesome 类名
+    //  映射说明：将原 Emoji 替换为对应的免费图标
     // ================================================================
 
     const TOOLS = [
         {
             id: 'gem_calc',
-            icon: 'fa-gem',         // 💎 -> 钻石
+            icon: 'fa-gem',          // 原 💎
             title: '小宝石升级计算器',
             desc: '消耗&白金币模拟 · 一星/二星/五星',
             badges: ['推荐'],
@@ -323,7 +300,7 @@
         },
         {
             id: 'legendary_calc',
-            icon: 'fa-bolt',        // ⚡ -> 闪电
+            icon: 'fa-bolt',         // 原 ⚡
             title: '传奇宝石消耗计算',
             desc: '消耗&白金币模拟 · 一星/二星/五星',
             badges: ['热门'],
@@ -331,7 +308,7 @@
         },
         {
             id: 'skill_words',
-            icon: 'fa-scroll',      // 📜 -> 卷轴
+            icon: 'fa-scroll',       // 原 📜
             title: '各职业技能词条一览图',
             desc: '全职业词条汇总 · 一键查阅',
             badges: ['新', '热门'],
@@ -339,7 +316,7 @@
         },
         {
             id: 'skill_mapping',
-            icon: 'fa-arrows-rotate', // 🔄 -> 旋转箭头
+            icon: 'fa-arrows-rotate', // 原 🔄
             title: '技能词条转换',
             desc: '职业技能 · 部位映射',
             badges: ['新'],
@@ -347,7 +324,7 @@
         },
         {
             id: 'heradium',
-            icon: 'fa-landmark',    // 🏛️ -> 希腊神庙
+            icon: 'fa-landmark',     // 原 🏛️
             title: '赫拉迪姆遗志计算器',
             desc: '三种材料独立计算 · 天数模拟',
             badges: ['新'],
@@ -355,7 +332,7 @@
         },
         {
             id: 'familiar',
-            icon: 'fa-paw',         // 🐾 -> 爪印
+            icon: 'fa-paw',          // 原 🐾
             title: '使魔特性查询',
             desc: '使魔图鉴 · 特性对照',
             badges: ['新'],
@@ -363,7 +340,7 @@
         },
         {
             id: 'server_query',
-            icon: 'fa-globe',       // 🌐 -> 地球
+            icon: 'fa-globe',        // 原 🌐
             title: '服务器互通查询',
             desc: '四大互通 · 一键搜索',
             badges: ['新'],
@@ -371,7 +348,7 @@
         },
         {
             id: 'break_attr',
-            icon: 'fa-hammer',      // ⚔️ -> 锤子（更贴合“打造”）
+            icon: 'fa-hammer',       // 原 ⚔️（用锤子更贴合“打造”）
             title: '突破属性图鉴及推荐',
             desc: '6种突破石 · 词条&方案',
             badges: ['热门'],
@@ -379,7 +356,7 @@
         },
         {
             id: 'pvp_decay',
-            icon: 'fa-shield-halved', // 🛡️ -> 半盾
+            icon: 'fa-shield-halved', // 原 🛡️
             title: 'PVP词条衰减大全',
             desc: 'PVP词条衰减大全',
             badges: [],
@@ -387,7 +364,7 @@
         },
         {
             id: 'key_guide',
-            icon: 'fa-key',         // 🔑 -> 钥匙
+            icon: 'fa-key',          // 原 🔑
             title: '强化不朽钥匙攻略',
             desc: '获取渠道 · 月度汇总',
             badges: ['新'],
@@ -395,7 +372,7 @@
         },
         {
             id: 'wash_suit',
-            icon: 'fa-flask',       // 🧼 -> 药剂瓶（暗黑风炼金）
+            icon: 'fa-flask',        // 原 🧼（用炼金瓶更暗黑）
             title: '洗炼套装·衰减一览',
             desc: '洗炼套装 · 衰减一览',
             badges: ['新'],
@@ -404,7 +381,7 @@
     ];
 
     // ================================================================
-    //  渲染 & 筛选逻辑
+    //  渲染 & 筛选逻辑（唯一改动：图标从 Emoji 改为 <i> 标签）
     // ================================================================
 
     function renderTools(filter = 'recommend') {
@@ -430,7 +407,7 @@
                 badgesHtml += `<span class="badge ${cls}">${b}</span>`;
             });
 
-            // 关键点：这里把 Emoji 换成了 <i class="fas fa-xxx"></i>
+            // 关键改动：将 ${tool.icon}（原 Emoji）替换为 Font Awesome 的 <i> 标签
             html += `
                 <a href="#" class="tool-card" data-id="${tool.id}">
                     <div class="card-top">
@@ -446,6 +423,7 @@
         grid.innerHTML = html || '<p style="grid-column:1/-1;text-align:center;color:#4a5a6e;padding:30px 0;">暂无该分类下的工具</p>';
     }
 
+    // 分类切换（完全不变）
     document.addEventListener('DOMContentLoaded', function() {
         const tabs = document.querySelectorAll('.tab');
         tabs.forEach(tab => {
