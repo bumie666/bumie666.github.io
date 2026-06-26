@@ -108,7 +108,7 @@
 
         .summary-bar {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);  /* 改为3列，去掉PVP卡片 */
             gap: 10px;
             margin-bottom: 16px;
         }
@@ -317,7 +317,7 @@
 
         @media (max-width: 640px) {
             .channel-grid { grid-template-columns: 1fr; gap: 8px; }
-            .summary-bar { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .summary-bar { grid-template-columns: 1fr 1fr; gap: 6px; }  /* 3列在手机可能不好看，改为2列 */
             .summary-item .num { font-size: 22px; }
             .monthly-grid { grid-template-columns: 1fr; gap: 4px; }
             .header h1 { font-size: 18px; }
@@ -376,7 +376,7 @@
         </div>
     </div>
 
-    <!-- 汇总卡片 -->
+    <!-- 汇总卡片（去掉PVP） -->
     <div class="summary-bar">
         <div class="summary-item">
             <div class="num" id="totalKeys">0</div>
@@ -390,10 +390,7 @@
             <div class="num" id="totalPearl">0</div>
             <div class="label"><span class="item-pearl" style="font-weight:700;">大地珍珠</span> / 月</div>
         </div>
-        <div class="summary-item">
-            <div class="num" id="totalPVP">0</div>
-            <div class="label">PVP 平均 / 月</div>
-        </div>
+        <!-- PVP卡片已移除 -->
     </div>
 
     <!-- 月度汇总 -->
@@ -421,7 +418,7 @@
 
     <div class="footnote">
         ⚠️ 部分渠道为每周/每月固定刷新，实际获取量可能因活动周期和参与情况略有浮动。<br>
-        PVP 段位奖励按每月平均计算（圣迹战歌 + 远古乱斗合计 7 把/月）。
+        PVP 段位奖励已汇总进“强化钥匙/月”（圣迹战歌 + 远古乱斗合计 7 把/月）。
     </div>
 
     <a href="https://ahbm8888.top" class="back-link">🏠 返回暗黑不朽百宝箱</a>
@@ -568,7 +565,7 @@
             name: '圣迹战歌·传说段位',
             detail: '达到传说段位获得 <span class="item-key">5 把强化不朽钥匙</span>（每月平均）',
             tags: ['PVP', '段位'],
-            keys: 5,        // 月均 5（原为2个月一次，现按用户要求改为月均）
+            keys: 5,        // 月均 5
             shine: 0,
             pearl: 0,
             monthlyCard: false,
@@ -754,11 +751,11 @@
         var stats = calcMonthly(identity, monthlyCard, ancestor);
         var channels = getFilteredChannels(identity, monthlyCard, ancestor);
 
-        // 汇总卡片
+        // 汇总卡片（只更新三个）
         document.getElementById('totalKeys').textContent = stats.keys;
         document.getElementById('totalShine').textContent = stats.shine;
         document.getElementById('totalPearl').textContent = stats.pearl;
-        document.getElementById('totalPVP').textContent = stats.pvp;
+        // totalPVP 已移除，不再赋值
 
         // 身份标签
         var badge = document.getElementById('identityBadge');
@@ -770,8 +767,6 @@
         var hasData = false;
 
         channels.forEach(function(ch) {
-            // 跳过值为0的渠道（但保留显示0值）
-            var label = ch.name;
             // 构建显示文本
             var parts = [];
             if (ch.keys > 0) parts.push('<span class="item-key">' + ch.keys + ' 把强化钥匙</span>');
