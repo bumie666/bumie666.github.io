@@ -72,27 +72,8 @@
             text-shadow: 0 2px 30px rgba(200, 169, 110, 0.10);
             flex: 1;
         }
-        .refresh-btn {
-            background: none;
-            border: none;
-            color: #c8a96e;
-            font-size: 28px;
-            cursor: pointer;
-            transition: 0.25s;
-            padding: 4px 8px;
-            border-radius: 8px;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-        .refresh-btn:hover {
-            transform: rotate(60deg);
-            color: #f6d365;
-            background: rgba(200, 169, 110, 0.08);
-        }
-        .refresh-btn:active {
-            transform: rotate(120deg) scale(0.9);
-        }
-        /* 作者颜色 #f6d365 */
+        /* 标题右上角的刷新按钮已移除 */
+
         .brand-name {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 18px;
@@ -103,16 +84,17 @@
             text-align: left;
         }
 
-        /* ===== 导航栏（增加“全部”标签，默认选中） ===== */
+        /* ===== 导航栏：全部 / 热门 / 新 + 刷新按钮 ===== */
         .nav-bar {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             padding: 10px 0 6px 0;
             margin-top: 8px;
             border-top: 1px solid rgba(200, 169, 110, 0.2);
             border-bottom: 1px solid rgba(200, 169, 110, 0.2);
             justify-content: flex-start;
             flex-wrap: wrap;
+            align-items: center;
         }
         .nav-bar .nav-tab {
             font-size: 15px;
@@ -131,6 +113,28 @@
         .nav-bar .nav-tab.active {
             color: #f6d365;
             border-bottom-color: #f6d365;
+        }
+        /* 导航栏右侧刷新按钮 */
+        .nav-bar .nav-refresh {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #c8a96e;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.25s;
+            padding: 4px 8px;
+            border-radius: 8px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .nav-bar .nav-refresh:hover {
+            transform: rotate(60deg);
+            color: #f6d365;
+            background: rgba(200, 169, 110, 0.08);
+        }
+        .nav-bar .nav-refresh:active {
+            transform: rotate(120deg) scale(0.9);
         }
 
         /* ===== 卡片网格 ===== */
@@ -295,17 +299,17 @@
             .header-top .main-title {
                 font-size: 28px;
             }
-            .refresh-btn {
-                font-size: 24px;
-            }
             .brand-name {
                 font-size: 16px;
             }
             .nav-bar {
-                gap: 16px;
+                gap: 14px;
             }
             .nav-bar .nav-tab {
                 font-size: 13px;
+            }
+            .nav-bar .nav-refresh {
+                font-size: 20px;
             }
         }
 
@@ -332,17 +336,17 @@
             .header-top .main-title {
                 font-size: 24px;
             }
-            .refresh-btn {
-                font-size: 20px;
-            }
             .brand-name {
                 font-size: 14px;
             }
             .nav-bar {
-                gap: 12px;
+                gap: 10px;
             }
             .nav-bar .nav-tab {
                 font-size: 12px;
+            }
+            .nav-bar .nav-refresh {
+                font-size: 18px;
             }
         }
 
@@ -483,16 +487,16 @@
         <div class="header">
             <div class="header-top">
                 <div class="main-title">暗黑不朽工具箱</div>
-                <button class="refresh-btn" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
+                <!-- 标题右上角的刷新按钮已移除 -->
             </div>
             <div class="brand-name">作者：暗黑の不灭</div>
 
-            <!-- ===== 导航栏：全部 / 推荐 / 热门 / 新 ===== -->
+            <!-- ===== 导航栏：全部 / 热门 / 新 + 刷新按钮（右侧） ===== -->
             <div class="nav-bar" id="navBar">
                 <span class="nav-tab active" data-filter="all">📋 全部</span>
-                <span class="nav-tab" data-filter="recommend">🏆 推荐</span>
                 <span class="nav-tab" data-filter="hot">🔥 热门</span>
                 <span class="nav-tab" data-filter="new">✨ 新</span>
+                <button class="nav-refresh" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
             </div>
         </div>
 
@@ -596,16 +600,14 @@
         ];
 
         // ================================================================
-        //  渲染函数（支持全部 / 推荐 / 热门 / 新）
+        //  渲染函数（支持全部 / 热门 / 新）
         // ================================================================
 
         function renderTools(filter = 'all') {
             const grid = document.getElementById('toolGrid');
             let filtered = TOOLS;
 
-            if (filter === 'recommend') {
-                filtered = TOOLS.filter(t => t.category === 'recommend' || t.badges.includes('推荐'));
-            } else if (filter === 'hot') {
+            if (filter === 'hot') {
                 filtered = TOOLS.filter(t => t.badges.includes('热门'));
             } else if (filter === 'new') {
                 filtered = TOOLS.filter(t => t.badges.includes('新'));
@@ -633,7 +635,6 @@
                 `;
             });
 
-            // 如果过滤后没有卡片，显示提示
             if (!html) {
                 html = `<p style="grid-column:1/-1;text-align:center;color:#4a5a6e;padding:30px 0;">暂无该分类下的工具</p>`;
             }
@@ -647,15 +648,12 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.nav-tab');
-            // 默认选中 'all'
-            let currentFilter = 'all';
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     const filter = this.dataset.filter;
-                    currentFilter = filter;
                     renderTools(filter);
                 });
             });
