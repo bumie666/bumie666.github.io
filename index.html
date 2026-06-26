@@ -236,6 +236,31 @@
             background: rgba(200, 169, 110, 0.12);
         }
 
+        /* ===== 小宝石升级计算器专属：半透明底图 ===== */
+        .tool-card-gem::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/xiaobaoshibeijing.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .tool-card-gem {
+            background: rgba(20, 25, 35, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .tool-card-gem:hover {
+            background: rgba(200, 169, 110, 0.12);
+        }
+
         /* ===== 全宽卡片（关注抖音） ===== */
         .tool-card.full-width {
             grid-column: 1 / -1;
@@ -556,7 +581,8 @@
                 name: '小宝石升级计算器',
                 desc: '消耗 &amp; 白金币模拟',
                 badges: ['推荐'],
-                category: 'recommend'
+                category: 'recommend',
+                bgClass: 'tool-card-gem'   // 新增背景类
             },
             {
                 id: 'chuanqi999',
@@ -596,7 +622,8 @@
                 name: '使魔特性查询',
                 desc: '使魔图鉴 · 特性对照',
                 badges: ['新'],
-                category: 'new'
+                category: 'new',
+                bgClass: 'tool-card-shimo'   // 已有背景类
             },
             {
                 id: 'fuwuqi',
@@ -657,10 +684,11 @@
                     badgesHtml += `<span class="badge ${cls}">${b}</span>`;
                 });
 
-                const shimoClass = tool.id === 'shimo' ? ' tool-card-shimo' : '';
+                // 动态添加背景类（如果有）
+                const bgClass = tool.bgClass ? ` ${tool.bgClass}` : '';
 
                 html += `
-                    <a href="pages/${tool.id}.html" class="tool-card${shimoClass}" data-id="${tool.id}">
+                    <a href="pages/${tool.id}.html" class="tool-card${bgClass}" data-id="${tool.id}">
                         <i class="icon fas ${tool.icon}"></i>
                         <span class="name">${tool.name}</span>
                         <span class="desc">${tool.desc}</span>
