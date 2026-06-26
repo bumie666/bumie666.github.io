@@ -27,7 +27,6 @@
             width: 100%;
         }
 
-        /* ===== 头部 ===== */
         .header {
             display: flex;
             align-items: center;
@@ -94,11 +93,7 @@
             color: #7a8a9e;
             margin-top: 2px;
         }
-        .summary-item .label .highlight {
-            color: #f6d365;
-        }
 
-        /* ===== 分类标题 ===== */
         .section-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 18px;
@@ -119,7 +114,6 @@
             font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
         }
 
-        /* ===== 渠道卡片网格 ===== */
         .channel-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -146,18 +140,28 @@
             margin-bottom: 4px;
         }
         .channel-card .ch-detail {
-            font-size: 12px;
+            font-size: 13px;
             color: #8a9aae;
-            line-height: 1.4;
+            line-height: 1.5;
         }
-        .channel-card .ch-detail .highlight {
-            color: #f6d365;
-            font-weight: 600;
+
+        /* ===== 道具名称高亮样式 ===== */
+        .ch-detail .item-key {
+            color: #f6a623;
+            font-weight: 700;
+            font-size: 16px;
         }
-        .channel-card .ch-detail .highlight-blue {
+        .ch-detail .item-shine {
+            color: #b088d0;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .ch-detail .item-pearl {
             color: #6cb4ee;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 16px;
         }
+
         .channel-card .ch-tags {
             display: flex;
             flex-wrap: wrap;
@@ -174,12 +178,12 @@
             color: #c8a96e;
         }
         .tag.key { color: #f6d365; border-color: rgba(246, 211, 101, 0.20); background: rgba(246, 211, 101, 0.06); }
-        .tag.shine { color: #6cb4ee; border-color: rgba(108, 180, 238, 0.20); background: rgba(108, 180, 238, 0.06); }
+        .tag.shine { color: #b088d0; border-color: rgba(176, 136, 208, 0.20); background: rgba(176, 136, 208, 0.06); }
         .tag.pvp { color: #e06050; border-color: rgba(224, 96, 80, 0.20); background: rgba(224, 96, 80, 0.06); }
         .tag.pay { color: #b088d0; border-color: rgba(176, 136, 208, 0.20); background: rgba(176, 136, 208, 0.06); }
         .tag.event { color: #5fcb9a; border-color: rgba(95, 203, 154, 0.20); background: rgba(95, 203, 154, 0.06); }
+        .tag.pearl { color: #6cb4ee; border-color: rgba(108, 180, 238, 0.20); background: rgba(108, 180, 238, 0.06); }
 
-        /* ===== 月汇总表 ===== */
         .monthly-box {
             background: rgba(20, 25, 35, 0.75);
             backdrop-filter: blur(6px);
@@ -213,6 +217,9 @@
         .monthly-item .m-label {
             color: #8a9aae;
         }
+        .monthly-item .m-label .item-key { color: #f6a623; font-weight: 700; font-size: 15px; }
+        .monthly-item .m-label .item-shine { color: #b088d0; font-weight: 700; font-size: 15px; }
+        .monthly-item .m-label .item-pearl { color: #6cb4ee; font-weight: 700; font-size: 15px; }
         .monthly-item .m-value {
             color: #f6d365;
             font-weight: 600;
@@ -233,7 +240,6 @@
             font-weight: 400;
         }
 
-        /* ===== 说明 ===== */
         .footnote {
             font-size: 11px;
             color: #4a5a6e;
@@ -242,7 +248,6 @@
             border-top: 1px solid #1e2c38;
             padding-top: 10px;
         }
-
         .back-link {
             display: block;
             text-align: center;
@@ -257,48 +262,26 @@
             color: #c8a96e;
         }
 
-        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
-            .channel-grid {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            .summary-bar {
-                grid-template-columns: 1fr 1fr;
-                gap: 6px;
-            }
-            .summary-item .num {
-                font-size: 22px;
-            }
-            .monthly-grid {
-                grid-template-columns: 1fr;
-                gap: 4px;
-            }
-            .header h1 {
-                font-size: 18px;
-            }
-            .header .sub {
-                font-size: 11px;
-            }
+            .channel-grid { grid-template-columns: 1fr; gap: 8px; }
+            .summary-bar { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .summary-item .num { font-size: 22px; }
+            .monthly-grid { grid-template-columns: 1fr; gap: 4px; }
+            .header h1 { font-size: 18px; }
+            .header .sub { font-size: 11px; }
+            .ch-detail .item-key,
+            .ch-detail .item-shine,
+            .ch-detail .item-pearl { font-size: 15px; }
         }
         @media (max-width: 400px) {
-            .header .avatar {
-                width: 32px;
-                height: 32px;
-            }
-            .summary-bar {
-                grid-template-columns: 1fr 1fr;
-                gap: 4px;
-            }
-            .summary-item {
-                padding: 8px 4px;
-            }
-            .summary-item .num {
-                font-size: 18px;
-            }
-            .summary-item .label {
-                font-size: 10px;
-            }
+            .header .avatar { width: 32px; height: 32px; }
+            .summary-bar { grid-template-columns: 1fr 1fr; gap: 4px; }
+            .summary-item { padding: 8px 4px; }
+            .summary-item .num { font-size: 18px; }
+            .summary-item .label { font-size: 10px; }
+            .ch-detail .item-key,
+            .ch-detail .item-shine,
+            .ch-detail .item-pearl { font-size: 14px; }
         }
     </style>
 </head>
@@ -306,7 +289,6 @@
 
 <div class="page-wrap">
 
-    <!-- 头部 -->
     <div class="header">
         <img src="../images/douyintouxiang.png" alt="头像" class="avatar">
         <div class="title-group">
@@ -341,9 +323,7 @@
         <span class="badge-count">共 18 条</span>
     </div>
 
-    <div class="channel-grid" id="channelGrid">
-        <!-- 由 JS 生成 -->
-    </div>
+    <div class="channel-grid" id="channelGrid"></div>
 
     <!-- ===== 月度汇总 ===== -->
     <div class="section-title">
@@ -352,16 +332,13 @@
 
     <div class="monthly-box">
         <div class="mb-title">📅 每月可获取汇总</div>
-        <div class="monthly-grid" id="monthlyGrid">
-            <!-- 由 JS 生成 -->
-        </div>
+        <div class="monthly-grid" id="monthlyGrid"></div>
         <div class="monthly-total">
             <span class="total-label">🎯 合计 / 月</span>
             <span id="monthlyTotal">0</span>
         </div>
     </div>
 
-    <!-- ===== 说明 ===== -->
     <div class="footnote">
         ⚠️ 部分渠道为每周/每月固定刷新，实际获取量可能因活动周期和参与情况略有浮动。<br>
         PVP 段位奖励按 2 个月周期平均计算。
@@ -376,157 +353,127 @@
     // ================================================================
 
     var CHANNELS = [
-        // === 固定周常/月常（免费）===
         {
             name: '不朽秘境·渐熄之烬',
-            detail: '每周 400 渐熄之烬兑换 1 个 <span class="highlight">闪光强化不朽钥匙</span>',
+            detail: '每周 400 渐熄之烬兑换 1 个 <span class="item-shine">闪光强化不朽钥匙</span>',
             tags: ['周常', '闪光', '免费'],
             type: 'shine',
             monthly: 4
         },
         {
             name: '战团商店（4人以上打魔神）',
-            detail: '每周可购买 1 个 <span class="highlight">闪光强化不朽钥匙</span> + 1 个 <span class="highlight-blue">强化不朽钥匙</span>',
+            detail: '每周可购买 1 个 <span class="item-shine">闪光强化不朽钥匙</span> + 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['周常', '闪光', '战团'],
             type: 'both',
             monthly: 4
         },
         {
             name: '荣誉商店·强化钥匙',
-            detail: '每月 1600 荣誉币兑换 1 个 <span class="highlight-blue">强化不朽钥匙</span>',
+            detail: '每月 1600 荣誉币兑换 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['月常', '荣誉'],
             type: 'key',
             monthly: 1
         },
         {
             name: '不朽者·荣誉商店',
-            detail: '每周 1600 荣誉币购买 1 个 <span class="highlight-blue">强化不朽钥匙</span>（不朽者专属）',
+            detail: '每周 1600 荣誉币购买 1 个 <span class="item-key">强化不朽钥匙</span>（不朽者专属）',
             tags: ['周常', '不朽者'],
             type: 'key',
             monthly: 4
         },
         {
             name: '不朽者·不朽之境',
-            detail: '每周参与活动获取 1 个 <span class="highlight-blue">强化不朽钥匙</span>',
+            detail: '每周参与活动获取 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['周常', '不朽者'],
             type: 'key',
             monthly: 4
         },
         {
             name: '不朽者·完美统治宝箱',
-            detail: '达成完美统治可开启宝箱，获得 <span class="highlight">3 个</span> 强化不朽钥匙',
+            detail: '达成完美统治可开启宝箱，获得 <span class="item-key">3 个强化不朽钥匙</span>',
             tags: ['不朽者', '一次性'],
             type: 'key',
             monthly: 0
         },
         {
             name: '暗影十大工会·公会战',
-            detail: '周六公会战结束后获得 1 个 <span class="highlight-blue">强化不朽钥匙</span>',
+            detail: '周六公会战结束后获得 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['周常', '暗影'],
             type: 'key',
             monthly: 4
         },
         {
             name: '工会·传奇灾厄塔',
-            detail: '每周可开启 9 个宝箱，获得 <span class="highlight">1-3</span> 个强化不朽钥匙（取中间值 2 估算）',
+            detail: '每周可开启 9 个宝箱，获得 <span class="item-key">1-3 个强化不朽钥匙</span>（取中间值 2 估算）',
             tags: ['周常', '公会'],
             type: 'key',
             monthly: 8
         },
-
-        // === 活动 ===
         {
             name: '逐月之旅 / 风雪悲歌',
-            detail: '各可获得 1 个 <span class="highlight-blue">强化不朽钥匙</span> + 1 个 <span class="highlight">大地珍珠</span>',
+            detail: '各可获得 1 个 <span class="item-key">强化不朽钥匙</span> + 1 个 <span class="item-pearl">大地珍珠</span>',
             tags: ['活动', '双倍'],
             type: 'key+pearl',
             monthly: 2
         },
         {
             name: '66 双倍宝箱（每月6号）',
-            detail: '可开启 <span class="highlight">2-4</span> 把强化不朽钥匙（取中间值 3 估算）',
+            detail: '可开启 <span class="item-key">2-4 把强化不朽钥匙</span>（取中间值 3 估算）',
             tags: ['活动', '限时'],
             type: 'key',
             monthly: 3
         },
-
-        // === PVP（2个月周期，按月平均） ===
         {
             name: '圣迹战歌·传说段位',
-            detail: '达到传说段位获得 <span class="highlight">10 把</span> 强化不朽钥匙（2个月1次）',
+            detail: '达到传说段位获得 <span class="item-key">10 把强化不朽钥匙</span>（2个月1次）',
             tags: ['PVP', '段位'],
             type: 'pvp',
             monthly: 5
         },
         {
             name: '远古乱斗·传说段位',
-            detail: '达到传说段位获得 <span class="highlight">4 把</span> 强化不朽钥匙（2个月1次）',
+            detail: '达到传说段位获得 <span class="item-key">4 把强化不朽钥匙</span>（2个月1次）',
             tags: ['PVP', '段位'],
             type: 'pvp',
             monthly: 2
         },
-
-        // === 付费 ===
         {
             name: '68 月卡',
-            detail: '每周获取 1 把 <span class="highlight-blue">强化不朽钥匙</span>',
+            detail: '每周获取 1 把 <span class="item-key">强化不朽钥匙</span>',
             tags: ['付费', '月卡'],
             type: 'key',
             monthly: 4
         },
         {
             name: '30 普通先祖',
-            detail: '1 个 <span class="highlight-blue">强化不朽钥匙</span> + <span class="highlight">12</span> 个大地珍珠',
+            detail: '1 个 <span class="item-key">强化不朽钥匙</span> + <span class="item-pearl">12 个大地珍珠</span>',
             tags: ['付费', '先祖'],
             type: 'key+pearl',
             monthly: 1
         },
         {
             name: '98 高级先祖',
-            detail: '2 个 <span class="highlight-blue">强化不朽钥匙</span> + <span class="highlight">22</span> 个大地珍珠',
+            detail: '2 个 <span class="item-key">强化不朽钥匙</span> + <span class="item-pearl">22 个大地珍珠</span>',
             tags: ['付费', '先祖'],
             type: 'key+pearl',
             monthly: 2
         },
-
-        // === 大地珍珠 ===
         {
             name: '荣誉商店·大地珍珠',
-            detail: '每周可兑换 1 个 <span class="highlight">大地珍珠</span>',
+            detail: '每周可兑换 1 个 <span class="item-pearl">大地珍珠</span>',
             tags: ['周常', '珍珠'],
             type: 'pearl',
             monthly: 4
         },
         {
             name: '活动中心·任务',
-            detail: '每月完成活动中心任务可获得 <span class="highlight">2</span> 个大地珍珠',
+            detail: '每月完成活动中心任务可获得 <span class="item-pearl">2 个大地珍珠</span>',
             tags: ['月常', '珍珠'],
             type: 'pearl',
             monthly: 2
         }
     ];
 
-    // ================================================================
-    //  统计函数
-    // ================================================================
-
-    function calcTotal(type) {
-        var total = 0;
-        CHANNELS.forEach(function(ch) {
-            if (ch.type === type || type === 'all') {
-                total += ch.monthly || 0;
-            }
-            if (type === 'shine' && ch.type === 'shine') total += ch.monthly || 0;
-            if (type === 'shine' && ch.type === 'both') total += ch.monthly || 0;
-            if (type === 'key' && (ch.type === 'key' || ch.type === 'both' || ch.type === 'pvp')) {
-                total += ch.monthly || 0;
-            }
-            // pvp 单独处理
-        });
-        return total;
-    }
-
-    // 计算强化钥匙总数（含PVP平均）
     function calcTotalKeys() {
         var total = 0;
         CHANNELS.forEach(function(ch) {
@@ -554,9 +501,6 @@
                 total += ch.monthly || 0;
             }
         });
-        // 逐月之旅和风雪悲歌各1个=2个
-        // 但key+pearl中已包含，需要额外补？
-        // 实际上key+pearl已经包含了，直接累加即可
         return total;
     }
 
@@ -570,10 +514,6 @@
         return total;
     }
 
-    // ================================================================
-    //  渲染
-    // ================================================================
-
     function renderChannels() {
         var grid = document.getElementById('channelGrid');
         var html = '';
@@ -584,7 +524,8 @@
                 else if (t === 'PVP' || t === '段位') cls = 'pvp';
                 else if (t === '付费' || t === '月卡' || t === '先祖') cls = 'pay';
                 else if (t === '活动' || t === '限时' || t === '双倍') cls = 'event';
-                else if (t === '周常' || t === '月常' || t === '不朽者' || t === '暗影' || t === '公会' || t === '荣誉' || t === '战团' || t === '珍珠') cls = 'key';
+                else if (t === '珍珠') cls = 'pearl';
+                else cls = 'key';
                 return '<span class="tag ' + cls + '">' + t + '</span>';
             }).join('');
             html += '<div class="channel-card">';
@@ -599,23 +540,23 @@
     function renderMonthly() {
         var grid = document.getElementById('monthlyGrid');
         var items = [
-            { label: '渐熄之烬 → 闪光钥匙', value: '4 个' },
-            { label: '战团商店（闪光+强化）', value: '4 + 4 个' },
-            { label: '荣誉商店·强化钥匙', value: '1 个' },
-            { label: '不朽者·荣誉商店', value: '4 个' },
-            { label: '不朽者·不朽之境', value: '4 个' },
+            { label: '渐熄之烬 → <span class="item-shine">闪光强化不朽钥匙</span>', value: '4 个' },
+            { label: '战团商店（<span class="item-shine">闪光</span> + <span class="item-key">强化</span>）', value: '4 + 4 个' },
+            { label: '荣誉商店·<span class="item-key">强化不朽钥匙</span>', value: '1 个' },
+            { label: '不朽者·荣誉商店（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' },
+            { label: '不朽者·不朽之境（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' },
             { label: '不朽者·完美统治宝箱', value: '3 个（非每月固定）' },
-            { label: '暗影公会战', value: '4 个' },
-            { label: '灾厄塔（宝箱）', value: '≈8 个' },
-            { label: '逐月之旅 / 风雪悲歌', value: '2 个 + 2 珍珠' },
-            { label: '66 双倍宝箱', value: '≈3 个' },
-            { label: '圣迹战歌（传说）', value: '5 个（平均）' },
-            { label: '远古乱斗（传说）', value: '2 个（平均）' },
-            { label: '68 月卡', value: '4 个' },
-            { label: '30 先祖', value: '1 个 + 12 珍珠' },
-            { label: '98 先祖', value: '2 个 + 22 珍珠' },
-            { label: '荣誉商店·大地珍珠', value: '4 个' },
-            { label: '活动中心·珍珠', value: '2 个' }
+            { label: '暗影公会战（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' },
+            { label: '灾厄塔宝箱（<span class="item-key">强化不朽钥匙</span>）', value: '≈8 个' },
+            { label: '逐月之旅 / 风雪悲歌', value: '2 个 + 2 <span class="item-pearl">珍珠</span>' },
+            { label: '66 双倍宝箱（<span class="item-key">强化不朽钥匙</span>）', value: '≈3 个' },
+            { label: '圣迹战歌·传说段位', value: '5 个（平均）' },
+            { label: '远古乱斗·传说段位', value: '2 个（平均）' },
+            { label: '68 月卡（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' },
+            { label: '30 先祖（<span class="item-key">强化</span> + <span class="item-pearl">珍珠</span>）', value: '1 个 + 12 珍珠' },
+            { label: '98 先祖（<span class="item-key">强化</span> + <span class="item-pearl">珍珠</span>）', value: '2 个 + 22 珍珠' },
+            { label: '荣誉商店·<span class="item-pearl">大地珍珠</span>', value: '4 个' },
+            { label: '活动中心·<span class="item-pearl">大地珍珠</span>', value: '2 个' }
         ];
 
         var html = '';
@@ -627,7 +568,6 @@
         });
         grid.innerHTML = html;
 
-        // 总计
         var totalKeys = calcTotalKeys();
         document.getElementById('monthlyTotal').textContent = '约 ' + totalKeys + ' 个强化钥匙 / 月';
         document.getElementById('totalKeys').textContent = totalKeys;
@@ -635,10 +575,6 @@
         document.getElementById('totalPearl').textContent = calcTotalPearl();
         document.getElementById('totalPVP').textContent = calcTotalPVP();
     }
-
-    // ================================================================
-    //  初始化
-    // ================================================================
 
     window.onload = function() {
         renderChannels();
