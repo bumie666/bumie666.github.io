@@ -145,7 +145,6 @@
             letter-spacing: 1px;
         }
 
-        /* ===== 月度汇总（放在渠道上方，优先展示） ===== */
         .monthly-box {
             background: rgba(20, 25, 35, 0.75);
             backdrop-filter: blur(6px);
@@ -350,7 +349,7 @@
         </div>
     </div>
 
-    <!-- ===== 筛选栏（身份二选一） ===== -->
+    <!-- 筛选栏 -->
     <div class="filter-bar">
         <div class="fg">
             <label>🏛️ 身份（二选一）</label>
@@ -376,7 +375,7 @@
         </div>
     </div>
 
-    <!-- ===== 汇总卡片 ===== -->
+    <!-- 汇总卡片 -->
     <div class="summary-bar">
         <div class="summary-item">
             <div class="num" id="totalKeys">0</div>
@@ -396,10 +395,8 @@
         </div>
     </div>
 
-    <!-- ===== 月度汇总（优先展示） ===== -->
-    <div class="section-title">
-        📊 月度汇总统计
-    </div>
+    <!-- 月度汇总 -->
+    <div class="section-title">📊 月度汇总统计</div>
 
     <div class="monthly-box">
         <div class="mb-title" id="monthlyTitle">
@@ -413,10 +410,10 @@
         </div>
     </div>
 
-    <!-- ===== 渠道列表（放在月度汇总下方） ===== -->
+    <!-- 渠道列表 -->
     <div class="section-title">
         📋 所有获取渠道
-        <span style="font-size:12px;color:#7a8a9e;font-weight:400;font-family:'Segoe UI',sans-serif;">共 19 条</span>
+        <span style="font-size:12px;color:#7a8a9e;font-weight:400;font-family:'Segoe UI',sans-serif;">共 18 条</span>
     </div>
 
     <div class="channel-grid" id="channelGrid"></div>
@@ -431,163 +428,272 @@
 
 <script>
     // ================================================================
-    //  数据（逐月/风雪修正为2把钥匙+2颗珍珠）
+    //  渠道数据（18条）
     // ================================================================
 
     var CHANNELS = [
         {
+            id: 'jiangxi',
             name: '不朽秘境·渐熄之烬',
             detail: '每周 400 渐熄之烬，每月 1600 兑换 <span class="item-shine">闪光强化不朽钥匙</span>（1600/320=5把）',
             tags: ['周常', '闪光', '免费'],
-            type: 'shine',
-            baseMonthly: 5
+            keys: 0,
+            shine: 5,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'zhantuan',
             name: '战团商店（4人以上打魔神）',
             detail: '每周可购买 1 个 <span class="item-shine">闪光强化不朽钥匙</span> + 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['周常', '闪光', '战团'],
-            type: 'both',
-            baseMonthly: 4
+            keys: 4,
+            shine: 4,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'rongyu_key',
             name: '荣誉商店·强化钥匙',
             detail: '每月 1600 荣誉币兑换 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['月常', '荣誉'],
-            type: 'key',
-            baseMonthly: 1
+            keys: 1,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'buxiuzhe_rongyu',
             name: '不朽者·荣誉商店',
             detail: '每周 1600 荣誉币购买 1 个 <span class="item-key">强化不朽钥匙</span>（不朽者专属）',
             tags: ['周常', '不朽者'],
-            type: 'key',
+            keys: 4,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
             identity: '不朽者',
-            baseMonthly: 4
+            alwaysShow: false
         },
         {
+            id: 'buxiuzhe_zhijing',
             name: '不朽者·不朽之境',
             detail: '每周参与活动获取 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['周常', '不朽者'],
-            type: 'key',
+            keys: 4,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
             identity: '不朽者',
-            baseMonthly: 4
+            alwaysShow: false
         },
         {
+            id: 'buxiuzhe_wammei',
             name: '不朽者·完美统治宝箱',
             detail: '达成完美统治可开启宝箱，获得 <span class="item-key">3 个强化不朽钥匙</span>（非每月固定）',
             tags: ['不朽者', '一次性'],
-            type: 'key',
+            keys: 0,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
             identity: '不朽者',
-            baseMonthly: 0
+            alwaysShow: false
         },
         {
+            id: 'anying_gonghui',
             name: '暗影十大工会·公会战',
             detail: '周六公会战结束后获得 1 个 <span class="item-key">强化不朽钥匙</span>',
             tags: ['周常', '暗影'],
-            type: 'key',
+            keys: 4,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
             identity: '暗影会',
-            baseMonthly: 4
+            alwaysShow: false
         },
         {
+            id: 'zaieta',
             name: '工会·传奇灾厄塔',
             detail: '每周可开启 9 个宝箱，获得 <span class="item-key">1-3 个强化不朽钥匙</span>（取中间值 2 估算）',
             tags: ['周常', '公会'],
-            type: 'key',
-            baseMonthly: 8
+            keys: 8,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
-        // ===== 逐月之旅 / 风雪悲歌（修正：2把钥匙 + 2颗珍珠） =====
         {
+            id: 'zhuyue_fengxue',
             name: '逐月之旅 / 风雪悲歌',
             detail: '各可获得 1 个 <span class="item-key">强化不朽钥匙</span> + 1 个 <span class="item-pearl">大地珍珠</span>（合计 <span class="item-key">2 钥匙</span> + <span class="item-pearl">2 珍珠</span>）',
             tags: ['活动', '双倍'],
-            type: 'key+pearl',
-            baseMonthly: 2,
-            extraPearl: 2
+            keys: 2,
+            shine: 0,
+            pearl: 2,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'liuliu',
             name: '66 双倍宝箱（每月6号）',
             detail: '可开启 <span class="item-key">2-4 把强化不朽钥匙</span>（取中间值 3 估算）',
             tags: ['活动', '限时'],
-            type: 'key',
-            baseMonthly: 3
+            keys: 3,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'pvp_shengji',
             name: '圣迹战歌·传说段位',
             detail: '达到传说段位获得 <span class="item-key">10 把强化不朽钥匙</span>（2个月1次）',
             tags: ['PVP', '段位'],
-            type: 'pvp',
-            baseMonthly: 5
+            keys: 5,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'pvp_yuanGu',
             name: '远古乱斗·传说段位',
             detail: '达到传说段位获得 <span class="item-key">4 把强化不朽钥匙</span>（2个月1次）',
             tags: ['PVP', '段位'],
-            type: 'pvp',
-            baseMonthly: 2
+            keys: 2,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'yueka',
             name: '68 月卡',
             detail: '每周获取 1 把 <span class="item-key">强化不朽钥匙</span>',
             tags: ['付费', '月卡'],
-            type: 'key',
-            baseMonthly: 4,
-            monthlyCard: true
+            keys: 4,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: true,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: false
         },
         {
+            id: 'xianzu_30',
             name: '30 普通先祖',
             detail: '1 个 <span class="item-key">强化不朽钥匙</span> + <span class="item-pearl">12 个大地珍珠</span>',
             tags: ['付费', '先祖'],
-            type: 'key+pearl',
-            baseMonthly: 1,
-            extraPearl: 12,
-            ancestor: 30
+            keys: 1,
+            shine: 0,
+            pearl: 12,
+            monthlyCard: false,
+            ancestor: 30,
+            identity: null,
+            alwaysShow: false
         },
         {
+            id: 'xianzu_98',
             name: '98 高级先祖',
             detail: '2 个 <span class="item-key">强化不朽钥匙</span> + <span class="item-pearl">22 个大地珍珠</span>',
             tags: ['付费', '先祖'],
-            type: 'key+pearl',
-            baseMonthly: 2,
-            extraPearl: 22,
-            ancestor: 98
+            keys: 2,
+            shine: 0,
+            pearl: 22,
+            monthlyCard: false,
+            ancestor: 98,
+            identity: null,
+            alwaysShow: false
         },
         {
+            id: 'rongyu_pearl',
             name: '荣誉商店·大地珍珠',
             detail: '每周可兑换 1 个 <span class="item-pearl">大地珍珠</span>',
             tags: ['周常', '珍珠'],
-            type: 'pearl',
-            baseMonthly: 4
+            keys: 0,
+            shine: 0,
+            pearl: 4,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'huodong_pearl',
             name: '活动中心·任务',
             detail: '每月完成活动中心任务可获得 <span class="item-pearl">2 个大地珍珠</span>',
             tags: ['月常', '珍珠'],
-            type: 'pearl',
-            baseMonthly: 2
+            keys: 0,
+            shine: 0,
+            pearl: 2,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: true
         },
         {
+            id: 'free_task',
             name: '免费任务奖励（不购买先祖）',
             detail: '不购买先祖也可获得 <span class="item-key">1 个强化不朽钥匙</span>（珍珠已计入活动中心）',
             tags: ['月常', '免费'],
-            type: 'key',
-            baseMonthly: 1,
-            freeAncestor: true
+            keys: 1,
+            shine: 0,
+            pearl: 0,
+            monthlyCard: false,
+            ancestor: 0,
+            identity: null,
+            alwaysShow: false
         }
     ];
 
     // ================================================================
-    //  统计函数
+    //  筛选与计算
     // ================================================================
 
     function getFilteredChannels(identity, monthlyCard, ancestor) {
         return CHANNELS.filter(function(ch) {
+            // 身份筛选
             if (ch.identity && ch.identity !== identity) return false;
+            // 月卡筛选
             if (ch.monthlyCard && !monthlyCard) return false;
+            // 先祖档位筛选
             if (ch.ancestor) {
                 if (ancestor === 0) return false;
                 if (ch.ancestor !== ancestor) return false;
             }
-            if (ch.freeAncestor && ancestor !== 0) return false;
+            // 免费任务奖励：仅当不购买先祖时显示
+            if (ch.id === 'free_task' && ancestor !== 0) return false;
+            // 月卡渠道：仅当购买月卡时显示
+            if (ch.id === 'yueka' && !monthlyCard) return false;
+            // 先祖渠道：仅当对应档位购买时显示
+            if ((ch.id === 'xianzu_30' || ch.id === 'xianzu_98') && ancestor !== ch.ancestor) return false;
+            // 不朽者专属：仅当身份匹配时显示
+            if (ch.id === 'buxiuzhe_rongyu' && identity !== '不朽者') return false;
+            if (ch.id === 'buxiuzhe_zhijing' && identity !== '不朽者') return false;
+            if (ch.id === 'buxiuzhe_wammei' && identity !== '不朽者') return false;
+            if (ch.id === 'anying_gonghui' && identity !== '暗影会') return false;
             return true;
         });
     }
@@ -596,16 +702,13 @@
         var channels = getFilteredChannels(identity, monthlyCard, ancestor);
         var keys = 0, shine = 0, pearl = 0, pvp = 0;
         channels.forEach(function(ch) {
-            var val = ch.baseMonthly || 0;
-            if (ch.type === 'key' || ch.type === 'both' || ch.type === 'pvp' || ch.type === 'key+pearl') {
-                if (ch.type === 'pvp') pvp += val;
-                else keys += val;
+            if (ch.id === 'pvp_shengji' || ch.id === 'pvp_yuanGu') {
+                pvp += ch.keys;
+            } else {
+                keys += ch.keys || 0;
             }
-            if (ch.type === 'shine' || ch.type === 'both') shine += val;
-            if (ch.type === 'pearl' || ch.type === 'key+pearl') {
-                pearl += val;
-                if (ch.extraPearl) pearl += ch.extraPearl;
-            }
+            shine += ch.shine || 0;
+            pearl += ch.pearl || 0;
         });
         return { keys: keys, shine: shine, pearl: pearl, pvp: pvp };
     }
@@ -644,64 +747,57 @@
         var ancestor = parseInt(document.getElementById('ancestorFilter').value);
 
         var stats = calcMonthly(identity, monthlyCard, ancestor);
+        var channels = getFilteredChannels(identity, monthlyCard, ancestor);
 
+        // 汇总卡片
         document.getElementById('totalKeys').textContent = stats.keys;
         document.getElementById('totalShine').textContent = stats.shine;
         document.getElementById('totalPearl').textContent = stats.pearl;
         document.getElementById('totalPVP').textContent = stats.pvp;
 
+        // 身份标签
         var badge = document.getElementById('identityBadge');
         badge.textContent = identity === '暗影会' ? '🏴 暗影会' : '🏛️ 不朽者';
 
-        // ===== 月度汇总表格 =====
+        // ===== 月度汇总表格（动态生成） =====
         var grid = document.getElementById('monthlyGrid');
-        var items = [];
-
-        // 通用
-        items.push({ label: '渐熄之烬 → <span class="item-shine">闪光强化不朽钥匙</span>', value: '5 个' });
-        items.push({ label: '战团商店（<span class="item-shine">闪光</span> + <span class="item-key">强化</span>）', value: '4 + 4 个' });
-        items.push({ label: '荣誉商店·<span class="item-key">强化不朽钥匙</span>', value: '1 个' });
-
-        // 身份专属
-        if (identity === '不朽者') {
-            items.push({ label: '不朽者·荣誉商店（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' });
-            items.push({ label: '不朽者·不朽之境（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' });
-            items.push({ label: '不朽者·完美统治宝箱', value: '3 个（非每月固定）' });
-        } else {
-            items.push({ label: '暗影公会战（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' });
-        }
-
-        items.push({ label: '灾厄塔宝箱（<span class="item-key">强化不朽钥匙</span>）', value: '≈8 个' });
-        // 逐月/风雪：2钥匙 + 2珍珠
-        items.push({ label: '逐月之旅 / 风雪悲歌', value: '2 个 + 2 <span class="item-pearl">珍珠</span>' });
-        items.push({ label: '66 双倍宝箱（<span class="item-key">强化不朽钥匙</span>）', value: '≈3 个' });
-        items.push({ label: '圣迹战歌·传说段位', value: '5 个（平均）' });
-        items.push({ label: '远古乱斗·传说段位', value: '2 个（平均）' });
-
-        if (monthlyCard) {
-            items.push({ label: '68 月卡（<span class="item-key">强化不朽钥匙</span>）', value: '4 个' });
-        } else {
-            items.push({ label: '68 月卡', value: '未购买' });
-        }
-
-        if (ancestor === 30) {
-            items.push({ label: '30 先祖（<span class="item-key">强化</span> + <span class="item-pearl">珍珠</span>）', value: '1 个 + 12 珍珠' });
-        } else if (ancestor === 98) {
-            items.push({ label: '98 先祖（<span class="item-key">强化</span> + <span class="item-pearl">珍珠</span>）', value: '2 个 + 22 珍珠' });
-        } else {
-            items.push({ label: '免费任务奖励（<span class="item-key">强化不朽钥匙</span>）', value: '1 个' });
-        }
-
-        items.push({ label: '荣誉商店·<span class="item-pearl">大地珍珠</span>', value: '4 个' });
-        items.push({ label: '活动中心·<span class="item-pearl">大地珍珠</span>', value: '2 个' });
-
         var html = '';
-        items.forEach(function(item) {
+        var hasData = false;
+
+        channels.forEach(function(ch) {
+            // 跳过值为0的渠道（但保留显示0值）
+            var label = ch.name;
+            // 构建显示文本
+            var parts = [];
+            if (ch.keys > 0) parts.push('<span class="item-key">' + ch.keys + ' 把强化钥匙</span>');
+            if (ch.shine > 0) parts.push('<span class="item-shine">' + ch.shine + ' 把闪光</span>');
+            if (ch.pearl > 0) parts.push('<span class="item-pearl">' + ch.pearl + ' 颗珍珠</span>');
+            var valueText = parts.length > 0 ? parts.join(' + ') : '0';
+            // 特殊处理月卡和先祖显示未购买状态
+            if (ch.id === 'yueka' && !monthlyCard) return;
+            if (ch.id === 'xianzu_30' && ancestor !== 30) return;
+            if (ch.id === 'xianzu_98' && ancestor !== 98) return;
+            if (ch.id === 'free_task' && ancestor !== 0) return;
+            // 身份专属渠道只在对应身份下显示
+            if (ch.identity && ch.identity !== identity) return;
+
+            // 不朽者完美统治宝箱显示特殊标识
+            var displayName = ch.name;
+            if (ch.id === 'buxiuzhe_wammei') {
+                displayName = ch.name + '（非每月固定）';
+            }
+
             html += '<div class="monthly-item">';
-            html += '<span class="m-label">' + item.label + '</span>';
-            html += '<span class="m-value">' + item.value + '</span>';
+            html += '<span class="m-label">' + displayName + '</span>';
+            html += '<span class="m-value">' + valueText + '</span>';
             html += '</div>';
+            hasData = true;
         });
+
+        // 如果没有任何数据，显示占位
+        if (!hasData) {
+            html = '<div class="monthly-item" style="grid-column:1/-1;justify-content:center;color:#5a6a7e;padding:12px 0;">暂无匹配的渠道数据</div>';
+        }
         grid.innerHTML = html;
 
         // 总计
