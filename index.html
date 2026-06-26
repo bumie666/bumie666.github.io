@@ -60,7 +60,6 @@
             gap: 12px;
             margin-bottom: 2px;
         }
-        /* 标题无图标 */
         .header-top .main-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 38px;
@@ -72,8 +71,6 @@
             text-shadow: 0 2px 30px rgba(200, 169, 110, 0.10);
             flex: 1;
         }
-        /* 标题右上角的刷新按钮已移除 */
-
         .brand-name {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 18px;
@@ -114,7 +111,6 @@
             color: #f6d365;
             border-bottom-color: #f6d365;
         }
-        /* 导航栏右侧刷新按钮 */
         .nav-bar .nav-refresh {
             margin-left: auto;
             background: none;
@@ -208,7 +204,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* 全宽卡片（关注抖音） */
+        /* ===== 全宽卡片（关注抖音）- 固定在底部 ===== */
         .tool-card.full-width {
             grid-column: 1 / -1;
             flex-direction: row;
@@ -332,6 +328,12 @@
             }
             .tool-card .badge {
                 display: none;
+            }
+            .tool-card.full-width .info .name {
+                font-size: 13px;
+            }
+            .tool-card.full-width .info .desc {
+                font-size: 11px;
             }
             .header-top .main-title {
                 font-size: 24px;
@@ -487,11 +489,10 @@
         <div class="header">
             <div class="header-top">
                 <div class="main-title">暗黑不朽工具箱</div>
-                <!-- 标题右上角的刷新按钮已移除 -->
             </div>
             <div class="brand-name">作者：暗黑の不灭</div>
 
-            <!-- ===== 导航栏：全部 / 热门 / 新 + 刷新按钮（右侧） ===== -->
+            <!-- ===== 导航栏 ===== -->
             <div class="nav-bar" id="navBar">
                 <span class="nav-tab active" data-filter="all">📋 全部</span>
                 <span class="nav-tab" data-filter="hot">🔥 热门</span>
@@ -500,7 +501,7 @@
             </div>
         </div>
 
-        <!-- 卡片网格 -->
+        <!-- ===== 卡片网格 ===== -->
         <div class="tool-grid" id="toolGrid">
             <!-- 由 JavaScript 动态生成 -->
         </div>
@@ -513,7 +514,7 @@
 
     <script>
         // ================================================================
-        //  工具数据（使用你实际的文件名作为 id）
+        //  工具数据（共 10 个工具）
         // ================================================================
 
         const TOOLS = [
@@ -600,7 +601,7 @@
         ];
 
         // ================================================================
-        //  渲染函数（支持全部 / 热门 / 新）
+        //  渲染函数（全部 / 热门 / 新）
         // ================================================================
 
         function renderTools(filter = 'all') {
@@ -612,7 +613,6 @@
             } else if (filter === 'new') {
                 filtered = TOOLS.filter(t => t.badges.includes('新'));
             }
-            // 'all' 不做筛选，显示全部
 
             let html = '';
             filtered.forEach(tool => {
@@ -635,9 +635,16 @@
                 `;
             });
 
-            if (!html) {
-                html = `<p style="grid-column:1/-1;text-align:center;color:#4a5a6e;padding:30px 0;">暂无该分类下的工具</p>`;
-            }
+            // ===== 固定追加：关注抖音（全宽卡片，始终显示在最底部） =====
+            html += `
+                <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
+                    <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
+                    <div class="info">
+                        <span class="name">关注抖音：暗黑の不灭</span>
+                        <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
+                    </div>
+                </a>
+            `;
 
             grid.innerHTML = html;
         }
@@ -653,17 +660,15 @@
                 tab.addEventListener('click', function() {
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-                    const filter = this.dataset.filter;
-                    renderTools(filter);
+                    renderTools(this.dataset.filter);
                 });
             });
 
-            // 初始渲染：全部
             renderTools('all');
         });
 
         // ================================================================
-        //  密码锁逻辑（保持不变）
+        //  密码锁
         // ================================================================
 
         (function() {
