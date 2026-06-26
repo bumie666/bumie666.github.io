@@ -16,6 +16,7 @@
     <link rel="prefetch" href="pages/tupocitiao.html">
     <link rel="prefetch" href="pages/shimo.html">
     <link rel="prefetch" href="pages/pvpcitiao.html">
+    <link rel="prefetch" href="pages/yaoshi.html">
 
     <style>
         * {
@@ -44,7 +45,6 @@
             width: 100%;
         }
 
-        /* ===== 头部 ===== */
         .header {
             text-align: left;
             margin-bottom: 36px;
@@ -96,11 +96,8 @@
             margin-top: 0px;
             text-align: left;
         }
-        .sub-title {
-            display: none;
-        }
+        .sub-title { display: none; }
 
-        /* ===== 工具卡片网格 ===== */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -165,7 +162,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* 全宽卡片（关注抖音） */
         .tool-card.full-width {
             grid-column: 1 / -1;
             flex-direction: row;
@@ -438,7 +434,7 @@
 
         <div class="tool-grid">
 
-            <!-- 第一行：小宝石升级 + 传奇宝石消耗 -->
+            <!-- 第一行 -->
             <a href="pages/xiaobaoshi999.html" class="tool-card">
                 <span class="icon">💎</span>
                 <span class="name">小宝石升级计算器</span>
@@ -452,7 +448,7 @@
                 <span class="badge">热门</span>
             </a>
 
-            <!-- 第二行：各职业技能词条一览图 + 技能词条转换 -->
+            <!-- 第二行 -->
             <a href="pages/jinengcitiao.html" class="tool-card">
                 <span class="icon">📋</span>
                 <span class="name">各职业技能词条一览图</span>
@@ -466,7 +462,7 @@
                 <span class="badge">热门</span>
             </a>
 
-            <!-- 第三行：赫拉迪姆遗志 + 使魔特性查询 -->
+            <!-- 第三行 -->
             <a href="pages/xiashuidao999.html" class="tool-card">
                 <span class="icon">🏛️</span>
                 <span class="name">赫拉迪姆遗志计算器</span>
@@ -480,7 +476,7 @@
                 <span class="badge">新</span>
             </a>
 
-            <!-- 第四行：服务器互通查询 + 突破属性图鉴及推荐 -->
+            <!-- 第四行 -->
             <a href="pages/fuwuqi.html" class="tool-card">
                 <span class="icon">🌐</span>
                 <span class="name">服务器互通查询</span>
@@ -494,18 +490,18 @@
                 <span class="badge">新</span>
             </a>
 
-            <!-- 第五行：PVP词条衰减大全 + （原第四行右侧位置被占用，新增一行） -->
+            <!-- 第五行 -->
             <a href="pages/pvpcitiao.html" class="tool-card">
                 <span class="icon">⚔️</span>
                 <span class="name">PVP词条衰减大全</span>
                 <span class="desc">洗炼套装 · 衰减一览</span>
                 <span class="badge">新</span>
             </a>
-            <!-- 这个位置空着，或者可以放其他内容，目前保持两列布局，右侧空着会留白，也可以放一个占位，但为了美观，我们放一个占位卡片 -->
-            <a href="#" class="tool-card" style="opacity:0.3; pointer-events:none; border-color:transparent;">
-                <span class="icon">⬜</span>
-                <span class="name">更多功能开发中</span>
-                <span class="desc">敬请期待...</span>
+            <a href="pages/yaoshi.html" class="tool-card">
+                <span class="icon">🔑</span>
+                <span class="name">强化不朽钥匙攻略</span>
+                <span class="desc">获取渠道 · 月度汇总</span>
+                <span class="badge">新</span>
             </a>
 
             <!-- 第六行：关注抖音（全宽） -->
