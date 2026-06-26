@@ -30,22 +30,22 @@
             color: #e0e6ed;
             font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
-            padding: 16px 12px;
+            padding: 20px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .container {
-            max-width: 700px;
+            max-width: 720px;
             width: 100%;
         }
 
         /* ===== 头部 ===== */
         .header {
             text-align: left;
-            padding: 12px 0 16px 0;
+            padding: 4px 0 18px 0;
             border-bottom: 1px solid #2a3a4a;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
         .header-top {
             display: flex;
@@ -55,8 +55,8 @@
         }
         .header-top .main-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
-            font-size: 32px;
-            font-weight: 700;
+            font-size: 36px;
+            font-weight: 900;
             letter-spacing: 4px;
             background: linear-gradient(135deg, #f6d365, #c8a96e);
             -webkit-background-clip: text;
@@ -67,27 +67,29 @@
             background: none;
             border: none;
             color: #c8a96e;
-            font-size: 26px;
+            font-size: 28px;
             cursor: pointer;
-            transition: 0.25s;
+            transition: 0.3s;
             padding: 4px 8px;
             border-radius: 8px;
             line-height: 1;
             flex-shrink: 0;
+            opacity: 0.7;
         }
         .refresh-btn:hover {
             transform: rotate(60deg);
             color: #f6d365;
-            background: rgba(200, 169, 110, 0.08);
+            opacity: 1;
+            background: rgba(200, 169, 110, 0.06);
         }
         .refresh-btn:active {
             transform: rotate(120deg) scale(0.9);
         }
         .header .sub-title {
-            font-size: 14px;
-            color: #7a8a9e;
+            font-size: 15px;
+            color: #8a9aae;
             letter-spacing: 1px;
-            margin-top: 2px;
+            margin-top: 4px;
         }
         .header .author {
             font-size: 13px;
@@ -102,12 +104,12 @@
         /* ===== 分类标签 ===== */
         .category-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 18px;
+            gap: 12px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .category-tabs .tab {
-            padding: 6px 22px;
+            padding: 6px 24px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 600;
@@ -124,7 +126,7 @@
             color: #d0d8e0;
         }
         .category-tabs .tab.active {
-            background: rgba(200, 169, 110, 0.12);
+            background: rgba(200, 169, 110, 0.10);
             border-color: #c8a96e;
             color: #f6d365;
         }
@@ -133,23 +135,23 @@
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 14px;
+            margin-bottom: 28px;
         }
 
         .tool-card {
             display: block;
-            padding: 16px 14px 12px 14px;
-            background: rgba(20, 25, 35, 0.72);
+            padding: 18px 16px 14px 16px;
+            background: rgba(20, 25, 35, 0.70);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(42, 58, 74, 0.6);
-            border-radius: 14px;
+            border: 1px solid rgba(42, 58, 74, 0.5);
+            border-radius: 16px;
             color: #e0e6ed;
             text-decoration: none;
-            transition: all 0.25s ease;
+            transition: all 0.3s ease;
             position: relative;
-            min-height: 100px;
+            min-height: 110px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -157,53 +159,54 @@
         .tool-card:hover {
             border-color: #c8a96e;
             background: rgba(200, 169, 110, 0.06);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
         }
         .tool-card .icon {
-            font-size: 24px;
+            font-size: 28px;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         .tool-card .name {
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 700;
             display: block;
             letter-spacing: 0.3px;
             margin-bottom: 2px;
             line-height: 1.25;
+            color: #d8e0e8;
         }
         .tool-card .desc {
             font-size: 12px;
             color: #6a7a8e;
             display: block;
-            line-height: 1.35;
+            line-height: 1.4;
         }
         /* 右上角徽章 */
         .tool-card .badge {
             position: absolute;
-            top: 10px;
-            right: 12px;
+            top: 12px;
+            right: 14px;
             font-size: 10px;
             font-weight: 700;
-            padding: 2px 10px;
+            padding: 2px 12px;
             border-radius: 20px;
             letter-spacing: 0.5px;
             border: 1px solid transparent;
         }
         .badge-recommend {
-            background: rgba(246, 211, 101, 0.12);
-            border-color: rgba(246, 211, 101, 0.25);
+            background: rgba(246, 211, 101, 0.10);
+            border-color: rgba(246, 211, 101, 0.20);
             color: #f6d365;
         }
         .badge-hot {
-            background: rgba(224, 96, 80, 0.12);
-            border-color: rgba(224, 96, 80, 0.25);
+            background: rgba(224, 96, 80, 0.10);
+            border-color: rgba(224, 96, 80, 0.20);
             color: #e06050;
         }
         .badge-new {
-            background: rgba(95, 203, 154, 0.12);
-            border-color: rgba(95, 203, 154, 0.25);
+            background: rgba(95, 203, 154, 0.10);
+            border-color: rgba(95, 203, 154, 0.20);
             color: #5fcb9a;
         }
 
@@ -213,16 +216,20 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            padding: 14px 16px;
+            gap: 16px;
+            padding: 16px 20px;
             min-height: auto;
             text-align: center;
+            border-color: rgba(200, 169, 110, 0.15);
+        }
+        .tool-card.full-width:hover {
+            border-color: #c8a96e;
         }
         .tool-card.full-width .avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            border: 2px solid rgba(200, 169, 110, 0.3);
+            border: 2px solid rgba(200, 169, 110, 0.25);
             object-fit: cover;
             flex-shrink: 0;
         }
@@ -232,107 +239,111 @@
             align-items: flex-start;
         }
         .tool-card.full-width .info .name {
-            font-size: 16px;
+            font-size: 17px;
+            font-weight: 700;
             margin-bottom: 0;
+            color: #d8e0e8;
         }
         .tool-card.full-width .info .desc {
-            font-size: 12px;
+            font-size: 13px;
             color: #6a7a8e;
         }
 
         /* ===== 底部 ===== */
         .footer {
             text-align: center;
-            border-top: 1px solid rgba(30, 44, 56, 0.6);
-            padding-top: 18px;
+            border-top: 1px solid rgba(30, 44, 56, 0.5);
+            padding-top: 20px;
             margin-top: 4px;
         }
         .footer .follow-btn {
             display: inline-block;
-            background: rgba(200, 169, 110, 0.08);
-            border: 1px solid rgba(200, 169, 110, 0.25);
+            background: rgba(200, 169, 110, 0.06);
+            border: 1px solid rgba(200, 169, 110, 0.20);
             color: #c8a96e;
-            padding: 8px 28px;
+            padding: 8px 32px;
             border-radius: 30px;
             font-size: 14px;
             font-weight: 600;
             text-decoration: none;
-            transition: 0.25s;
+            transition: 0.3s;
             margin-bottom: 10px;
             letter-spacing: 0.5px;
             font-family: inherit;
         }
         .footer .follow-btn:hover {
-            background: rgba(200, 169, 110, 0.18);
-            box-shadow: 0 0 24px rgba(200, 169, 110, 0.08);
+            background: rgba(200, 169, 110, 0.14);
+            border-color: #c8a96e;
+            box-shadow: 0 0 28px rgba(200, 169, 110, 0.06);
         }
         .footer .copyright {
-            font-size: 12px;
+            font-size: 13px;
             color: #5a6a7e;
             line-height: 1.8;
             letter-spacing: 0.3px;
         }
         .footer .copyright .highlight {
             color: #c8a96e;
+            font-weight: 600;
         }
         .footer .copyright .small-note {
-            font-size: 10px;
+            font-size: 11px;
             color: #3a4a5e;
             display: block;
             margin-top: 2px;
         }
 
         /* ===== 响应式 ===== */
-        @media (max-width: 480px) {
+        @media (max-width: 540px) {
             .tool-grid {
                 gap: 10px;
             }
             .tool-card {
-                padding: 12px 10px 10px 10px;
-                min-height: 80px;
+                padding: 14px 12px 12px 12px;
+                min-height: 90px;
+                border-radius: 14px;
             }
             .tool-card .icon {
-                font-size: 20px;
+                font-size: 24px;
             }
             .tool-card .name {
-                font-size: 13px;
+                font-size: 14px;
             }
             .tool-card .desc {
                 font-size: 11px;
             }
             .tool-card .badge {
                 font-size: 9px;
-                padding: 1px 8px;
-                top: 8px;
-                right: 8px;
+                padding: 1px 10px;
+                top: 10px;
+                right: 10px;
             }
             .tool-card.full-width {
-                flex-direction: row;
-                gap: 10px;
-                padding: 12px 14px;
+                gap: 12px;
+                padding: 14px 16px;
             }
             .tool-card.full-width .avatar {
-                width: 34px;
-                height: 34px;
+                width: 38px;
+                height: 38px;
             }
             .tool-card.full-width .info .name {
-                font-size: 14px;
+                font-size: 15px;
             }
             .tool-card.full-width .info .desc {
-                font-size: 11px;
+                font-size: 12px;
             }
             .header-top .main-title {
-                font-size: 26px;
+                font-size: 28px;
                 letter-spacing: 2px;
             }
             .refresh-btn {
-                font-size: 22px;
+                font-size: 24px;
             }
             .header .sub-title {
-                font-size: 12px;
+                font-size: 13px;
             }
             .category-tabs .tab {
-                padding: 4px 14px;
+                padding: 4px 16px;
                 font-size: 12px;
             }
         }
@@ -343,10 +354,10 @@
             }
             .tool-card {
                 padding: 10px 8px 8px 8px;
-                min-height: 70px;
+                min-height: 76px;
             }
             .tool-card .icon {
-                font-size: 18px;
+                font-size: 20px;
             }
             .tool-card .name {
                 font-size: 12px;
@@ -355,13 +366,39 @@
                 font-size: 10px;
             }
             .tool-card .badge {
-                display: none;
+                font-size: 8px;
+                padding: 1px 6px;
+                top: 6px;
+                right: 6px;
+            }
+            .tool-card.full-width {
+                flex-direction: row;
+                gap: 10px;
+                padding: 10px 12px;
+            }
+            .tool-card.full-width .avatar {
+                width: 32px;
+                height: 32px;
+            }
+            .tool-card.full-width .info .name {
+                font-size: 13px;
+            }
+            .tool-card.full-width .info .desc {
+                font-size: 10px;
             }
             .header-top .main-title {
                 font-size: 22px;
+                letter-spacing: 1px;
             }
             .refresh-btn {
                 font-size: 20px;
+            }
+            .header .sub-title {
+                font-size: 11px;
+            }
+            .category-tabs .tab {
+                padding: 3px 12px;
+                font-size: 11px;
             }
         }
 
@@ -387,10 +424,10 @@
             pointer-events: none;
         }
         .lock-box {
-            background: rgba(20, 25, 35, 0.9);
+            background: rgba(20, 25, 35, 0.90);
             border: 1px solid #2a3a4a;
             border-radius: 20px;
-            padding: 36px 28px;
+            padding: 40px 32px;
             max-width: 400px;
             width: 100%;
             text-align: center;
@@ -430,7 +467,7 @@
         }
         .lock-box input:focus {
             border-color: #c8a96e;
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.12);
+            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.10);
         }
         .lock-box button {
             width: 100%;
@@ -536,7 +573,7 @@
 
     <script>
         // ================================================================
-        //  工具数据（按目标网站标签整理）
+        //  工具数据
         // ================================================================
 
         var TOOLS = [
@@ -671,12 +708,11 @@
                 html += '</a>';
             }
 
-            // 如果没有数据，显示占位
             if (filtered.length === 0) {
                 html = '<div style="grid-column:1/-1;text-align:center;color:#4a5a6e;padding:30px 0;">该分类暂无工具</div>';
             }
 
-            // 追加"关注抖音"全宽卡片（始终显示）
+            // 追加"关注抖音"全宽卡片
             html += `
                 <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
                     <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
@@ -700,7 +736,6 @@
             for (var i = 0; i < tabs.length; i++) {
                 (function(index) {
                     tabs[index].addEventListener('click', function() {
-                        // 切换 active 状态
                         for (var j = 0; j < tabs.length; j++) {
                             tabs[j].classList.remove('active');
                         }
@@ -712,7 +747,6 @@
                 })(i);
             }
 
-            // 初始渲染：推荐（与默认 active 匹配）
             renderTools('all');
         });
 
@@ -726,7 +760,6 @@
             var passwordInput = document.getElementById('passwordInput');
             var lockError = document.getElementById('lockError');
 
-            // 检查 sessionStorage 是否已解锁
             if (sessionStorage.getItem('index_unlocked') === 'true') {
                 lockScreen.classList.add('hidden');
                 passwordInput.disabled = true;
