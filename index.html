@@ -22,7 +22,6 @@
     <link rel="prefetch" href="pages/yaoshi.html">
 
     <style>
-        /* 完全保留原有样式，未做任何修改 */
         * {
             margin: 0;
             padding: 0;
@@ -51,7 +50,7 @@
 
         .header {
             text-align: left;
-            margin-bottom: 36px;
+            margin-bottom: 30px;
         }
         .header-top {
             display: flex;
@@ -60,6 +59,7 @@
             gap: 12px;
             margin-bottom: 2px;
         }
+        /* 去掉标题前的⚔️符号，只保留文字 */
         .header-top .main-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 38px;
@@ -97,10 +97,57 @@
             font-weight: 700;
             letter-spacing: 2px;
             color: #c8a96e;
-            margin-top: 0px;
+            margin-top: 2px;
             text-align: left;
         }
         .sub-title { display: none; }
+
+        /* ===== 新增导航栏（黑金风格） ===== */
+        .nav-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 16px;
+            padding: 8px 0;
+            margin-top: 6px;
+            border-top: 1px solid rgba(200, 169, 110, 0.15);
+            border-bottom: 1px solid rgba(200, 169, 110, 0.15);
+        }
+        .nav-bar a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8a9aae;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: 0.2s;
+            padding: 2px 0;
+            position: relative;
+        }
+        .nav-bar a:hover {
+            color: #f6d365;
+        }
+        .nav-bar a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c8a96e;
+            transition: width 0.25s;
+        }
+        .nav-bar a:hover::after {
+            width: 100%;
+        }
+        .nav-bar .nav-sep {
+            color: #3a4a5e;
+            user-select: none;
+        }
+        .nav-bar .nav-highlight {
+            color: #f6d365;
+        }
+        .nav-bar .nav-highlight:hover {
+            color: #ffd966;
+        }
 
         .tool-grid {
             display: grid;
@@ -133,11 +180,16 @@
             transform: translateY(-4px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
+        /* ===== 黑金模式图标：颜色改为金色 ===== */
         .tool-card .icon {
             font-size: 26px;
             display: block;
             margin-bottom: 4px;
-            color: #e0e6ed; /* 继承原有颜色 */
+            color: #c8a96e;           /* 基础金色 */
+            transition: color 0.25s;
+        }
+        .tool-card:hover .icon {
+            color: #f6d365;           /* 悬停时更亮 */
         }
         .tool-card .name {
             font-size: 16px;
@@ -262,6 +314,12 @@
             .brand-name {
                 font-size: 16px;
             }
+            .nav-bar a {
+                font-size: 12px;
+            }
+            .nav-bar {
+                gap: 4px 12px;
+            }
         }
 
         @media (max-width: 380px) {
@@ -292,6 +350,12 @@
             }
             .brand-name {
                 font-size: 14px;
+            }
+            .nav-bar a {
+                font-size: 11px;
+            }
+            .nav-bar {
+                gap: 2px 8px;
             }
         }
 
@@ -431,13 +495,27 @@
 
         <div class="header">
             <div class="header-top">
-                <div class="main-title">⚔️ 暗黑不朽工具箱</div>
+                <!-- 标题中去掉⚔️符号，仅保留文字 -->
+                <div class="main-title">暗黑不朽工具箱</div>
                 <button class="refresh-btn" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
             </div>
             <div class="brand-name">作者：暗黑の不灭</div>
+
+            <!-- ===== 新增黑金导航栏 ===== -->
+            <div class="nav-bar">
+                <a href="#" class="nav-highlight">🏠 首页</a>
+                <span class="nav-sep">|</span>
+                <a href="#tools">📦 工具合集</a>
+                <span class="nav-sep">|</span>
+                <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank">📱 抖音</a>
+                <span class="nav-sep">|</span>
+                <a href="mailto:your-email@example.com">📧 反馈</a>
+                <span class="nav-sep">|</span>
+                <a href="#" onclick="location.reload();" title="刷新页面">🔄 刷新</a>
+            </div>
         </div>
 
-        <div class="tool-grid">
+        <div class="tool-grid" id="tools">
 
             <!-- 第一行 -->
             <a href="pages/xiaobaoshi999.html" class="tool-card">
@@ -509,7 +587,7 @@
                 <span class="badge">新</span>
             </a>
 
-            <!-- 第六行：关注抖音（全宽，保留头像图片，不替换图标） -->
+            <!-- 第六行：关注抖音（全宽） -->
             <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
                 <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
                 <div class="info">
