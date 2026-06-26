@@ -291,6 +291,7 @@
         .tag.event { color: #5fcb9a; border-color: rgba(95, 203, 154, 0.20); background: rgba(95, 203, 154, 0.06); }
         .tag.pearl { color: #6cb4ee; border-color: rgba(108, 180, 238, 0.20); background: rgba(108, 180, 238, 0.06); }
         .tag.identity { color: #c8a96e; border-color: rgba(200, 169, 110, 0.20); background: rgba(200, 169, 110, 0.06); }
+        .tag.period { color: #5fcb9a; border-color: rgba(95, 203, 154, 0.20); background: rgba(95, 203, 154, 0.06); }
 
         .footnote {
             font-size: 11px;
@@ -420,7 +421,7 @@
 
     <div class="footnote">
         ⚠️ 部分渠道为每周/每月固定刷新，实际获取量可能因活动周期和参与情况略有浮动。<br>
-        PVP 段位奖励按 2 个月周期平均计算。
+        PVP 段位奖励按每月平均计算（圣迹战歌 + 远古乱斗合计 7 把/月）。
     </div>
 
     <a href="https://ahbm8888.top" class="back-link">🏠 返回暗黑不朽百宝箱</a>
@@ -500,9 +501,9 @@
         {
             id: 'buxiuzhe_wammei',
             name: '不朽者·完美统治宝箱',
-            detail: '达成完美统治可开启宝箱，获得 <span class="item-key">3 个强化不朽钥匙</span>（非每月固定）',
-            tags: ['不朽者', '一次性'],
-            keys: 0,
+            detail: '每 7 周（49 天）可开启宝箱，获得 <span class="item-key">3 个强化不朽钥匙</span>，月均约 2 把',
+            tags: ['周期', '不朽者'],
+            keys: 2,        // 月均 3 * (30/49) ≈ 1.84 → 取整 2
             shine: 0,
             pearl: 0,
             monthlyCard: false,
@@ -565,9 +566,9 @@
         {
             id: 'pvp_shengji',
             name: '圣迹战歌·传说段位',
-            detail: '达到传说段位获得 <span class="item-key">10 把强化不朽钥匙</span>（2个月1次）',
+            detail: '达到传说段位获得 <span class="item-key">5 把强化不朽钥匙</span>（每月平均）',
             tags: ['PVP', '段位'],
-            keys: 5,
+            keys: 5,        // 月均 5（原为2个月一次，现按用户要求改为月均）
             shine: 0,
             pearl: 0,
             monthlyCard: false,
@@ -578,9 +579,9 @@
         {
             id: 'pvp_yuanGu',
             name: '远古乱斗·传说段位',
-            detail: '达到传说段位获得 <span class="item-key">4 把强化不朽钥匙</span>（2个月1次）',
+            detail: '达到传说段位获得 <span class="item-key">2 把强化不朽钥匙</span>（每月平均）',
             tags: ['PVP', '段位'],
-            keys: 2,
+            keys: 2,        // 月均 2
             shine: 0,
             pearl: 0,
             monthlyCard: false,
@@ -702,14 +703,17 @@
         var channels = getFilteredChannels(identity, monthlyCard, ancestor);
         var keys = 0, shine = 0, pearl = 0, pvp = 0;
         channels.forEach(function(ch) {
+            // 将 PVP 渠道的 keys 单独累加，但不加入 keys（后面统一加）
             if (ch.id === 'pvp_shengji' || ch.id === 'pvp_yuanGu') {
-                pvp += ch.keys;
+                pvp += ch.keys || 0;
             } else {
                 keys += ch.keys || 0;
             }
             shine += ch.shine || 0;
             pearl += ch.pearl || 0;
         });
+        // 将 PVP 月均 7 把（5+2）计入强化钥匙总数
+        keys += pvp;
         return { keys: keys, shine: shine, pearl: pearl, pvp: pvp };
     }
 
@@ -729,6 +733,7 @@
                 else if (t === '活动' || t === '限时' || t === '双倍') cls = 'event';
                 else if (t === '珍珠') cls = 'pearl';
                 else if (t === '不朽者' || t === '暗影') cls = 'identity';
+                else if (t === '周期') cls = 'period';
                 else cls = 'key';
                 return '<span class="tag ' + cls + '">' + t + '</span>';
             }).join('');
@@ -784,7 +789,7 @@
             // 不朽者完美统治宝箱显示特殊标识
             var displayName = ch.name;
             if (ch.id === 'buxiuzhe_wammei') {
-                displayName = ch.name + '（非每月固定）';
+                displayName = ch.name + '（周期 7 周）';
             }
 
             html += '<div class="monthly-item">';
