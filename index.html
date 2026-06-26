@@ -111,7 +111,6 @@
             color: #f6d365;
             border-bottom-color: #f6d365;
         }
-        /* 刷新主页文字 - 可点击 */
         .nav-bar .refresh-label {
             margin-left: auto;
             color: #c8a96e;
@@ -133,7 +132,7 @@
             transform: scale(0.94);
         }
 
-        /* ===== 卡片网格 ===== */
+        /* ===== 卡片基础样式 ===== */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -211,7 +210,40 @@
             z-index: 1;
         }
 
-        /* ===== 使魔特性查询专属：半透明底图 ===== */
+        /* ============================================================
+           有专属背景图的卡片（小宝石已移除，传奇宝石 + 使魔保留）
+           ============================================================ */
+
+        /* 传奇宝石消耗计算 */
+        .tool-card-cqbs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/cqbsbeijing.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 0;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .tool-card-cqbs {
+            background: rgba(20, 25, 35, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            /* 金色边框强调 */
+            border-color: rgba(200, 169, 110, 0.3);
+        }
+        .tool-card-cqbs:hover {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: #f6d365;
+            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 使魔特性查询 */
         .tool-card-shimo::before {
             content: '';
             position: absolute;
@@ -222,7 +254,7 @@
             background-image: url('images/shimobeijing.png');
             background-size: cover;
             background-position: center;
-            opacity: 0.3;
+            opacity: 0.5;
             z-index: 0;
             border-radius: 16px;
             pointer-events: none;
@@ -231,34 +263,12 @@
             background: rgba(20, 25, 35, 0.72);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+            border-color: rgba(200, 169, 110, 0.3);
         }
         .tool-card-shimo:hover {
             background: rgba(200, 169, 110, 0.12);
-        }
-
-        /* ===== 小宝石升级计算器专属：半透明底图 ===== */
-        .tool-card-gem::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('images/xiaobaoshibeijing.png');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.3;
-            z-index: 0;
-            border-radius: 16px;
-            pointer-events: none;
-        }
-        .tool-card-gem {
-            background: rgba(20, 25, 35, 0.72);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-        .tool-card-gem:hover {
-            background: rgba(200, 169, 110, 0.12);
+            border-color: #f6d365;
+            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
         }
 
         /* ===== 全宽卡片（关注抖音） ===== */
@@ -581,8 +591,8 @@
                 name: '小宝石升级计算器',
                 desc: '消耗 &amp; 白金币模拟',
                 badges: ['推荐'],
-                category: 'recommend',
-                bgClass: 'tool-card-gem'   // 新增背景类
+                category: 'recommend'
+                // 没有 bgClass，确保无背景
             },
             {
                 id: 'chuanqi999',
@@ -590,7 +600,8 @@
                 name: '传奇宝石消耗计算',
                 desc: '一星 / 二星 / 五星',
                 badges: ['热门'],
-                category: 'hot'
+                category: 'hot',
+                bgClass: 'tool-card-cqbs'   // 有背景
             },
             {
                 id: 'jinengcitiao',
@@ -623,7 +634,7 @@
                 desc: '使魔图鉴 · 特性对照',
                 badges: ['新'],
                 category: 'new',
-                bgClass: 'tool-card-shimo'   // 已有背景类
+                bgClass: 'tool-card-shimo'   // 有背景
             },
             {
                 id: 'fuwuqi',
@@ -684,7 +695,7 @@
                     badgesHtml += `<span class="badge ${cls}">${b}</span>`;
                 });
 
-                // 动态添加背景类（如果有）
+                // 只有定义了 bgClass 的才会附加背景类
                 const bgClass = tool.bgClass ? ` ${tool.bgClass}` : '';
 
                 html += `
