@@ -6,10 +6,10 @@
     <title>暗黑不朽工具箱</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- ===== Font Awesome 6 免费版 ===== -->
+    <!-- Font Awesome 6 免费版 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- ===== 预加载功能模块 ===== -->
+    <!-- 预加载 -->
     <link rel="prefetch" href="pages/xiaobaoshi999.html">
     <link rel="prefetch" href="pages/chuanqi999.html">
     <link rel="prefetch" href="pages/jinengcitiao.html">
@@ -48,6 +48,7 @@
             width: 100%;
         }
 
+        /* ===== 头部 ===== */
         .header {
             text-align: left;
             margin-bottom: 30px;
@@ -59,7 +60,7 @@
             gap: 12px;
             margin-bottom: 2px;
         }
-        /* 去掉标题前的⚔️符号，只保留文字 */
+        /* 标题无图标 */
         .header-top .main-title {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 38px;
@@ -91,69 +92,55 @@
         .refresh-btn:active {
             transform: rotate(120deg) scale(0.9);
         }
+        /* 作者颜色改为亮金色 #f6d365 */
         .brand-name {
             font-family: 'Cinzel', 'Times New Roman', serif;
             font-size: 18px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: #c8a96e;
+            color: #f6d365;          /* 与图中一致 */
             margin-top: 2px;
             text-align: left;
         }
         .sub-title { display: none; }
 
-        /* ===== 新增导航栏（黑金风格） ===== */
+        /* ===== 导航栏（分类标签） ===== */
         .nav-bar {
             display: flex;
+            gap: 24px;
+            padding: 10px 0 6px 0;
+            margin-top: 8px;
+            border-top: 1px solid rgba(200, 169, 110, 0.2);
+            border-bottom: 1px solid rgba(200, 169, 110, 0.2);
+            justify-content: flex-start;
             flex-wrap: wrap;
-            gap: 6px 16px;
-            padding: 8px 0;
-            margin-top: 6px;
-            border-top: 1px solid rgba(200, 169, 110, 0.15);
-            border-bottom: 1px solid rgba(200, 169, 110, 0.15);
         }
-        .nav-bar a {
-            font-size: 14px;
+        .nav-bar .nav-tab {
+            font-size: 15px;
             font-weight: 600;
-            color: #8a9aae;
-            text-decoration: none;
+            color: #7a8a9e;
+            cursor: pointer;
+            transition: 0.25s;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
             letter-spacing: 0.5px;
-            transition: 0.2s;
-            padding: 2px 0;
-            position: relative;
-        }
-        .nav-bar a:hover {
-            color: #f6d365;
-        }
-        .nav-bar a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #c8a96e;
-            transition: width 0.25s;
-        }
-        .nav-bar a:hover::after {
-            width: 100%;
-        }
-        .nav-bar .nav-sep {
-            color: #3a4a5e;
             user-select: none;
         }
-        .nav-bar .nav-highlight {
-            color: #f6d365;
+        .nav-bar .nav-tab:hover {
+            color: #d0d8e0;
         }
-        .nav-bar .nav-highlight:hover {
-            color: #ffd966;
+        .nav-bar .nav-tab.active {
+            color: #f6d365;
+            border-bottom-color: #f6d365;
         }
 
+        /* ===== 卡片网格 ===== */
         .tool-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
             margin-bottom: 30px;
+            margin-top: 16px;
         }
 
         .tool-card {
@@ -180,16 +167,16 @@
             transform: translateY(-4px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
-        /* ===== 黑金模式图标：颜色改为金色 ===== */
+        /* 黑金图标 */
         .tool-card .icon {
             font-size: 26px;
             display: block;
             margin-bottom: 4px;
-            color: #c8a96e;           /* 基础金色 */
+            color: #c8a96e;
             transition: color 0.25s;
         }
         .tool-card:hover .icon {
-            color: #f6d365;           /* 悬停时更亮 */
+            color: #f6d365;
         }
         .tool-card .name {
             font-size: 16px;
@@ -219,6 +206,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* 全宽卡片（关注抖音） */
         .tool-card.full-width {
             grid-column: 1 / -1;
             flex-direction: row;
@@ -263,6 +251,7 @@
             letter-spacing: 1px;
         }
 
+        /* ===== 响应式 ===== */
         @media (max-width: 480px) {
             .tool-grid {
                 gap: 10px;
@@ -314,11 +303,11 @@
             .brand-name {
                 font-size: 16px;
             }
-            .nav-bar a {
-                font-size: 12px;
-            }
             .nav-bar {
-                gap: 4px 12px;
+                gap: 16px;
+            }
+            .nav-bar .nav-tab {
+                font-size: 13px;
             }
         }
 
@@ -351,15 +340,15 @@
             .brand-name {
                 font-size: 14px;
             }
-            .nav-bar a {
-                font-size: 11px;
-            }
             .nav-bar {
-                gap: 2px 8px;
+                gap: 12px;
+            }
+            .nav-bar .nav-tab {
+                font-size: 12px;
             }
         }
 
-        /* ===== 密码锁（完全保留） ===== */
+        /* ===== 密码锁 ===== */
         #lockScreen {
             position: fixed;
             top: 0;
@@ -478,7 +467,7 @@
 </head>
 <body>
 
-    <!-- ===== 密码锁遮罩 ===== -->
+    <!-- ===== 密码锁 ===== -->
     <div id="lockScreen">
         <div class="lock-box">
             <span class="lock-icon">🔐</span>
@@ -495,107 +484,24 @@
 
         <div class="header">
             <div class="header-top">
-                <!-- 标题中去掉⚔️符号，仅保留文字 -->
+                <!-- 标题无图标 -->
                 <div class="main-title">暗黑不朽工具箱</div>
                 <button class="refresh-btn" onclick="location.reload()" title="刷新页面获取最新更新">⟳</button>
             </div>
+            <!-- 作者颜色已设为 #f6d365 -->
             <div class="brand-name">作者：暗黑の不灭</div>
 
-            <!-- ===== 新增黑金导航栏 ===== -->
-            <div class="nav-bar">
-                <a href="#" class="nav-highlight">🏠 首页</a>
-                <span class="nav-sep">|</span>
-                <a href="#tools">📦 工具合集</a>
-                <span class="nav-sep">|</span>
-                <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank">📱 抖音</a>
-                <span class="nav-sep">|</span>
-                <a href="mailto:your-email@example.com">📧 反馈</a>
-                <span class="nav-sep">|</span>
-                <a href="#" onclick="location.reload();" title="刷新页面">🔄 刷新</a>
+            <!-- ===== 导航栏（分类标签） ===== -->
+            <div class="nav-bar" id="navBar">
+                <span class="nav-tab active" data-filter="recommend">🏆 推荐</span>
+                <span class="nav-tab" data-filter="hot">🔥 热门</span>
+                <span class="nav-tab" data-filter="new">✨ 新</span>
             </div>
         </div>
 
-        <div class="tool-grid" id="tools">
-
-            <!-- 第一行 -->
-            <a href="pages/xiaobaoshi999.html" class="tool-card">
-                <i class="icon fas fa-gem"></i>
-                <span class="name">小宝石升级计算器</span>
-                <span class="desc">消耗 &amp; 白金币模拟</span>
-                <span class="badge">推荐</span>
-            </a>
-            <a href="pages/chuanqi999.html" class="tool-card">
-                <i class="icon fas fa-star"></i>
-                <span class="name">传奇宝石消耗计算</span>
-                <span class="desc">一星 / 二星 / 五星</span>
-                <span class="badge">热门</span>
-            </a>
-
-            <!-- 第二行 -->
-            <a href="pages/jinengcitiao.html" class="tool-card">
-                <i class="icon fas fa-scroll"></i>
-                <span class="name">各职业技能词条一览图</span>
-                <span class="desc">全职业词条汇总 · 一键查阅</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/skill_convert.html" class="tool-card">
-                <i class="icon fas fa-arrows-rotate"></i>
-                <span class="name">技能词条转换</span>
-                <span class="desc">职业技能 · 部位映射</span>
-                <span class="badge">热门</span>
-            </a>
-
-            <!-- 第三行 -->
-            <a href="pages/xiashuidao999.html" class="tool-card">
-                <i class="icon fas fa-landmark"></i>
-                <span class="name">赫拉迪姆遗志计算器</span>
-                <span class="desc">三种材料独立计算 · 天数模拟</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/shimo.html" class="tool-card">
-                <i class="icon fas fa-paw"></i>
-                <span class="name">使魔特性查询</span>
-                <span class="desc">使魔图鉴 · 特性对照</span>
-                <span class="badge">新</span>
-            </a>
-
-            <!-- 第四行 -->
-            <a href="pages/fuwuqi.html" class="tool-card">
-                <i class="icon fas fa-globe"></i>
-                <span class="name">服务器互通查询</span>
-                <span class="desc">四大互通 · 一键搜索</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/tupocitiao.html" class="tool-card">
-                <i class="icon fas fa-book"></i>
-                <span class="name">突破属性图鉴及推荐</span>
-                <span class="desc">6种突破石 · 词条 &amp; 方案</span>
-                <span class="badge">新</span>
-            </a>
-
-            <!-- 第五行 -->
-            <a href="pages/pvpcitiao.html" class="tool-card">
-                <i class="icon fas fa-sword"></i>
-                <span class="name">PVP词条衰减大全</span>
-                <span class="desc">洗炼套装 · 衰减一览</span>
-                <span class="badge">新</span>
-            </a>
-            <a href="pages/yaoshi.html" class="tool-card">
-                <i class="icon fas fa-key"></i>
-                <span class="name">强化不朽钥匙攻略</span>
-                <span class="desc">获取渠道 · 月度汇总</span>
-                <span class="badge">新</span>
-            </a>
-
-            <!-- 第六行：关注抖音（全宽） -->
-            <a href="https://v.douyin.com/TiS0JtMHSPU/" target="_blank" class="tool-card full-width">
-                <img src="images/douyintouxiang.png" alt="抖音头像" class="avatar">
-                <div class="info">
-                    <span class="name">关注抖音：暗黑の不灭</span>
-                    <span class="desc">获取更多暗黑不朽攻略 &amp; 工具更新</span>
-                </div>
-            </a>
-
+        <!-- 卡片网格 -->
+        <div class="tool-grid" id="toolGrid">
+            <!-- 由 JavaScript 动态生成，以保证筛选功能 -->
         </div>
 
         <div class="footer">
@@ -605,7 +511,166 @@
     </div>
 
     <script>
-        // ===== 密码锁逻辑（完全保留） =====
+        // ================================================================
+        //  工具数据（卡片信息）
+        // ================================================================
+
+        const TOOLS = [
+            {
+                id: 'gem_calc',
+                icon: 'fa-gem',
+                name: '小宝石升级计算器',
+                desc: '消耗 &amp; 白金币模拟',
+                badges: ['推荐'],
+                category: 'recommend'
+            },
+            {
+                id: 'legendary_calc',
+                icon: 'fa-star',
+                name: '传奇宝石消耗计算',
+                desc: '一星 / 二星 / 五星',
+                badges: ['热门'],
+                category: 'hot'
+            },
+            {
+                id: 'skill_words',
+                icon: 'fa-scroll',
+                name: '各职业技能词条一览图',
+                desc: '全职业词条汇总 · 一键查阅',
+                badges: ['新'],
+                category: 'new'
+            },
+            {
+                id: 'skill_convert',
+                icon: 'fa-arrows-rotate',
+                name: '技能词条转换',
+                desc: '职业技能 · 部位映射',
+                badges: ['热门'],
+                category: 'hot'
+            },
+            {
+                id: 'heradium',
+                icon: 'fa-landmark',
+                name: '赫拉迪姆遗志计算器',
+                desc: '三种材料独立计算 · 天数模拟',
+                badges: ['新'],
+                category: 'new'
+            },
+            {
+                id: 'familiar',
+                icon: 'fa-paw',
+                name: '使魔特性查询',
+                desc: '使魔图鉴 · 特性对照',
+                badges: ['新'],
+                category: 'new'
+            },
+            {
+                id: 'server_query',
+                icon: 'fa-globe',
+                name: '服务器互通查询',
+                desc: '四大互通 · 一键搜索',
+                badges: ['新'],
+                category: 'new'
+            },
+            {
+                id: 'break_attr',
+                icon: 'fa-book',
+                name: '突破属性图鉴及推荐',
+                desc: '6种突破石 · 词条 &amp; 方案',
+                badges: ['新'],
+                category: 'new'
+            },
+            {
+                id: 'pvp_decay',
+                icon: 'fa-shield-halved',   // 新图标：半盾（防御/衰减）
+                name: 'PVP词条衰减大全',
+                desc: '洗炼套装 · 衰减一览',
+                badges: ['新'],
+                category: 'new'
+            },
+            {
+                id: 'key_guide',
+                icon: 'fa-key',
+                name: '强化不朽钥匙攻略',
+                desc: '获取渠道 · 月度汇总',
+                badges: ['新'],
+                category: 'new'
+            }
+        ];
+
+        // ================================================================
+        //  渲染 & 筛选逻辑
+        // ================================================================
+
+        function renderTools(filter = 'recommend') {
+            const grid = document.getElementById('toolGrid');
+            let filtered = TOOLS;
+
+            if (filter === 'recommend') {
+                filtered = TOOLS.filter(t => t.category === 'recommend' || t.badges.includes('推荐'));
+            } else if (filter === 'hot') {
+                filtered = TOOLS.filter(t => t.badges.includes('热门'));
+            } else if (filter === 'new') {
+                filtered = TOOLS.filter(t => t.badges.includes('新'));
+            }
+
+            let html = '';
+            filtered.forEach(tool => {
+                let badgesHtml = '';
+                tool.badges.forEach(b => {
+                    let cls = '';
+                    if (b === '推荐') cls = 'recommend';
+                    else if (b === '热门') cls = 'hot';
+                    else if (b === '新') cls = 'new';
+                    badgesHtml += `<span class="badge ${cls}">${b}</span>`;
+                });
+
+                html += `
+                    <a href="pages/${tool.id}.html" class="tool-card" data-id="${tool.id}">
+                        <i class="icon fas ${tool.icon}"></i>
+                        <span class="name">${tool.name}</span>
+                        <span class="desc">${tool.desc}</span>
+                        ${badgesHtml ? badgesHtml : ''}
+                    </a>
+                `;
+            });
+
+            // 如果过滤后没有卡片，显示提示
+            if (!html) {
+                html = `<p style="grid-column:1/-1;text-align:center;color:#4a5a6e;padding:30px 0;">暂无该分类下的工具</p>`;
+            }
+
+            grid.innerHTML = html;
+        }
+
+        // ================================================================
+        //  导航栏切换
+        // ================================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            // 初始激活推荐
+            let currentFilter = 'recommend';
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有 active
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.dataset.filter;
+                    currentFilter = filter;
+                    renderTools(filter);
+                });
+            });
+
+            // 初始渲染
+            renderTools('recommend');
+        });
+
+        // ================================================================
+        //  密码锁逻辑（保持不变）
+        // ================================================================
+
         (function() {
             var CORRECT_PASSWORD = '8888';
             var lockScreen = document.getElementById('lockScreen');
