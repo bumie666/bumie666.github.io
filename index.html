@@ -211,7 +211,7 @@
         }
 
         /* ============================================================
-           有专属背景图的卡片（小宝石已移除，传奇宝石 + 使魔保留）
+           有专属背景图的卡片（传奇宝石 / 使魔 / 强化不朽钥匙）
            ============================================================ */
 
         /* 传奇宝石消耗计算 */
@@ -234,7 +234,6 @@
             background: rgba(20, 25, 35, 0.72);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            /* 金色边框强调 */
             border-color: rgba(200, 169, 110, 0.3);
         }
         .tool-card-cqbs:hover {
@@ -266,6 +265,34 @@
             border-color: rgba(200, 169, 110, 0.3);
         }
         .tool-card-shimo:hover {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: #f6d365;
+            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 强化不朽钥匙攻略 — 新增背景 */
+        .tool-card-yaoshi::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/qhyaoshi.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 0;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .tool-card-yaoshi {
+            background: rgba(20, 25, 35, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-color: rgba(200, 169, 110, 0.3);
+        }
+        .tool-card-yaoshi:hover {
             background: rgba(200, 169, 110, 0.12);
             border-color: #f6d365;
             box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
@@ -592,7 +619,6 @@
                 desc: '消耗 &amp; 白金币模拟',
                 badges: ['推荐'],
                 category: 'recommend'
-                // 没有 bgClass，确保无背景
             },
             {
                 id: 'chuanqi999',
@@ -601,7 +627,7 @@
                 desc: '一星 / 二星 / 五星',
                 badges: ['热门'],
                 category: 'hot',
-                bgClass: 'tool-card-cqbs'   // 有背景
+                bgClass: 'tool-card-cqbs'
             },
             {
                 id: 'jinengcitiao',
@@ -634,7 +660,7 @@
                 desc: '使魔图鉴 · 特性对照',
                 badges: ['新'],
                 category: 'new',
-                bgClass: 'tool-card-shimo'   // 有背景
+                bgClass: 'tool-card-shimo'
             },
             {
                 id: 'fuwuqi',
@@ -666,7 +692,8 @@
                 name: '强化不朽钥匙攻略',
                 desc: '获取渠道 · 月度汇总',
                 badges: ['新'],
-                category: 'new'
+                category: 'new',
+                bgClass: 'tool-card-yaoshi'   // 新增背景类
             }
         ];
 
