@@ -184,7 +184,7 @@
             -moz-appearance: textfield;
         }
 
-        /* ===== 单价 + 按钮行（移动端）- 右对齐 + 加长按钮 ===== */
+        /* ===== 单价 + 按钮行（移动端）- 按钮居中 ===== */
         .price-action-row {
             display: flex;
             gap: 6px;
@@ -203,8 +203,9 @@
             flex-shrink: 0;
         }
         .price-action-row .calc-btn-mobile {
-            flex: 0 0 140px;          /* 从 100px 加长到 140px */
-            margin-left: auto;          /* 右对齐 */
+            flex: 0 0 140px;
+            /* 去掉 margin-left: auto，改为居中 */
+            margin: 0 auto;              /* 在剩余空间中居中 */
             padding: 5px 8px;
             background: var(--gold-gradient);
             border: none;
@@ -419,8 +420,8 @@
                 padding-bottom: 5px;
             }
             .price-action-row .calc-btn-mobile {
-                flex: 0 0 140px;          /* 加长到 140px */
-                margin-left: auto;
+                flex: 0 0 140px;
+                margin: 0 auto;            /* 居中 */
                 font-size: 12px;
                 padding: 5px 8px;
                 height: 32px;
@@ -589,7 +590,7 @@
                 </div>
             </div>
 
-            <!-- 移动端：单价 + 按钮（按钮右对齐，宽度 140px，文字“计算最终消耗”） -->
+            <!-- 移动端：单价 + 按钮（按钮居中） -->
             <div class="price-action-row">
                 <div class="form-group-compact">
                     <label>单价</label>
