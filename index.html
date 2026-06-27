@@ -210,12 +210,12 @@
             z-index: 1;
         }
 
-        /* ============================================================
-           有专属背景图的卡片（传奇宝石 / 使魔 / 强化不朽钥匙 / 赫拉迪姆遗志）
-           ============================================================ */
+        /* ================================================================
+           背景图统一定义 (半透明)
+           ================================================================ */
 
-        /* 传奇宝石消耗计算 */
-        .tool-card-cqbs::before {
+        /* 1. 小宝石升级计算器 — 使用原先传奇宝石的背景 (cqbsbeijing.png) */
+        .tool-card-xiaobaoshi::before {
             content: '';
             position: absolute;
             top: 0;
@@ -230,19 +230,75 @@
             border-radius: 16px;
             pointer-events: none;
         }
-        .tool-card-cqbs {
+        .tool-card-xiaobaoshi {
             background: rgba(20, 25, 35, 0.72);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border-color: rgba(200, 169, 110, 0.3);
         }
-        .tool-card-cqbs:hover {
+        .tool-card-xiaobaoshi:hover {
             background: rgba(200, 169, 110, 0.12);
             border-color: #f6d365;
             box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* 使魔特性查询 */
+        /* 2. 传奇宝石消耗计算 — 使用巨人之心 (jurenzhixin.png) */
+        .tool-card-jurenzhixin::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/jurenzhixin.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 0;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .tool-card-jurenzhixin {
+            background: rgba(20, 25, 35, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-color: rgba(200, 169, 110, 0.3);
+        }
+        .tool-card-jurenzhixin:hover {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: #f6d365;
+            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 3. 服务器互通查询 — 使用 zqbeijing.png */
+        .tool-card-zqbeijing::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/zqbeijing.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 0;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .tool-card-zqbeijing {
+            background: rgba(20, 25, 35, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-color: rgba(200, 169, 110, 0.3);
+        }
+        .tool-card-zqbeijing:hover {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: #f6d365;
+            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 4. 使魔特性查询 (保持不变) */
         .tool-card-shimo::before {
             content: '';
             position: absolute;
@@ -270,7 +326,7 @@
             box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* 强化不朽钥匙攻略 */
+        /* 5. 强化不朽钥匙攻略 (保持不变) */
         .tool-card-yaoshi::before {
             content: '';
             position: absolute;
@@ -293,34 +349,6 @@
             border-color: rgba(200, 169, 110, 0.3);
         }
         .tool-card-yaoshi:hover {
-            background: rgba(200, 169, 110, 0.12);
-            border-color: #f6d365;
-            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        /* 赫拉迪姆遗志计算器 — 新增背景 */
-        .tool-card-xiashuidao::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('images/xsdbeijing.png');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.5;
-            z-index: 0;
-            border-radius: 16px;
-            pointer-events: none;
-        }
-        .tool-card-xiashuidao {
-            background: rgba(20, 25, 35, 0.72);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-color: rgba(200, 169, 110, 0.3);
-        }
-        .tool-card-xiashuidao:hover {
             background: rgba(200, 169, 110, 0.12);
             border-color: #f6d365;
             box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
@@ -646,7 +674,8 @@
                 name: '小宝石升级计算器',
                 desc: '消耗 &amp; 白金币模拟',
                 badges: ['推荐'],
-                category: 'recommend'
+                category: 'recommend',
+                bgClass: 'tool-card-xiaobaoshi'  // 使用原先传奇宝石的背景
             },
             {
                 id: 'chuanqi999',
@@ -655,7 +684,7 @@
                 desc: '一星 / 二星 / 五星',
                 badges: ['热门'],
                 category: 'hot',
-                bgClass: 'tool-card-cqbs'
+                bgClass: 'tool-card-jurenzhixin' // 使用 jurenzhixin.png
             },
             {
                 id: 'jinengcitiao',
@@ -680,7 +709,7 @@
                 desc: '三种材料独立计算 · 天数模拟',
                 badges: ['新'],
                 category: 'new',
-                bgClass: 'tool-card-xiashuidao'   // 新增背景类
+                bgClass: 'tool-card-xiashuidao' // 上一步已添加
             },
             {
                 id: 'shimo',
@@ -697,7 +726,8 @@
                 name: '服务器互通查询',
                 desc: '四大互通 · 一键搜索',
                 badges: ['新'],
-                category: 'new'
+                category: 'new',
+                bgClass: 'tool-card-zqbeijing' // 使用 zqbeijing.png
             },
             {
                 id: 'tupocitiao',
@@ -751,7 +781,6 @@
                     badgesHtml += `<span class="badge ${cls}">${b}</span>`;
                 });
 
-                // 只有定义了 bgClass 的才会附加背景类
                 const bgClass = tool.bgClass ? ` ${tool.bgClass}` : '';
 
                 html += `
