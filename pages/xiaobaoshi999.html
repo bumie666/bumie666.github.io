@@ -135,8 +135,8 @@
         /* ===== 紧凑行（移动端专用） ===== */
         .form-row-compact {
             display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 6px;
+            margin-bottom: 6px;
         }
         .form-group-compact {
             flex: 1;
@@ -154,12 +154,12 @@
         .form-group-compact select,
         .form-group-compact input {
             width: 100%;
-            padding: 6px 8px;
+            padding: 5px 6px;
             background: #0f161e;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 5px;
             color: #fff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             outline: none;
             transition: 0.2s;
@@ -187,41 +187,50 @@
         /* ===== 单价 + 按钮行（移动端） ===== */
         .price-action-row {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             align-items: flex-end;
+            flex-wrap: nowrap;
         }
         .price-action-row .form-group-compact {
-            flex: 0 0 90px;
+            flex: 0 0 72px;
+            min-width: 60px;
         }
         .price-action-row .price-hint {
             color: var(--text-muted);
-            font-size: 10px;
+            font-size: 9px;
             white-space: nowrap;
-            padding-bottom: 7px;
+            padding-bottom: 6px;
+            flex-shrink: 0;
         }
         .price-action-row .calc-btn-mobile {
-            flex: 1;
-            padding: 6px 12px;
+            flex-shrink: 0;
+            padding: 5px 10px;
             background: var(--gold-gradient);
             border: none;
-            border-radius: 6px;
-            font-size: 13px;
+            border-radius: 5px;
+            font-size: 12px;
             font-weight: 700;
             color: #0b0e14;
             cursor: pointer;
             transition: 0.25s;
-            letter-spacing: 1px;
             font-family: var(--font-display);
             white-space: nowrap;
-            height: 36px;
+            height: 30px;
             line-height: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            letter-spacing: 0.3px;
+        }
+        .price-action-row .calc-btn-mobile .btn-icon {
+            font-size: 13px;
         }
         .price-action-row .calc-btn-mobile:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
             box-shadow: 0 4px 16px rgba(200, 169, 110, 0.30);
         }
         .price-action-row .calc-btn-mobile:active {
-            transform: scale(0.97);
+            transform: scale(0.95);
         }
 
         /* ===== 桌面端按钮（全宽） ===== */
@@ -362,21 +371,20 @@
            ============================================================ */
         @media (max-width: 600px) {
             body {
-                padding: 12px 8px;
+                padding: 10px 6px;
             }
             .header h1 {
-                font-size: 20px;
-                letter-spacing: 2px;
+                font-size: 18px;
+                letter-spacing: 1.5px;
             }
             .header .sub {
-                font-size: 11px;
+                font-size: 10px;
             }
             .card {
-                padding: 14px 10px;
-                border-radius: 14px;
+                padding: 12px 8px;
+                border-radius: 12px;
             }
 
-            /* 隐藏桌面端按钮和表单行 */
             .form-row {
                 display: none !important;
             }
@@ -386,75 +394,83 @@
 
             .form-row-compact {
                 display: flex !important;
-                gap: 6px;
-                margin-bottom: 6px;
+                gap: 4px;
+                margin-bottom: 4px;
             }
             .form-group-compact select,
             .form-group-compact input {
-                font-size: 12px;
-                padding: 5px 6px;
-                border-radius: 5px;
+                font-size: 11px;
+                padding: 4px 4px;
+                border-radius: 4px;
+            }
+            .form-group-compact label {
+                font-size: 8px;
             }
 
-            /* 单价+按钮行 */
+            /* 单价+按钮行 - 极致紧凑 */
             .price-action-row {
                 display: flex !important;
-                gap: 6px;
+                gap: 3px;
                 align-items: flex-end;
             }
             .price-action-row .form-group-compact {
-                flex: 0 0 80px;
+                flex: 0 0 62px;
+                min-width: 50px;
             }
             .price-action-row .price-hint {
-                font-size: 9px;
+                font-size: 8px;
                 padding-bottom: 5px;
             }
             .price-action-row .calc-btn-mobile {
-                font-size: 12px;
-                padding: 5px 10px;
-                height: 32px;
-                border-radius: 5px;
-                letter-spacing: 0.5px;
+                font-size: 11px;
+                padding: 4px 8px;
+                height: 26px;
+                border-radius: 4px;
+                letter-spacing: 0px;
+                gap: 2px;
+            }
+            .price-action-row .calc-btn-mobile .btn-icon {
+                font-size: 11px;
             }
 
             .result-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 6px;
+                gap: 5px;
             }
             .result-item {
-                padding: 8px 4px;
-                border-radius: 8px;
+                padding: 6px 3px;
+                border-radius: 6px;
             }
             .result-item .value {
-                font-size: 16px;
+                font-size: 15px;
             }
             .result-item .label {
-                font-size: 8px;
+                font-size: 7px;
             }
             .result-item .sub-text {
-                font-size: 8px;
+                font-size: 7px;
             }
 
             table {
-                font-size: 10px;
-                min-width: 280px;
+                font-size: 9px;
+                min-width: 240px;
             }
             th {
-                font-size: 9px;
-                padding: 5px 3px;
-            }
-            td {
-                font-size: 9px;
+                font-size: 8px;
                 padding: 4px 2px;
             }
+            td {
+                font-size: 8px;
+                padding: 3px 1px;
+            }
             .info-note {
-                font-size: 10px;
-                padding-top: 8px;
-                margin-top: 8px;
+                font-size: 9px;
+                padding-top: 6px;
+                margin-top: 6px;
             }
             .back-link {
-                font-size: 12px;
-                margin-top: 10px;
+                font-size: 11px;
+                margin-top: 8px;
             }
         }
 
@@ -539,7 +555,7 @@
             <!-- ===== 桌面端按钮 ===== -->
             <button class="calc-btn-desktop" onclick="calculate()">🧮 计算升级消耗</button>
 
-            <!-- ===== 移动端表单（三列 + 单价+按钮行） ===== -->
+            <!-- ===== 移动端表单 ===== -->
             <div class="form-row-compact">
                 <div class="form-group-compact">
                     <label>宝石</label>
@@ -583,17 +599,19 @@
                 </div>
             </div>
 
-            <!-- 移动端：单价 + 计算按钮 同行 -->
+            <!-- 移动端：单价 + 计算按钮（极致紧凑） -->
             <div class="price-action-row">
                 <div class="form-group-compact">
                     <label>单价</label>
                     <input type="number" id="gemPriceMobile" value="50" min="0" step="1" placeholder="50">
                 </div>
                 <span class="price-hint">白金币/个</span>
-                <button class="calc-btn-mobile" onclick="calculate()">计算</button>
+                <button class="calc-btn-mobile" onclick="calculate()">
+                    <span class="btn-icon">⚡</span> 计算
+                </button>
             </div>
 
-            <div id="resultArea" style="margin-top:16px; display:none;">
+            <div id="resultArea" style="margin-top:14px; display:none;">
                 <div class="result-grid">
                     <div class="result-item">
                         <div class="label">💎 水晶石</div>
@@ -617,7 +635,7 @@
                     </div>
                 </div>
 
-                <div class="result-grid" style="margin-top:8px;">
+                <div class="result-grid" style="margin-top:6px;">
                     <div class="result-item" style="grid-column: span 2;">
                         <div class="label">💰 总花费</div>
                         <div class="value" id="totalGold">0</div>
@@ -692,14 +710,6 @@
         // ================================================================
 
         function syncSelects(sourceId, targetId) {
-            var source = document.getElementById(sourceId);
-            var target = document.getElementById(targetId);
-            if (source && target && source.value !== target.value) {
-                target.value = source.value;
-            }
-        }
-
-        function syncInputs(sourceId, targetId) {
             var source = document.getElementById(sourceId);
             var target = document.getElementById(targetId);
             if (source && target && source.value !== target.value) {
