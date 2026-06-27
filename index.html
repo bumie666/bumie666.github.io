@@ -211,7 +211,7 @@
         }
 
         /* ============================================================
-           有专属背景图的卡片（传奇宝石 / 使魔 / 强化不朽钥匙）
+           有专属背景图的卡片（传奇宝石 / 使魔 / 强化不朽钥匙 / 赫拉迪姆遗志）
            ============================================================ */
 
         /* 传奇宝石消耗计算 */
@@ -270,7 +270,7 @@
             box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* 强化不朽钥匙攻略 — 新增背景 */
+        /* 强化不朽钥匙攻略 */
         .tool-card-yaoshi::before {
             content: '';
             position: absolute;
@@ -293,6 +293,34 @@
             border-color: rgba(200, 169, 110, 0.3);
         }
         .tool-card-yaoshi:hover {
+            background: rgba(200, 169, 110, 0.12);
+            border-color: #f6d365;
+            box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 赫拉迪姆遗志计算器 — 新增背景 */
+        .tool-card-xiashuidao::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/xsdbeijing.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 0;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .tool-card-xiashuidao {
+            background: rgba(20, 25, 35, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-color: rgba(200, 169, 110, 0.3);
+        }
+        .tool-card-xiashuidao:hover {
             background: rgba(200, 169, 110, 0.12);
             border-color: #f6d365;
             box-shadow: 0 0 25px rgba(200, 169, 110, 0.2), 0 8px 30px rgba(0, 0, 0, 0.5);
@@ -651,7 +679,8 @@
                 name: '赫拉迪姆遗志计算器',
                 desc: '三种材料独立计算 · 天数模拟',
                 badges: ['新'],
-                category: 'new'
+                category: 'new',
+                bgClass: 'tool-card-xiashuidao'   // 新增背景类
             },
             {
                 id: 'shimo',
@@ -693,7 +722,7 @@
                 desc: '获取渠道 · 月度汇总',
                 badges: ['新'],
                 category: 'new',
-                bgClass: 'tool-card-yaoshi'   // 新增背景类
+                bgClass: 'tool-card-yaoshi'
             }
         ];
 
