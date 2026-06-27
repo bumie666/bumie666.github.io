@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>暗黑の不灭 · 小宝石升级计算器</title>
+    <title>暗黑不灭 · 小宝石升级计算器</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -184,46 +184,46 @@
             -moz-appearance: textfield;
         }
 
-        /* ===== 单价 + 按钮行（移动端） ===== */
+        /* ===== 单价 + 按钮行（移动端）- 加长版 ===== */
         .price-action-row {
             display: flex;
-            gap: 4px;
+            gap: 6px;
             align-items: flex-end;
             flex-wrap: nowrap;
         }
         .price-action-row .form-group-compact {
-            flex: 0 0 72px;
-            min-width: 60px;
+            flex: 0 0 130px;  /* 从 62px → 130px，加长一倍多 */
+            min-width: 100px;
         }
         .price-action-row .price-hint {
             color: var(--text-muted);
-            font-size: 9px;
+            font-size: 10px;
             white-space: nowrap;
             padding-bottom: 6px;
             flex-shrink: 0;
         }
         .price-action-row .calc-btn-mobile {
             flex-shrink: 0;
-            padding: 5px 10px;
+            padding: 5px 18px;  /* 左右 padding 加宽 */
             background: var(--gold-gradient);
             border: none;
             border-radius: 5px;
-            font-size: 12px;
+            font-size: 13px;    /* 字号稍大 */
             font-weight: 700;
             color: #0b0e14;
             cursor: pointer;
             transition: 0.25s;
             font-family: var(--font-display);
             white-space: nowrap;
-            height: 30px;
+            height: 32px;       /* 从 26px → 32px */
             line-height: 1.2;
             display: flex;
             align-items: center;
-            gap: 3px;
-            letter-spacing: 0.3px;
+            gap: 4px;
+            letter-spacing: 0.5px;
         }
         .price-action-row .calc-btn-mobile .btn-icon {
-            font-size: 13px;
+            font-size: 14px;
         }
         .price-action-row .calc-btn-mobile:hover {
             transform: scale(1.03);
@@ -407,30 +407,30 @@
                 font-size: 8px;
             }
 
-            /* 单价+按钮行 - 极致紧凑 */
+            /* 单价+按钮行 - 加长版 */
             .price-action-row {
                 display: flex !important;
-                gap: 3px;
+                gap: 5px;
                 align-items: flex-end;
             }
             .price-action-row .form-group-compact {
-                flex: 0 0 62px;
-                min-width: 50px;
+                flex: 0 0 130px;
+                min-width: 100px;
             }
             .price-action-row .price-hint {
-                font-size: 8px;
+                font-size: 9px;
                 padding-bottom: 5px;
             }
             .price-action-row .calc-btn-mobile {
-                font-size: 11px;
-                padding: 4px 8px;
-                height: 26px;
-                border-radius: 4px;
-                letter-spacing: 0px;
-                gap: 2px;
+                font-size: 13px;
+                padding: 5px 16px;
+                height: 32px;
+                border-radius: 5px;
+                letter-spacing: 0.5px;
+                gap: 4px;
             }
             .price-action-row .calc-btn-mobile .btn-icon {
-                font-size: 11px;
+                font-size: 13px;
             }
 
             .result-grid {
@@ -599,7 +599,7 @@
                 </div>
             </div>
 
-            <!-- 移动端：单价 + 计算按钮（极致紧凑） -->
+            <!-- 移动端：单价 + 计算按钮（加长版） -->
             <div class="price-action-row">
                 <div class="form-group-compact">
                     <label>单价</label>
