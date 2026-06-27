@@ -79,7 +79,7 @@
             border-color: var(--border-glow);
         }
 
-        /* ===== 表单行：桌面端 ===== */
+        /* ===== 桌面端表单 ===== */
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -192,7 +192,7 @@
             flex-wrap: nowrap;
         }
         .price-action-row .form-group-compact {
-            flex: 0 0 130px;  /* 从 62px → 130px，加长一倍多 */
+            flex: 0 0 130px;
             min-width: 100px;
         }
         .price-action-row .price-hint {
@@ -203,22 +203,23 @@
             flex-shrink: 0;
         }
         .price-action-row .calc-btn-mobile {
-            flex-shrink: 0;
-            padding: 5px 18px;  /* 左右 padding 加宽 */
+            flex: 0 0 100px;          /* 固定宽度，保证按钮足够长 */
+            padding: 5px 8px;
             background: var(--gold-gradient);
             border: none;
             border-radius: 5px;
-            font-size: 13px;    /* 字号稍大 */
+            font-size: 14px;
             font-weight: 700;
             color: #0b0e14;
             cursor: pointer;
             transition: 0.25s;
             font-family: var(--font-display);
             white-space: nowrap;
-            height: 32px;       /* 从 26px → 32px */
+            height: 32px;
             line-height: 1.2;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 4px;
             letter-spacing: 0.5px;
         }
@@ -407,7 +408,6 @@
                 font-size: 8px;
             }
 
-            /* 单价+按钮行 - 加长版 */
             .price-action-row {
                 display: flex !important;
                 gap: 5px;
@@ -422,8 +422,9 @@
                 padding-bottom: 5px;
             }
             .price-action-row .calc-btn-mobile {
-                font-size: 13px;
-                padding: 5px 16px;
+                flex: 0 0 100px;          /* 固定 100px 宽，比之前长一倍 */
+                font-size: 14px;
+                padding: 5px 8px;
                 height: 32px;
                 border-radius: 5px;
                 letter-spacing: 0.5px;
@@ -474,9 +475,6 @@
             }
         }
 
-        /* ============================================================
-           桌面端默认显示
-           ============================================================ */
         @media (min-width: 601px) {
             .form-row {
                 display: flex !important;
@@ -504,7 +502,7 @@
         </div>
 
         <div class="card">
-            <!-- ===== 桌面端表单 ===== -->
+            <!-- ===== 桌面端表单（已移除「金」选项） ===== -->
             <div class="form-row">
                 <div class="form-group">
                     <label>💎 宝石类型</label>
@@ -515,7 +513,6 @@
                         <option value="base">🟢 猫眼石</option>
                         <option value="sun">🔴 太阳石</option>
                         <option value="red">🟣 赤精石</option>
-                        <option value="gold">✨ 金</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -555,7 +552,7 @@
             <!-- ===== 桌面端按钮 ===== -->
             <button class="calc-btn-desktop" onclick="calculate()">🧮 计算升级消耗</button>
 
-            <!-- ===== 移动端表单 ===== -->
+            <!-- ===== 移动端表单（已移除「金」选项） ===== -->
             <div class="form-row-compact">
                 <div class="form-group-compact">
                     <label>宝石</label>
@@ -566,7 +563,6 @@
                         <option value="base">猫眼石</option>
                         <option value="sun">太阳石</option>
                         <option value="red">赤精石</option>
-                        <option value="gold">金</option>
                     </select>
                 </div>
                 <div class="form-group-compact">
@@ -599,7 +595,7 @@
                 </div>
             </div>
 
-            <!-- 移动端：单价 + 计算按钮（加长版） -->
+            <!-- 移动端：单价 + 计算按钮（按钮固定 100px 宽） -->
             <div class="price-action-row">
                 <div class="form-group-compact">
                     <label>单价</label>
@@ -671,14 +667,13 @@
 
     <script>
         // ================================================================
-        //  数据区
+        //  数据区（已删除 gold 相关数据）
         // ================================================================
 
         var STATS = {
             base: [8, 16, 24, 36, 56, 136, 368, 656, 952, 1256],
             sun: [8, 16, 32, 56, 92, 148, 216, 292, 380, 480],
-            red: [80, 160, 320, 560, 920, 1480, 2160, 2920, 3800, 4800],
-            gold: [16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
+            red: [80, 160, 320, 560, 920, 1480, 2160, 2920, 3800, 4800]
         };
 
         var CRYSTAL_PER = [0, 0, 0, 0, 1, 5, 15, 35, 75];
@@ -701,8 +696,7 @@
         var GEM_NAME = {
             base: '黄玉/蓝水晶/月亮石/猫眼石',
             sun: '太阳石',
-            red: '赤精石',
-            gold: '金'
+            red: '赤精石'
         };
 
         // ================================================================
@@ -717,7 +711,7 @@
             }
         }
 
-        // 监听桌面端变化 → 同步到移动端
+        // 桌面端 → 移动端
         document.getElementById('gemType').addEventListener('change', function() {
             document.getElementById('gemTypeMobile').value = this.value;
             if (document.getElementById('resultArea').style.display !== 'none') calculate();
@@ -735,7 +729,7 @@
             if (document.getElementById('resultArea').style.display !== 'none') calculate();
         });
 
-        // 监听移动端变化 → 同步到桌面端
+        // 移动端 → 桌面端
         document.getElementById('gemTypeMobile').addEventListener('change', function() {
             document.getElementById('gemType').value = this.value;
             if (document.getElementById('resultArea').style.display !== 'none') calculate();
