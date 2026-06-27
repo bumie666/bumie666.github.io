@@ -184,7 +184,7 @@
             -moz-appearance: textfield;
         }
 
-        /* ===== 单价 + 按钮行（移动端）- 加长版 ===== */
+        /* ===== 单价 + 按钮行（移动端）- 右对齐 ===== */
         .price-action-row {
             display: flex;
             gap: 6px;
@@ -203,12 +203,13 @@
             flex-shrink: 0;
         }
         .price-action-row .calc-btn-mobile {
-            flex: 0 0 100px;          /* 固定宽度，保证按钮足够长 */
+            flex: 0 0 100px;
+            margin-left: auto;          /* 关键：推到右侧与边缘对齐 */
             padding: 5px 8px;
             background: var(--gold-gradient);
             border: none;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             color: #0b0e14;
             cursor: pointer;
@@ -220,11 +221,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
-            letter-spacing: 0.5px;
-        }
-        .price-action-row .calc-btn-mobile .btn-icon {
-            font-size: 14px;
+            letter-spacing: 0.3px;
         }
         .price-action-row .calc-btn-mobile:hover {
             transform: scale(1.03);
@@ -422,16 +419,13 @@
                 padding-bottom: 5px;
             }
             .price-action-row .calc-btn-mobile {
-                flex: 0 0 100px;          /* 固定 100px 宽，比之前长一倍 */
-                font-size: 14px;
+                flex: 0 0 100px;
+                margin-left: auto;          /* 右对齐 */
+                font-size: 12px;
                 padding: 5px 8px;
                 height: 32px;
                 border-radius: 5px;
-                letter-spacing: 0.5px;
-                gap: 4px;
-            }
-            .price-action-row .calc-btn-mobile .btn-icon {
-                font-size: 13px;
+                letter-spacing: 0.3px;
             }
 
             .result-grid {
@@ -502,7 +496,7 @@
         </div>
 
         <div class="card">
-            <!-- ===== 桌面端表单（已移除「金」选项） ===== -->
+            <!-- ===== 桌面端表单 ===== -->
             <div class="form-row">
                 <div class="form-group">
                     <label>💎 宝石类型</label>
@@ -552,7 +546,7 @@
             <!-- ===== 桌面端按钮 ===== -->
             <button class="calc-btn-desktop" onclick="calculate()">🧮 计算升级消耗</button>
 
-            <!-- ===== 移动端表单（已移除「金」选项） ===== -->
+            <!-- ===== 移动端表单 ===== -->
             <div class="form-row-compact">
                 <div class="form-group-compact">
                     <label>宝石</label>
@@ -595,16 +589,14 @@
                 </div>
             </div>
 
-            <!-- 移动端：单价 + 计算按钮（按钮固定 100px 宽） -->
+            <!-- 移动端：单价 + 按钮（按钮右对齐，无图标，文字改为“计算最终消耗”） -->
             <div class="price-action-row">
                 <div class="form-group-compact">
                     <label>单价</label>
                     <input type="number" id="gemPriceMobile" value="50" min="0" step="1" placeholder="50">
                 </div>
                 <span class="price-hint">白金币/个</span>
-                <button class="calc-btn-mobile" onclick="calculate()">
-                    <span class="btn-icon">⚡</span> 计算
-                </button>
+                <button class="calc-btn-mobile" onclick="calculate()">计算最终消耗</button>
             </div>
 
             <div id="resultArea" style="margin-top:14px; display:none;">
@@ -667,7 +659,7 @@
 
     <script>
         // ================================================================
-        //  数据区（已删除 gold 相关数据）
+        //  数据区
         // ================================================================
 
         var STATS = {
