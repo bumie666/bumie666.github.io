@@ -32,7 +32,7 @@
             color: var(--text-primary);
             font-family: var(--font-body);
             min-height: 100vh;
-            padding: 20px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -43,15 +43,15 @@
         }
         .header {
             text-align: center;
-            padding: 20px 0 10px;
+            padding: 16px 0 10px;
             border-bottom: 1px solid var(--border-color);
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
         .header h1 {
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 30px;
-            letter-spacing: 4px;
+            font-size: 26px;
+            letter-spacing: 3px;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -59,9 +59,9 @@
         }
         .header .sub {
             color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 6px;
-            letter-spacing: 2px;
+            font-size: 13px;
+            margin-top: 4px;
+            letter-spacing: 1.5px;
             font-weight: 300;
         }
         .card {
@@ -69,20 +69,22 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 28px 24px;
-            margin-bottom: 20px;
+            border-radius: 18px;
+            padding: 20px 16px;
+            margin-bottom: 16px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
             transition: border-color 0.3s ease;
         }
         .card:hover {
             border-color: var(--border-glow);
         }
+
+        /* ===== 表单行：桌面端 ===== */
         .form-row {
             display: flex;
             flex-wrap: wrap;
             gap: 16px 20px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .form-group {
             flex: 1 1 calc(50% - 20px);
@@ -90,21 +92,22 @@
         }
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
-        .form-group select {
+        .form-group select,
+        .form-group input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background: #0f161e;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #fff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             outline: none;
             transition: 0.2s;
@@ -112,33 +115,14 @@
             appearance: none;
             cursor: pointer;
         }
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group input:focus {
             border-color: var(--gold);
             box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
         }
         .form-group select option {
             background: #1a212b;
         }
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0f161e;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 500;
-            outline: none;
-            transition: 0.2s;
-            /* 允许输入框清空 */
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .form-group input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
-        }
-        /* 移除 number 类型默认的上下箭头（移动端依然可删除） */
         .form-group input[type="number"]::-webkit-inner-spin-button,
         .form-group input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -147,19 +131,87 @@
         .form-group input[type="number"] {
             -moz-appearance: textfield;
         }
+
+        /* ===== 新增：紧凑行（移动端专用） ===== */
+        .form-row-compact {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .form-group-compact {
+            flex: 1;
+            min-width: 0;
+        }
+        .form-group-compact label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .form-group-compact select,
+        .form-group-compact input {
+            width: 100%;
+            padding: 8px 10px;
+            background: #0f161e;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            outline: none;
+            transition: 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        .form-group-compact select:focus,
+        .form-group-compact input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.12);
+        }
+        .form-group-compact select option {
+            background: #1a212b;
+        }
+        .form-group-compact input[type="number"]::-webkit-inner-spin-button,
+        .form-group-compact input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .form-group-compact input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* ===== 单价行专用 ===== */
+        .price-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .price-group .form-group-compact {
+            flex: 0 0 120px;
+        }
+        .price-group .price-hint {
+            color: var(--text-muted);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
         .calc-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: var(--gold-gradient);
             border: none;
-            border-radius: 14px;
-            font-size: 18px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 700;
             color: #0b0e14;
             cursor: pointer;
             transition: 0.25s;
-            letter-spacing: 3px;
-            margin-top: 4px;
+            letter-spacing: 2px;
+            margin-top: 2px;
             font-family: var(--font-display);
         }
         .calc-btn:hover {
@@ -169,16 +221,18 @@
         .calc-btn:active {
             transform: scale(0.98);
         }
+
+        /* ===== 结果区域 ===== */
         .result-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 10px;
             margin-top: 6px;
         }
         .result-item {
             background: #0f161e;
-            border-radius: 14px;
-            padding: 14px 10px;
+            border-radius: 12px;
+            padding: 12px 8px;
             text-align: center;
             border: 1px solid var(--border-color);
             transition: border-color 0.2s;
@@ -187,16 +241,16 @@
             border-color: var(--gold);
         }
         .result-item .label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .result-item .value {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--gold-light);
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .result-item .value.green {
             color: #5fcb9a;
@@ -208,38 +262,40 @@
             color: #b088d0;
         }
         .result-item .sub-text {
-            font-size: 12px;
+            font-size: 10px;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 1px;
         }
+
         .table-wrap {
             overflow-x: auto;
-            margin-top: 16px;
-            border-radius: 12px;
+            margin-top: 14px;
+            border-radius: 10px;
             border: 1px solid var(--border-color);
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
-            min-width: 450px;
+            font-size: 13px;
+            min-width: 400px;
         }
         th {
             background: #1a212b;
             color: var(--gold);
             font-weight: 600;
-            padding: 12px 8px;
+            padding: 10px 6px;
             text-align: center;
             border-bottom: 2px solid var(--border-color);
             font-family: var(--font-display);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            font-size: 12px;
         }
         td {
-            padding: 10px 6px;
+            padding: 8px 4px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-primary);
-            font-size: 13px;
+            font-size: 12px;
         }
         tr:last-child td {
             border-bottom: none;
@@ -254,49 +310,144 @@
         }
         .info-note {
             color: var(--text-secondary);
-            font-size: 13px;
-            margin-top: 14px;
+            font-size: 12px;
+            margin-top: 12px;
             text-align: center;
             border-top: 1px dashed var(--border-color);
-            padding-top: 14px;
+            padding-top: 12px;
+            line-height: 1.6;
         }
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 18px;
+            margin-top: 14px;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             text-decoration: none;
             transition: 0.2s;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
         .back-link:hover {
             color: var(--gold);
         }
+
+        /* ============================================================
+           移动端优化 (max-width: 600px)
+           ============================================================ */
         @media (max-width: 600px) {
-            .form-group {
-                flex: 1 1 100%;
-            }
-            .result-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .result-item .value {
-                font-size: 20px;
+            body {
+                padding: 12px 8px;
             }
             .header h1 {
-                font-size: 22px;
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+            .header .sub {
+                font-size: 11px;
             }
             .card {
-                padding: 16px 12px;
+                padding: 14px 10px;
+                border-radius: 14px;
             }
+
+            /* 隐藏桌面端表单行 */
+            .form-row {
+                display: none !important;
+            }
+
+            /* 显示紧凑表单行 */
+            .form-row-compact {
+                display: flex !important;
+                gap: 8px;
+                margin-bottom: 8px;
+            }
+            .form-group-compact {
+                flex: 1;
+                min-width: 0;
+            }
+            .form-group-compact label {
+                font-size: 9px;
+                margin-bottom: 1px;
+            }
+            .form-group-compact select,
+            .form-group-compact input {
+                font-size: 13px;
+                padding: 6px 8px;
+                border-radius: 6px;
+            }
+
+            /* 单价行：flex: 0 0 90px 让输入框变窄 */
+            .price-group .form-group-compact {
+                flex: 0 0 90px;
+            }
+            .price-group .price-hint {
+                font-size: 10px;
+            }
+
+            .calc-btn {
+                font-size: 14px;
+                padding: 12px;
+                border-radius: 10px;
+                letter-spacing: 1.5px;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .result-item {
+                padding: 10px 6px;
+                border-radius: 10px;
+            }
+            .result-item .value {
+                font-size: 18px;
+            }
+            .result-item .label {
+                font-size: 9px;
+            }
+            .result-item .sub-text {
+                font-size: 9px;
+            }
+
             table {
-                font-size: 12px;
-                min-width: 320px;
+                font-size: 11px;
+                min-width: 300px;
             }
-            td,
             th {
+                font-size: 10px;
                 padding: 6px 4px;
+            }
+            td {
+                font-size: 10px;
+                padding: 5px 3px;
+            }
+            .info-note {
+                font-size: 10px;
+                padding-top: 10px;
+                margin-top: 10px;
+            }
+            .back-link {
+                font-size: 12px;
+                margin-top: 12px;
+            }
+        }
+
+        /* ============================================================
+           桌面端默认显示普通行，隐藏紧凑行
+           ============================================================ */
+        .form-row-compact {
+            display: none;
+        }
+
+        /* ============================================================
+           当屏幕宽度 > 600px 时，确保普通行显示
+           ============================================================ */
+        @media (min-width: 601px) {
+            .form-row {
+                display: flex !important;
+            }
+            .form-row-compact {
+                display: none !important;
             }
         }
     </style>
@@ -309,6 +460,7 @@
         </div>
 
         <div class="card">
+            <!-- ===== 桌面端表单行 ===== -->
             <div class="form-row">
                 <div class="form-group">
                     <label>💎 宝石类型</label>
@@ -319,6 +471,7 @@
                         <option value="base">🟢 猫眼石</option>
                         <option value="sun">🔴 太阳石</option>
                         <option value="red">🟣 赤精石</option>
+                        <option value="gold">✨ 金</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -349,22 +502,71 @@
                         <option value="10" selected>10</option>
                     </select>
                 </div>
-            </div>
-
-            <!-- 自定义小宝石单价（优化后） -->
-            <div class="form-row" style="margin-bottom:20px;">
-                <div class="form-group" style="flex: 0 0 200px; min-width: 140px;">
+                <div class="form-group">
                     <label>💎 小宝石单价</label>
                     <input type="number" id="gemPrice" value="50" min="0" step="1" placeholder="50">
                 </div>
-                <div class="form-group" style="flex: 1; min-width: 100px; display: flex; align-items: flex-end; padding-bottom: 0;">
-                    <div style="color: var(--text-muted); font-size: 13px; padding-bottom: 6px;">白金币/个（可自定义）</div>
+            </div>
+
+            <!-- ===== 移动端紧凑表单行（三行：第一行三列，第二行单价） ===== -->
+            <div class="form-row-compact">
+                <div class="form-group-compact">
+                    <label>宝石</label>
+                    <select id="gemTypeMobile">
+                        <option value="base">黄玉</option>
+                        <option value="base">蓝水晶</option>
+                        <option value="base">月亮石</option>
+                        <option value="base">猫眼石</option>
+                        <option value="sun">太阳石</option>
+                        <option value="red">赤精石</option>
+                        <option value="gold">金</option>
+                    </select>
                 </div>
+                <div class="form-group-compact">
+                    <label>当前</label>
+                    <select id="currentLevelMobile">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+                <div class="form-group-compact">
+                    <label>目标</label>
+                    <select id="targetLevelMobile">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10" selected>10</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 移动端单价行 -->
+            <div class="form-row-compact">
+                <div class="price-group">
+                    <div class="form-group-compact">
+                        <label>单价</label>
+                        <input type="number" id="gemPriceMobile" value="50" min="0" step="1" placeholder="50">
+                    </div>
+                    <span class="price-hint">白金币/个</span>
+                </div>
+                <div style="flex:1;min-width:0;"></div>
             </div>
 
             <button class="calc-btn" onclick="calculate()">🧮 计算升级消耗</button>
 
-            <div id="resultArea" style="margin-top:20px; display:none;">
+            <div id="resultArea" style="margin-top:16px; display:none;">
                 <div class="result-grid">
                     <div class="result-item">
                         <div class="label">💎 水晶石</div>
@@ -388,7 +590,7 @@
                     </div>
                 </div>
 
-                <div class="result-grid" style="margin-top:10px;">
+                <div class="result-grid" style="margin-top:8px;">
                     <div class="result-item" style="grid-column: span 2;">
                         <div class="label">💰 总花费</div>
                         <div class="value" id="totalGold">0</div>
@@ -430,7 +632,8 @@
         var STATS = {
             base: [8, 16, 24, 36, 56, 136, 368, 656, 952, 1256],
             sun: [8, 16, 32, 56, 92, 148, 216, 292, 380, 480],
-            red: [80, 160, 320, 560, 920, 1480, 2160, 2920, 3800, 4800]
+            red: [80, 160, 320, 560, 920, 1480, 2160, 2920, 3800, 4800],
+            gold: [16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
         };
 
         var CRYSTAL_PER = [0, 0, 0, 0, 1, 5, 15, 35, 75];
@@ -453,51 +656,86 @@
         var GEM_NAME = {
             base: '黄玉/蓝水晶/月亮石/猫眼石',
             sun: '太阳石',
-            red: '赤精石'
+            red: '赤精石',
+            gold: '金'
         };
 
         // ================================================================
-        //  单价输入优化：允许玩家清空，失去焦点时自动补回默认50
+        //  同步双端表单控件
         // ================================================================
 
-        var gemPriceInput = document.getElementById('gemPrice');
-
-        // 监听输入变化，如果用户完全清空则暂时不做处理，由 blur 事件补全
-        // 但计算时若为空则按50处理
-
-        // 失去焦点时，如果值为空，则设为默认50
-        gemPriceInput.addEventListener('blur', function() {
-            if (this.value.trim() === '') {
-                this.value = '50';
+        function syncSelects(sourceId, targetId) {
+            var source = document.getElementById(sourceId);
+            var target = document.getElementById(targetId);
+            if (source && target && source.value !== target.value) {
+                target.value = source.value;
             }
+        }
+
+        function syncInputs(sourceId, targetId) {
+            var source = document.getElementById(sourceId);
+            var target = document.getElementById(targetId);
+            if (source && target && source.value !== target.value) {
+                target.value = source.value;
+            }
+        }
+
+        // 监听桌面端变化 → 同步到移动端
+        document.getElementById('gemType').addEventListener('change', function() {
+            document.getElementById('gemTypeMobile').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+        document.getElementById('currentLevel').addEventListener('change', function() {
+            document.getElementById('currentLevelMobile').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+        document.getElementById('targetLevel').addEventListener('change', function() {
+            document.getElementById('targetLevelMobile').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+        document.getElementById('gemPrice').addEventListener('input', function() {
+            document.getElementById('gemPriceMobile').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
         });
 
-        // 获取有效单价（如果为空则返回默认50）
+        // 监听移动端变化 → 同步到桌面端
+        document.getElementById('gemTypeMobile').addEventListener('change', function() {
+            document.getElementById('gemType').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+        document.getElementById('currentLevelMobile').addEventListener('change', function() {
+            document.getElementById('currentLevel').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+        document.getElementById('targetLevelMobile').addEventListener('change', function() {
+            document.getElementById('targetLevel').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+        document.getElementById('gemPriceMobile').addEventListener('input', function() {
+            document.getElementById('gemPrice').value = this.value;
+            if (document.getElementById('resultArea').style.display !== 'none') calculate();
+        });
+
+        // ================================================================
+        //  获取有效单价
+        // ================================================================
+
         function getGemPrice() {
-            var val = gemPriceInput.value.trim();
+            var val = document.getElementById('gemPrice').value.trim();
             if (val === '' || isNaN(val) || parseFloat(val) < 0) {
                 return 50;
             }
             return parseFloat(val);
         }
 
-        // 监听输入框的 input 事件，实时更新结果（如果结果区域已显示）
-        gemPriceInput.addEventListener('input', function() {
-            var resultArea = document.getElementById('resultArea');
-            if (resultArea.style.display !== 'none') {
-                calculate();
-            }
-        });
-
         // ================================================================
-        //  核心计算（动态计算）
+        //  核心计算
         // ================================================================
 
         function calculate() {
             var gemKey = document.getElementById('gemType').value;
             var cur = parseInt(document.getElementById('currentLevel').value);
             var target = parseInt(document.getElementById('targetLevel').value);
-
             var gemPrice = getGemPrice();
 
             if (cur >= target) {
@@ -505,10 +743,10 @@
                 return;
             }
 
-            var stats = STATS[gemKey];
-            var name = GEM_NAME[gemKey];
+            var stats = STATS[gemKey] || STATS.base;
+            var name = GEM_NAME[gemKey] || '未知宝石';
 
-            // ----- 1. 水晶石实际消耗 -----
+            // 水晶石实际消耗
             var crystalActual = 0;
             for (var lv = cur; lv < target; lv++) {
                 var idx = lv - 1;
@@ -518,20 +756,20 @@
                 crystalActual += single * multiplier;
             }
 
-            // ----- 2. 小宝石实际消耗 -----
+            // 小宝石实际消耗
             var gemActual = GEM_CUM[target - 1] - GEM_CUM[cur - 1];
 
-            // ----- 3. 价格计算 -----
+            // 价格计算
             var crystalGold = crystalActual * CRYSTAL_PRICE;
             var gemGold = gemActual * gemPrice;
             var totalGold = crystalGold + gemGold;
 
-            // ----- 4. 属性收益 -----
+            // 属性收益
             var curStat = stats[cur - 1] || 0;
             var tarStat = stats[target - 1] || 0;
             var statGain = tarStat - curStat;
 
-            // ----- 5. 明细行 -----
+            // 明细行
             var rows = [];
             for (var lv = cur; lv < target; lv++) {
                 var idx = lv - 1;
@@ -548,9 +786,8 @@
                 });
             }
 
-            // ---- 渲染结果卡片 ----
+            // 渲染结果
             document.getElementById('resultArea').style.display = 'block';
-
             document.getElementById('totalCrystal').textContent = crystalActual.toLocaleString();
             document.getElementById('crystalGold').textContent = crystalGold.toLocaleString();
             document.getElementById('totalGem').textContent = gemActual.toLocaleString();
@@ -558,11 +795,10 @@
             document.getElementById('totalGold').textContent = totalGold.toLocaleString();
             document.getElementById('totalStat').textContent = (statGain >= 0 ? '+' : '') + statGain.toLocaleString();
             document.getElementById('statLabel').textContent = name + ' 属性增长';
-
             document.getElementById('gemPriceLabel').textContent = gemPrice + ' 白金币/个';
             document.getElementById('gemSubLabel').textContent = cur + '→' + target + ' 实际消耗';
 
-            // ---- 渲染表格 ----
+            // 渲染表格
             var tbody = document.getElementById('detailTableBody');
             tbody.innerHTML = '';
             for (var i = 0; i < rows.length; i++) {
@@ -586,7 +822,23 @@
                 ' 小宝石（' + gemGold.toLocaleString() + ' 白金币，单价 ' + gemPrice + '），合计 ' + totalGold.toLocaleString() + ' 白金币。';
         }
 
-        window.onload = calculate;
+        window.onload = function() {
+            // 初始同步
+            var selects = ['gemType', 'currentLevel', 'targetLevel'];
+            selects.forEach(function(id) {
+                var mobile = document.getElementById(id + 'Mobile');
+                var desktop = document.getElementById(id);
+                if (mobile && desktop) {
+                    mobile.value = desktop.value;
+                }
+            });
+            var priceMobile = document.getElementById('gemPriceMobile');
+            var priceDesktop = document.getElementById('gemPrice');
+            if (priceMobile && priceDesktop) {
+                priceMobile.value = priceDesktop.value;
+            }
+            calculate();
+        };
     </script>
 </body>
 </html>
