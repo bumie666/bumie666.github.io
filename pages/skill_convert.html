@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>技能词条转换</title>
+    <title>技能词条转换 · 双技能匹配</title>
     <style>
         /* ===== 全局重置 & 基础 ===== */
         * {
@@ -48,6 +48,17 @@
             color: #7a8a9e;
             margin-left: 4px;
         }
+        .header .badge {
+            font-size: 9px;
+            background: #c8a96e22;
+            color: #c8a96e;
+            border: 1px solid #c8a96e44;
+            border-radius: 12px;
+            padding: 0 8px;
+            line-height: 18px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
 
         /* ===== 卡片 ===== */
         .card {
@@ -90,10 +101,16 @@
             outline: none;
             -webkit-appearance: none;
             appearance: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         .form-row .fg select:focus {
             border-color: #c8a96e;
         }
+        .form-row .fg select.required {
+            border-color: #f6d365;
+            box-shadow: 0 0 0 1px rgba(200, 169, 110, 0.25);
+        }
+
         .form-row .btn {
             flex: 0 0 auto;
             padding: 4px 14px;
@@ -105,12 +122,104 @@
             font-size: 13px;
             height: 30px;
             cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .form-row .btn:active {
+            transform: scale(0.95);
+        }
+        .form-row .btn-match {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            color: #0b0e14;
+        }
+        .form-row .btn-match:active {
+            transform: scale(0.95);
         }
         .form-row .hint {
             font-size: 9px;
             color: #5a6a7e;
             white-space: nowrap;
             line-height: 30px;
+        }
+
+        /* ===== 双技能匹配模式切换 ===== */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 0;
+            border-bottom: 1px solid #1a212b;
+            margin-bottom: 6px;
+        }
+        .mode-toggle .label {
+            font-size: 11px;
+            color: #7a8a9e;
+            font-weight: 500;
+        }
+        .mode-toggle .switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: #1a2530;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex: 0 0 40px;
+            border: 1px solid #2a3a4a;
+        }
+        .mode-toggle .switch.active {
+            background: #c8a96e;
+            border-color: #c8a96e;
+        }
+        .mode-toggle .switch .knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        .mode-toggle .switch.active .knob {
+            transform: translateX(18px);
+            background: #0b0e14;
+        }
+        .mode-toggle .status {
+            font-size: 11px;
+            color: #7a8a9e;
+            font-weight: 500;
+        }
+        .mode-toggle .status.active {
+            color: #f6d365;
+        }
+        .mode-toggle .clear-btn {
+            font-size: 10px;
+            color: #7a8a9e;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0 6px;
+            text-decoration: underline;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .mode-toggle .clear-btn:hover {
+            opacity: 1;
+            color: #f6d365;
+        }
+        .mode-toggle .badge-match {
+            font-size: 9px;
+            background: #4fc3f722;
+            color: #4fc3f7;
+            border: 1px solid #4fc3f744;
+            border-radius: 12px;
+            padding: 0 8px;
+            line-height: 18px;
+            display: none;
+        }
+        .mode-toggle .badge-match.show {
+            display: inline-block;
         }
 
         /* ===== 技能网格 ===== */
@@ -125,7 +234,20 @@
             border: 1px solid #2a3a4a;
             border-radius: 8px;
             padding: 6px 8px;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+            position: relative;
+        }
+        .slot-section .slot-badge {
+            position: absolute;
+            top: -1px;
+            right: 8px;
+            font-size: 8px;
+            background: #2a3a4a;
+            color: #7a8a9e;
+            padding: 0 6px;
+            border-radius: 0 0 6px 6px;
+            line-height: 16px;
+            letter-spacing: 0.3px;
         }
         .slot-title {
             font-size: 14px;
@@ -148,7 +270,6 @@
             border-bottom: none;
         }
 
-        /* --- 技能名称（可点击） --- */
         .from-skill,
         .to-skill {
             flex: 1;
@@ -170,7 +291,6 @@
             color: #4fc3f7;
         }
 
-        /* 悬停/点击反馈 */
         .from-skill:hover,
         .to-skill:hover {
             text-shadow: 0 0 12px rgba(255, 169, 77, 0.25);
@@ -186,7 +306,6 @@
             transform: scale(0.96);
         }
 
-        /* 小信息图标 */
         .skill-info-icon {
             display: inline-block;
             font-size: 0.6em;
@@ -212,6 +331,7 @@
         .slot-section.matched {
             border-color: #c8a96e;
             box-shadow: 0 0 20px rgba(200, 169, 110, 0.08);
+            background: rgba(200, 169, 110, 0.04);
         }
         .slot-section.matched .slot-title {
             font-size: 16px;
@@ -253,7 +373,7 @@
             grid-column: 1 / -1;
         }
 
-        /* ===== 技能描述区域（下方） ===== */
+        /* ===== 技能描述区域 (双技能并排) ===== */
         .skill-desc-box {
             margin-top: 12px;
             padding: 12px 14px;
@@ -267,27 +387,65 @@
             font-size: 13px;
             font-weight: 600;
             color: #f6d365;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .skill-desc-box .desc-title .desc-tag {
+            font-size: 10px;
+            background: #1a2530;
+            color: #7a8a9e;
+            padding: 0 10px;
+            border-radius: 10px;
+            line-height: 20px;
+            font-weight: 400;
+        }
+        .skill-desc-box .desc-title .desc-tag.active {
+            color: #f6d365;
+            border: 1px solid #c8a96e44;
+        }
+
+        .desc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .desc-col {
+            background: #0a0e14;
+            border-radius: 6px;
+            padding: 8px 10px;
+            border: 1px solid #1a212b;
+        }
+        .desc-col .desc-col-title {
+            font-size: 12px;
+            font-weight: 600;
             margin-bottom: 4px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #1a212b;
         }
-        .skill-desc-box .desc-item {
-            font-size: 14px;
-            color: #d0d8e0;
-            line-height: 1.6;
-            padding: 2px 0;
-        }
-        .skill-desc-box .desc-item .desc-label {
+        .desc-col .desc-col-title .dc-from {
             color: #ffa94d;
-            font-weight: 500;
         }
-        .skill-desc-box .desc-item .desc-label-to {
+        .desc-col .desc-col-title .dc-to {
             color: #4fc3f7;
-            font-weight: 500;
         }
-        .skill-desc-box .desc-item .highlight-number {
+        .desc-col .desc-col-body {
+            font-size: 13px;
+            color: #d0d8e0;
+            line-height: 1.7;
+            word-break: break-word;
+        }
+        .desc-col .desc-col-body .highlight-number {
             color: #5fcb9a;
             font-weight: 600;
         }
-        .skill-desc-box .desc-divider {
+        .desc-col .desc-col-body .empty-desc {
+            color: #7a8a9e;
+            font-style: italic;
+        }
+        .desc-divider {
             border-top: 1px dashed #2a3a4a;
             margin: 6px 0;
         }
@@ -326,7 +484,6 @@
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
             display: none;
-            /* 由 JS 控制 */;
             animation: overlayFadeIn 0.2s ease;
         }
         @keyframes overlayFadeIn {
@@ -353,7 +510,6 @@
             line-height: 1.6;
             transition: opacity 0.15s ease, transform 0.15s ease;
             display: none;
-            /* 由 JS 控制 */
             transform-origin: top left;
             pointer-events: auto;
         }
@@ -444,18 +600,7 @@
             color: #7a8a9e;
             font-style: italic;
         }
-        #tooltip .tooltip-body .tt-class-label {
-            display: inline-block;
-            font-size: 11px;
-            color: #7a8a9e;
-            background: #1a2530;
-            padding: 0 8px;
-            border-radius: 10px;
-            line-height: 20px;
-            margin-right: 4px;
-        }
 
-        /* 小三角指示器 */
         #tooltip .tooltip-arrow {
             position: absolute;
             width: 12px;
@@ -468,6 +613,13 @@
         }
 
         /* ===== 响应式 ===== */
+        @media (max-width: 600px) {
+            .desc-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+
         @media (max-width: 480px) {
             .form-row {
                 gap: 8px 6px;
@@ -529,8 +681,28 @@
             #tooltip .tooltip-title {
                 font-size: 15px;
             }
-            .skill-desc-box .desc-item {
-                font-size: 13px;
+
+            .desc-col .desc-col-body {
+                font-size: 12px;
+            }
+            .mode-toggle .label {
+                font-size: 10px;
+            }
+            .mode-toggle .switch {
+                width: 34px;
+                height: 20px;
+            }
+            .mode-toggle .switch .knob {
+                width: 14px;
+                height: 14px;
+            }
+            .mode-toggle .switch.active .knob {
+                transform: translateX(14px);
+            }
+            .header .badge {
+                font-size: 8px;
+                padding: 0 6px;
+                line-height: 16px;
             }
         }
 
@@ -576,12 +748,11 @@
             #tooltip .tooltip-title {
                 font-size: 13px;
             }
-            .skill-desc-box .desc-item {
-                font-size: 12px;
+            .desc-col .desc-col-body {
+                font-size: 11px;
             }
         }
 
-        /* ===== 滚动条美化 ===== */
         ::-webkit-scrollbar {
             width: 4px;
             height: 4px;
@@ -606,18 +777,31 @@
         <div class="header">
             <img src="../images/douyintouxiang.png" alt="头像">
             <h1>⚔️ 技能词条转换</h1>
-            <span class="sub">暗黑不灭 · 职业技能 · 部位映射</span>
+            <span class="sub">暗黑不灭 · 双技能匹配</span>
+            <span class="badge" id="modeBadge">🔍 双技能模式</span>
         </div>
 
         <!-- ===== 筛选栏 ===== -->
         <div class="card">
+            <!-- 模式切换 -->
+            <div class="mode-toggle">
+                <span class="label">🎯 双技能匹配</span>
+                <div class="switch" id="modeSwitch" onclick="toggleMatchMode()">
+                    <div class="knob"></div>
+                </div>
+                <span class="status" id="modeStatus">关闭</span>
+                <span class="badge-match" id="matchBadge">⚡ 已匹配</span>
+                <button class="clear-btn" onclick="clearFilters()">清空筛选</button>
+            </div>
+
             <div class="form-row">
-                <div class="fg"><label>当前</label><select id="classFrom" onchange="updateFrom()"></select></div>
-                <div class="fg"><label>目标</label><select id="classTo" onchange="updateTo()"></select></div>
+                <div class="fg"><label>当前职业</label><select id="classFrom" onchange="updateFrom()"></select></div>
+                <div class="fg"><label>目标职业</label><select id="classTo" onchange="updateTo()"></select></div>
                 <div class="fg"><label>当前技能</label><select id="skillFrom"><option value="">全部</option></select></div>
                 <div class="fg"><label>目标技能</label><select id="skillTo"><option value="">全部</option></select></div>
                 <button class="btn" onclick="calc()">查询</button>
-                <span class="hint">组合筛选</span>
+                <button class="btn btn-match" id="matchBtn" onclick="doMatch()" style="display:none;">🔗 匹配</button>
+                <span class="hint" id="filterHint">组合筛选</span>
             </div>
         </div>
 
@@ -628,13 +812,18 @@
                 <!-- 技能网格 -->
                 <div class="slot-grid" id="tableContainer"></div>
 
-                <!-- 技能描述 (下方聚合) -->
+                <!-- 技能描述 (双技能并排) -->
                 <div class="skill-desc-box" id="skillDescBox">
-                    <div class="desc-title" id="descTitle">📖 技能效果</div>
-                    <div id="descContent"></div>
+                    <div class="desc-title" id="descTitle">
+                        📖 技能效果对比
+                        <span class="desc-tag" id="descTagFrom">当前</span>
+                        <span class="desc-tag" id="descTagTo">目标</span>
+                        <span class="desc-tag active" id="descTagCount">0 对匹配</span>
+                    </div>
+                    <div class="desc-grid" id="descGrid"></div>
                 </div>
 
-                <div class="info" id="infoNote">💡 点击技能名称可查看详细效果</div>
+                <div class="info" id="infoNote">💡 点击技能名称 ℹ️ 查看详细效果 · 开启「双技能匹配」可精确筛选</div>
             </div>
         </div>
 
@@ -642,7 +831,7 @@
     </div>
 
     <!-- ================================================================
-    悬浮窗 (Tooltip)  — 放在 body 末尾，避免被遮挡
+    悬浮窗 (Tooltip)
     ================================================================ -->
     <div id="tooltip-overlay"></div>
     <div id="tooltip">
@@ -842,6 +1031,14 @@
         var KEYS = Object.keys(DATA);
 
         // ================================================================
+        //  状态
+        // ================================================================
+
+        var matchMode = false; // 双技能匹配模式是否开启
+        var lastFrom = '野蛮人',
+            lastTo = '法师';
+
+        // ================================================================
         //  辅助函数
         // ================================================================
 
@@ -880,6 +1077,11 @@
             return text.replace(/(\d+(?:\.\d+)?%?)/g, '<span class="highlight-number">$1</span>');
         }
 
+        function getDesc(cls, skill) {
+            var key = cls + '_' + skill;
+            return SKILL_DESC[key] || null;
+        }
+
         // ================================================================
         //  悬浮窗 (Tooltip) 逻辑
         // ================================================================
@@ -898,14 +1100,9 @@
             var key = className + '_' + skillName;
             var desc = SKILL_DESC[key] || null;
 
-            // 填充内容
             ttClass.textContent = className;
             ttSkill.textContent = skillName;
-            // 根据是"当前"还是"目标"调整颜色 (由调用方传入样式标记)
-            // 但我们用 class 来控制颜色，默认为 from 风格
             ttSkill.className = 'tt-skill';
-            // 判断是 from 还是 to: 通过调用时传入的额外参数，或者从 e.target 判断
-            // 我们通过 data-side 来区分
             var side = e.target ? e.target.dataset.side : 'from';
             if (side === 'to') {
                 ttSkill.classList.add('to-skill-tt');
@@ -919,13 +1116,11 @@
                 ttBody.innerHTML = '<span class="tt-desc-empty">📭 暂无技能描述</span>';
             }
 
-            // 定位
             var rect = e.target ? e.target.getBoundingClientRect() : null;
             if (rect) {
                 var x = rect.left + rect.width / 2;
                 var y = rect.top - 8;
 
-                // 获取 tooltip 尺寸 (先显示再测量)
                 tooltipEl.style.display = 'block';
                 tooltipEl.style.opacity = '0';
                 tooltipEl.style.visibility = 'hidden';
@@ -935,20 +1130,15 @@
                 var vw = window.innerWidth;
                 var vh = window.innerHeight;
 
-                // 计算最佳位置
                 var left = x - tw / 2;
                 var top = y - th - 12;
 
-                // 水平边界修正
                 if (left < 12) left = 12;
                 if (left + tw > vw - 12) left = vw - tw - 12;
 
-                // 如果上方空间不够，放在下方
                 if (top < 12) {
                     top = y + rect.height + 12;
                 }
-
-                // 垂直边界修正
                 if (top + th > vh - 12) {
                     top = vh - th - 12;
                 }
@@ -957,10 +1147,7 @@
                 tooltipEl.style.left = left + 'px';
                 tooltipEl.style.top = top + 'px';
 
-                // 箭头位置 (指向触发元素)
                 var arrowX = x - left;
-                var arrowY = top - 8;
-                // 如果 tooltip 在触发元素下方，箭头指向上
                 var isBelow = (top > y + rect.height);
                 if (isBelow) {
                     ttArrow.style.top = '-6px';
@@ -977,19 +1164,16 @@
                     ttArrow.style.borderLeft = 'none';
                     ttArrow.style.borderTop = 'none';
                 }
-                // 水平居中箭头
                 var arrowLeft = Math.min(Math.max(arrowX - 6, 16), tw - 28);
                 ttArrow.style.left = arrowLeft + 'px';
                 ttArrow.style.right = 'auto';
 
-                // 显示
                 tooltipEl.style.opacity = '1';
                 tooltipEl.style.visibility = 'visible';
                 tooltipEl.classList.add('show');
                 overlayEl.style.display = 'block';
                 tooltipVisible = true;
             } else {
-                // fallback 居中
                 tooltipEl.style.left = '50%';
                 tooltipEl.style.top = '50%';
                 tooltipEl.style.transform = 'translate(-50%, -50%)';
@@ -1012,31 +1196,16 @@
             ttArrow.style.display = 'block';
         }
 
-        // 关闭按钮
         ttClose.addEventListener('click', function(e) {
             e.stopPropagation();
             hideTooltip();
         });
-
-        // 点击 overlay 关闭
-        overlayEl.addEventListener('click', function() {
-            hideTooltip();
-        });
-
-        // ESC 关闭
+        overlayEl.addEventListener('click', function() { hideTooltip(); });
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && tooltipVisible) {
-                hideTooltip();
-            }
+            if (e.key === 'Escape' && tooltipVisible) hideTooltip();
         });
-
-        // 窗口 resize/scroll 关闭（避免位置错乱）
-        window.addEventListener('resize', function() {
-            if (tooltipVisible) hideTooltip();
-        });
-        window.addEventListener('scroll', function() {
-            if (tooltipVisible) hideTooltip();
-        });
+        window.addEventListener('resize', function() { if (tooltipVisible) hideTooltip(); });
+        window.addEventListener('scroll', function() { if (tooltipVisible) hideTooltip(); });
 
         // ================================================================
         //  UI 初始化 & 计算
@@ -1057,9 +1226,12 @@
             });
             fromSel.value = '野蛮人';
             toSel.value = '法师';
+            lastFrom = '野蛮人';
+            lastTo = '法师';
             updateFrom();
             updateTo();
             calc();
+            updateModeUI();
         };
 
         function updateFrom() {
@@ -1076,6 +1248,7 @@
             var found = false;
             for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === cur) { found = true; break; } }
             if (found) sel.value = cur;
+            lastFrom = cls;
         }
 
         function updateTo() {
@@ -1092,19 +1265,100 @@
             var found = false;
             for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === cur) { found = true; break; } }
             if (found) sel.value = cur;
+            lastTo = cls;
+        }
+
+        function toggleMatchMode() {
+            matchMode = !matchMode;
+            updateModeUI();
+            // 如果开启了匹配模式，自动执行匹配
+            if (matchMode) {
+                doMatch();
+            } else {
+                calc();
+            }
+        }
+
+        function updateModeUI() {
+            var sw = document.getElementById('modeSwitch');
+            var st = document.getElementById('modeStatus');
+            var badge = document.getElementById('matchBadge');
+            var matchBtn = document.getElementById('matchBtn');
+            var fSel = document.getElementById('skillFrom');
+            var tSel = document.getElementById('skillTo');
+
+            if (matchMode) {
+                sw.classList.add('active');
+                st.textContent = '开启';
+                st.classList.add('active');
+                badge.classList.add('show');
+                matchBtn.style.display = 'inline-block';
+                fSel.classList.add('required');
+                tSel.classList.add('required');
+                document.getElementById('filterHint').textContent = '🎯 双技能匹配模式 (必须同时选择两个技能)';
+                document.getElementById('modeBadge').textContent = '🎯 双技能匹配';
+            } else {
+                sw.classList.remove('active');
+                st.textContent = '关闭';
+                st.classList.remove('active');
+                badge.classList.remove('show');
+                matchBtn.style.display = 'none';
+                fSel.classList.remove('required');
+                tSel.classList.remove('required');
+                document.getElementById('filterHint').textContent = '组合筛选 (可选)';
+                document.getElementById('modeBadge').textContent = '🔍 双技能模式';
+            }
+        }
+
+        function clearFilters() {
+            document.getElementById('skillFrom').value = '';
+            document.getElementById('skillTo').value = '';
+            if (matchMode) {
+                doMatch();
+            } else {
+                calc();
+            }
         }
 
         // ================================================================
-        //  核心计算 (修改版 — 加入点击悬浮)
+        //  核心计算 (增强版 — 支持双技能匹配)
         // ================================================================
 
+        function doMatch() {
+            // 双技能匹配：必须同时选择两个技能
+            var from = document.getElementById('classFrom').value;
+            var to = document.getElementById('classTo').value;
+            var fFrom = document.getElementById('skillFrom').value;
+            var fTo = document.getElementById('skillTo').value;
+
+            if (from === to) { alert('当前职业和目标职业不能相同！'); return; }
+            if (!fFrom || !fTo) {
+                alert('⚠️ 双技能匹配模式需要同时选择「当前技能」和「目标技能」！');
+                return;
+            }
+
+            // 强制使用双技能筛选
+            performCalc(from, to, fFrom, fTo, true);
+        }
+
         function calc() {
-            var from = document.getElementById('classFrom').value,
-                to = document.getElementById('classTo').value;
-            var fFrom = document.getElementById('skillFrom').value,
-                fTo = document.getElementById('skillTo').value;
+            var from = document.getElementById('classFrom').value;
+            var to = document.getElementById('classTo').value;
+            var fFrom = document.getElementById('skillFrom').value;
+            var fTo = document.getElementById('skillTo').value;
+
             if (from === to) { alert('当前职业和目标职业不能相同！'); return; }
 
+            // 如果开启了匹配模式，但没有选择两个技能，提示
+            if (matchMode && (!fFrom || !fTo)) {
+                alert('⚠️ 双技能匹配模式需要同时选择「当前技能」和「目标技能」！');
+                return;
+            }
+
+            performCalc(from, to, fFrom, fTo, matchMode);
+        }
+
+        function performCalc(from, to, fFrom, fTo, isMatchMode) {
             var fullMap = buildAllData(from, to);
 
             var displayItems = [];
@@ -1114,15 +1368,31 @@
                 var list = fullMap[slot] || [];
                 var filteredList = [];
 
-                if (fFrom || fTo) {
+                if (isMatchMode) {
+                    // 双技能匹配：必须同时匹配两个技能
+                    if (fFrom && fTo) {
+                        list.forEach(function(pair) {
+                            if (pair.fs === fFrom && pair.ts === fTo) {
+                                filteredList.push(pair);
+                            }
+                        });
+                    } else {
+                        // 在匹配模式下，如果只选了一个，按普通逻辑
+                        list.forEach(function(pair) {
+                            var match = true;
+                            if (fFrom && pair.fs !== fFrom) match = false;
+                            if (fTo && pair.ts !== fTo) match = false;
+                            if (match) filteredList.push(pair);
+                        });
+                    }
+                } else {
+                    // 普通模式：或关系
                     list.forEach(function(pair) {
                         var match = true;
                         if (fFrom && pair.fs !== fFrom) match = false;
                         if (fTo && pair.ts !== fTo) match = false;
                         if (match) filteredList.push(pair);
                     });
-                } else {
-                    filteredList = list;
                 }
 
                 displayItems.push({
@@ -1140,13 +1410,17 @@
 
             var hasAny = displayItems.some(function(item) { return item.list.length > 0; });
             if (!hasAny) {
-                container.innerHTML = '<div class="no-result">🔍 未找到任何匹配的技能映射</div>';
+                var msg = '🔍 未找到任何匹配的技能映射';
+                if (isMatchMode && fFrom && fTo) {
+                    msg = '🔍 未找到「' + fFrom + '」↔「' + fTo + '」的映射关系';
+                }
+                container.innerHTML = '<div class="no-result">' + msg + '</div>';
                 document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：无匹配技能。';
                 document.getElementById('skillDescBox').style.display = 'none';
                 return;
             }
 
-            // 收集所有匹配的技能对 (用于下方描述)
+            // 收集所有匹配的技能对
             var matchedPairs = [];
             displayItems.forEach(function(item) {
                 item.list.forEach(function(pair) {
@@ -1168,11 +1442,20 @@
                 var sec = document.createElement('div');
                 sec.className = 'slot-section';
 
-                if (item.hasMatch && (fFrom || fTo)) {
+                var hasFilterMatch = item.list.length > 0;
+                var isHighlight = hasFilterMatch && (isMatchMode || fFrom || fTo);
+
+                if (isHighlight) {
                     sec.classList.add('matched');
                 } else {
                     sec.classList.add('unmatched');
                 }
+
+                // 添加角标
+                var badge = document.createElement('span');
+                badge.className = 'slot-badge';
+                badge.textContent = item.list.length + ' 个';
+                sec.appendChild(badge);
 
                 var title = document.createElement('div');
                 title.className = 'slot-title';
@@ -1193,30 +1476,25 @@
                         var row = document.createElement('div');
                         row.className = 'skill-row';
 
-                        // ---- from-skill (可点击) ----
                         var fromSpan = document.createElement('span');
                         fromSpan.className = 'from-skill';
                         fromSpan.textContent = pair.fs;
                         fromSpan.dataset.class = from;
                         fromSpan.dataset.skill = pair.fs;
                         fromSpan.dataset.side = 'from';
-                        // 信息图标
                         var icon1 = document.createElement('span');
                         icon1.className = 'skill-info-icon';
                         icon1.textContent = 'ℹ️';
                         fromSpan.appendChild(icon1);
-                        // 点击事件
                         fromSpan.addEventListener('click', function(e) {
                             e.stopPropagation();
                             showTooltip(e, this.dataset.class, this.dataset.skill);
                         });
 
-                        // ---- 箭头 ----
                         var arrow = document.createElement('span');
                         arrow.className = 'arrow-icon';
                         arrow.textContent = '→';
 
-                        // ---- to-skill (可点击) ----
                         var toSpan = document.createElement('span');
                         toSpan.className = 'to-skill';
                         toSpan.textContent = pair.ts;
@@ -1242,52 +1520,82 @@
                 container.appendChild(sec);
             });
 
-            // ---- 下方技能描述 ----
+            // ---- 双技能并排描述 ----
             var descBox = document.getElementById('skillDescBox');
-            var descContent = document.getElementById('descContent');
-            var descTitle = document.getElementById('descTitle');
+            var descGrid = document.getElementById('descGrid');
+            var descTagCount = document.getElementById('descTagCount');
+            var descTagFrom = document.getElementById('descTagFrom');
+            var descTagTo = document.getElementById('descTagTo');
 
-            if (uniquePairs.length > 0 && (fFrom || fTo)) {
+            if (uniquePairs.length > 0) {
                 descBox.style.display = 'block';
-                descTitle.textContent = '📖 技能效果';
+                descTagFrom.textContent = '【' + from + '】';
+                descTagTo.textContent = '【' + to + '】';
+                descTagCount.textContent = uniquePairs.length + ' 对匹配';
 
                 var html = '';
                 uniquePairs.forEach(function(pair) {
-                    var fromKey = from + '_' + pair.fs;
-                    var fromDesc = SKILL_DESC[fromKey];
-                    html += '<div class="desc-item"><span class="desc-label">【' + from + '】' + pair.fs +
-                        '</span><br>';
+                    var fromDesc = getDesc(from, pair.fs);
+                    var toDesc = getDesc(to, pair.ts);
+
+                    html += '<div class="desc-col">';
+                    html += '<div class="desc-col-title"><span class="dc-from">⬤ ' + pair.fs +
+                        '</span>  <span style="color:#7a8a9e;font-weight:400;font-size:11px;">' + from +
+                        '</span></div>';
+                    html += '<div class="desc-col-body">';
                     if (fromDesc) {
                         html += highlightNumbers(fromDesc);
                     } else {
-                        html += '<span style="color:#f87171;">⚠️ 暂无描述</span>';
+                        html += '<span class="empty-desc">📭 暂无描述</span>';
                     }
                     html += '</div>';
+                    html += '</div>';
 
-                    html += '<div class="desc-divider"></div>';
-
-                    var toKey = to + '_' + pair.ts;
-                    var toDesc = SKILL_DESC[toKey];
-                    html += '<div class="desc-item"><span class="desc-label-to">【' + to + '】' + pair.ts +
-                        '</span><br>';
+                    html += '<div class="desc-col">';
+                    html += '<div class="desc-col-title"><span class="dc-to">⬤ ' + pair.ts +
+                        '</span>  <span style="color:#7a8a9e;font-weight:400;font-size:11px;">' + to +
+                        '</span></div>';
+                    html += '<div class="desc-col-body">';
                     if (toDesc) {
                         html += highlightNumbers(toDesc);
                     } else {
-                        html += '<span style="color:#f87171;">⚠️ 暂无描述</span>';
+                        html += '<span class="empty-desc">📭 暂无描述</span>';
                     }
                     html += '</div>';
+                    html += '</div>';
 
-                    html += '<div class="desc-divider"></div>';
+                    // 分隔线
+                    html +=
+                    '<div style="grid-column:1/-1;border-top:1px dashed #1a212b;margin:2px 0;"></div>';
                 });
 
-                html = html.replace(/<div class="desc-divider"><\/div>$/, '');
-                descContent.innerHTML = html;
+                // 移除最后一个分隔线
+                html = html.replace(
+                    /<div style="grid-column:1\/-1;border-top:1px dashed #1a212b;margin:2px 0;"><\/div>$/, '');
+                descGrid.innerHTML = html;
+
+                // 如果只有一对，去掉多余的分隔线
+                if (uniquePairs.length === 1) {
+                    var lines = descGrid.querySelectorAll('div[style*="grid-column:1/-1"]');
+                    if (lines.length > 0) {
+                        lines[lines.length - 1].remove();
+                    }
+                }
             } else {
                 descBox.style.display = 'none';
             }
 
-            document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：共 ' + displayItems.length +
-                ' 个部位 ｜ 点击技能名称 ℹ️ 查看详细效果';
+            var infoText = '💡 ' + from + ' → ' + to + '：共 ' + displayItems.length + ' 个部位';
+            if (isMatchMode && fFrom && fTo) {
+                infoText += ' ｜ 匹配「' + fFrom + '」↔「' + fTo + '」';
+            } else if (fFrom || fTo) {
+                var filters = [];
+                if (fFrom) filters.push('当前: ' + fFrom);
+                if (fTo) filters.push('目标: ' + fTo);
+                infoText += ' ｜ 筛选: ' + filters.join(' + ');
+            }
+            infoText += ' ｜ 点击技能名称 ℹ️ 查看详细效果';
+            document.getElementById('infoNote').textContent = infoText;
         }
     </script>
 
