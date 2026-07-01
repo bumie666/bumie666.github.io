@@ -149,6 +149,7 @@
             padding: 4px 0;
             border-bottom: 1px solid #1a212b;
             margin-bottom: 6px;
+            flex-wrap: wrap;
         }
         .mode-toggle .label {
             font-size: 11px;
@@ -424,12 +425,21 @@
             margin-bottom: 4px;
             padding-bottom: 4px;
             border-bottom: 1px solid #1a212b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         .desc-col .desc-col-title .dc-from {
             color: #ffa94d;
         }
         .desc-col .desc-col-title .dc-to {
             color: #4fc3f7;
+        }
+        .desc-col .desc-col-title .dc-slot {
+            font-size: 9px;
+            color: #7a8a9e;
+            font-weight: 400;
         }
         .desc-col .desc-col-body {
             font-size: 13px;
@@ -797,8 +807,8 @@
             <div class="form-row">
                 <div class="fg"><label>当前职业</label><select id="classFrom" onchange="updateFrom()"></select></div>
                 <div class="fg"><label>目标职业</label><select id="classTo" onchange="updateTo()"></select></div>
-                <div class="fg"><label>当前技能</label><select id="skillFrom"><option value="">全部</option></select></div>
-                <div class="fg"><label>目标技能</label><select id="skillTo"><option value="">全部</option></select></div>
+                <div class="fg" id="skillFromGroup"><label id="skillFromLabel">当前技能</label><select id="skillFrom"><option value="">全部</option></select></div>
+                <div class="fg" id="skillToGroup"><label id="skillToLabel">目标技能</label><select id="skillTo"><option value="">全部</option></select></div>
                 <button class="btn" onclick="calc()">查询</button>
                 <button class="btn btn-match" id="matchBtn" onclick="doMatch()" style="display:none;">🔗 匹配</button>
                 <span class="hint" id="filterHint">组合筛选</span>
@@ -823,7 +833,7 @@
                     <div class="desc-grid" id="descGrid"></div>
                 </div>
 
-                <div class="info" id="infoNote">💡 点击技能名称 ℹ️ 查看详细效果 · 开启「双技能匹配」可精确筛选</div>
+                <div class="info" id="infoNote">💡 点击技能名称 ℹ️ 查看详细效果 · 开启「双技能匹配」可同时选择两个当前技能</div>
             </div>
         </div>
 
@@ -1035,8 +1045,6 @@
         // ================================================================
 
         var matchMode = false; // 双技能匹配模式是否开启
-        var lastFrom = '野蛮人',
-            lastTo = '法师';
 
         // ================================================================
         //  辅助函数
@@ -1226,8 +1234,6 @@
             });
             fromSel.value = '野蛮人';
             toSel.value = '法师';
-            lastFrom = '野蛮人';
-            lastTo = '法师';
             updateFrom();
             updateTo();
             calc();
@@ -1235,23 +1241,59 @@
         };
 
         function updateFrom() {
-            var cls = document.getElementById('classFrom').value,
-                sel = document.getElementById('skillFrom'),
-                cur = sel.value;
-            sel.innerHTML = '<option value="">全部</option>';
-            getSkills(cls).forEach(function(s) {
-                var o = document.createElement('option');
-                o.value = s;
-                o.textContent = s;
-                sel.appendChild(o);
-            });
-            var found = false;
-            for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === cur) { found = true; break; } }
-            if (found) sel.value = cur;
-            lastFrom = cls;
+            var cls = document.getElementById('classFrom').value;
+            var selFrom = document.getElementById('skillFrom');
+            var selTo = document.getElementById('skillTo');
+            var curFrom = selFrom.value;
+            var curTo = selTo.value;
+
+            // 重新填充两个下拉框（如果匹配模式，都用当前职业的技能）
+            var skillList = getSkills(cls);
+            var populate = function(sel, curVal) {
+                sel.innerHTML = '<option value="">全部</option>';
+                skillList.forEach(function(s) {
+                    var o = document.createElement('option');
+                    o.value = s;
+                    o.textContent = s;
+                    sel.appendChild(o);
+                });
+                var found = false;
+                for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === curVal) { found = true; break; } }
+                if (found) sel.value = curVal;
+            };
+
+            populate(selFrom, curFrom);
+            // 在匹配模式下，两个下拉框都用当前职业技能
+            if (matchMode) {
+                populate(selTo, curTo);
+            } else {
+                // 非匹配模式，目标技能下拉框填充目标职业的技能（由updateTo处理）
+                // 但这里可能被调用，需要恢复目标职业技能列表
+                var toCls = document.getElementById('classTo').value;
+                var toSkillList = getSkills(toCls);
+                var curToVal = selTo.value;
+                selTo.innerHTML = '<option value="">全部</option>';
+                toSkillList.forEach(function(s) {
+                    var o = document.createElement('option');
+                    o.value = s;
+                    o.textContent = s;
+                    selTo.appendChild(o);
+                });
+                var foundTo = false;
+                for (var i = 0; i < selTo.options.length; i++) { if (selTo.options[i].value === curToVal) { foundTo = true; break; } }
+                if (foundTo) selTo.value = curToVal;
+            }
+
+            // 更新标签
+            updateLabels();
         }
 
         function updateTo() {
+            if (matchMode) {
+                // 匹配模式下，目标职业切换时，两个下拉框都使用当前职业的技能（因为都是当前技能）
+                updateFrom();
+                return;
+            }
             var cls = document.getElementById('classTo').value,
                 sel = document.getElementById('skillTo'),
                 cur = sel.value;
@@ -1265,13 +1307,14 @@
             var found = false;
             for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === cur) { found = true; break; } }
             if (found) sel.value = cur;
-            lastTo = cls;
         }
 
         function toggleMatchMode() {
             matchMode = !matchMode;
             updateModeUI();
-            // 如果开启了匹配模式，自动执行匹配
+            // 切换时刷新下拉框
+            updateFrom();
+            updateTo();
             if (matchMode) {
                 doMatch();
             } else {
@@ -1295,8 +1338,11 @@
                 matchBtn.style.display = 'inline-block';
                 fSel.classList.add('required');
                 tSel.classList.add('required');
-                document.getElementById('filterHint').textContent = '🎯 双技能匹配模式 (必须同时选择两个技能)';
+                document.getElementById('filterHint').textContent = '🎯 双技能匹配：选择两个当前技能';
                 document.getElementById('modeBadge').textContent = '🎯 双技能匹配';
+                // 更新标签
+                document.getElementById('skillFromLabel').textContent = '技能 1';
+                document.getElementById('skillToLabel').textContent = '技能 2';
             } else {
                 sw.classList.remove('active');
                 st.textContent = '关闭';
@@ -1307,6 +1353,19 @@
                 tSel.classList.remove('required');
                 document.getElementById('filterHint').textContent = '组合筛选 (可选)';
                 document.getElementById('modeBadge').textContent = '🔍 双技能模式';
+                document.getElementById('skillFromLabel').textContent = '当前技能';
+                document.getElementById('skillToLabel').textContent = '目标技能';
+            }
+        }
+
+        function updateLabels() {
+            // 由updateFrom和updateTo调用
+            if (matchMode) {
+                document.getElementById('skillFromLabel').textContent = '技能 1';
+                document.getElementById('skillToLabel').textContent = '技能 2';
+            } else {
+                document.getElementById('skillFromLabel').textContent = '当前技能';
+                document.getElementById('skillToLabel').textContent = '目标技能';
             }
         }
 
@@ -1321,23 +1380,22 @@
         }
 
         // ================================================================
-        //  核心计算 (增强版 — 支持双技能匹配)
+        //  核心计算 (支持双技能匹配)
         // ================================================================
 
         function doMatch() {
-            // 双技能匹配：必须同时选择两个技能
+            // 双技能匹配：选择两个当前技能
             var from = document.getElementById('classFrom').value;
             var to = document.getElementById('classTo').value;
             var fFrom = document.getElementById('skillFrom').value;
-            var fTo = document.getElementById('skillTo').value;
+            var fTo = document.getElementById('skillTo').value; // 此时是当前技能2
 
             if (from === to) { alert('当前职业和目标职业不能相同！'); return; }
             if (!fFrom || !fTo) {
-                alert('⚠️ 双技能匹配模式需要同时选择「当前技能」和「目标技能」！');
+                alert('⚠️ 双技能匹配模式需要同时选择两个当前技能！');
                 return;
             }
 
-            // 强制使用双技能筛选
             performCalc(from, to, fFrom, fTo, true);
         }
 
@@ -1349,13 +1407,17 @@
 
             if (from === to) { alert('当前职业和目标职业不能相同！'); return; }
 
-            // 如果开启了匹配模式，但没有选择两个技能，提示
-            if (matchMode && (!fFrom || !fTo)) {
-                alert('⚠️ 双技能匹配模式需要同时选择「当前技能」和「目标技能」！');
-                return;
+            if (matchMode) {
+                // 匹配模式下，两个都必须是当前技能，所以如果只选了一个，提示
+                if (!fFrom || !fTo) {
+                    alert('⚠️ 双技能匹配模式需要同时选择两个当前技能！');
+                    return;
+                }
+                performCalc(from, to, fFrom, fTo, true);
+            } else {
+                // 普通模式：fFrom是当前技能，fTo是目标技能（或空）
+                performCalc(from, to, fFrom, fTo, false);
             }
-
-            performCalc(from, to, fFrom, fTo, matchMode);
         }
 
         function performCalc(from, to, fFrom, fTo, isMatchMode) {
@@ -1369,24 +1431,26 @@
                 var filteredList = [];
 
                 if (isMatchMode) {
-                    // 双技能匹配：必须同时匹配两个技能
+                    // 匹配模式：筛选当前技能为 fFrom 或 fTo 的行（或关系）
                     if (fFrom && fTo) {
                         list.forEach(function(pair) {
-                            if (pair.fs === fFrom && pair.ts === fTo) {
+                            if (pair.fs === fFrom || pair.fs === fTo) {
                                 filteredList.push(pair);
                             }
                         });
-                    } else {
-                        // 在匹配模式下，如果只选了一个，按普通逻辑
+                    } else if (fFrom) {
                         list.forEach(function(pair) {
-                            var match = true;
-                            if (fFrom && pair.fs !== fFrom) match = false;
-                            if (fTo && pair.ts !== fTo) match = false;
-                            if (match) filteredList.push(pair);
+                            if (pair.fs === fFrom) filteredList.push(pair);
                         });
+                    } else if (fTo) {
+                        list.forEach(function(pair) {
+                            if (pair.fs === fTo) filteredList.push(pair);
+                        });
+                    } else {
+                        filteredList = list;
                     }
                 } else {
-                    // 普通模式：或关系
+                    // 普通模式：筛选当前技能和目标技能（与关系）
                     list.forEach(function(pair) {
                         var match = true;
                         if (fFrom && pair.fs !== fFrom) match = false;
@@ -1412,7 +1476,7 @@
             if (!hasAny) {
                 var msg = '🔍 未找到任何匹配的技能映射';
                 if (isMatchMode && fFrom && fTo) {
-                    msg = '🔍 未找到「' + fFrom + '」↔「' + fTo + '」的映射关系';
+                    msg = '🔍 未找到「' + fFrom + '」或「' + fTo + '」在目标职业中的映射';
                 }
                 container.innerHTML = '<div class="no-result">' + msg + '</div>';
                 document.getElementById('infoNote').textContent = '💡 ' + from + ' → ' + to + '：无匹配技能。';
@@ -1442,8 +1506,7 @@
                 var sec = document.createElement('div');
                 sec.className = 'slot-section';
 
-                var hasFilterMatch = item.list.length > 0;
-                var isHighlight = hasFilterMatch && (isMatchMode || fFrom || fTo);
+                var isHighlight = item.list.length > 0 && (isMatchMode || fFrom || fTo);
 
                 if (isHighlight) {
                     sec.classList.add('matched');
@@ -1451,7 +1514,6 @@
                     sec.classList.add('unmatched');
                 }
 
-                // 添加角标
                 var badge = document.createElement('span');
                 badge.className = 'slot-badge';
                 badge.textContent = item.list.length + ' 个';
@@ -1531,55 +1593,95 @@
                 descBox.style.display = 'block';
                 descTagFrom.textContent = '【' + from + '】';
                 descTagTo.textContent = '【' + to + '】';
-                descTagCount.textContent = uniquePairs.length + ' 对匹配';
+                descTagCount.textContent = uniquePairs.length + ' 条映射';
 
-                var html = '';
-                uniquePairs.forEach(function(pair) {
-                    var fromDesc = getDesc(from, pair.fs);
-                    var toDesc = getDesc(to, pair.ts);
-
-                    html += '<div class="desc-col">';
-                    html += '<div class="desc-col-title"><span class="dc-from">⬤ ' + pair.fs +
-                        '</span>  <span style="color:#7a8a9e;font-weight:400;font-size:11px;">' + from +
-                        '</span></div>';
-                    html += '<div class="desc-col-body">';
-                    if (fromDesc) {
-                        html += highlightNumbers(fromDesc);
-                    } else {
-                        html += '<span class="empty-desc">📭 暂无描述</span>';
-                    }
-                    html += '</div>';
-                    html += '</div>';
-
-                    html += '<div class="desc-col">';
-                    html += '<div class="desc-col-title"><span class="dc-to">⬤ ' + pair.ts +
-                        '</span>  <span style="color:#7a8a9e;font-weight:400;font-size:11px;">' + to +
-                        '</span></div>';
-                    html += '<div class="desc-col-body">';
-                    if (toDesc) {
-                        html += highlightNumbers(toDesc);
-                    } else {
-                        html += '<span class="empty-desc">📭 暂无描述</span>';
-                    }
-                    html += '</div>';
-                    html += '</div>';
-
-                    // 分隔线
-                    html +=
-                    '<div style="grid-column:1/-1;border-top:1px dashed #1a212b;margin:2px 0;"></div>';
-                });
-
-                // 移除最后一个分隔线
-                html = html.replace(
-                    /<div style="grid-column:1\/-1;border-top:1px dashed #1a212b;margin:2px 0;"><\/div>$/, '');
-                descGrid.innerHTML = html;
-
-                // 如果只有一对，去掉多余的分隔线
-                if (uniquePairs.length === 1) {
-                    var lines = descGrid.querySelectorAll('div[style*="grid-column:1/-1"]');
-                    if (lines.length > 0) {
-                        lines[lines.length - 1].remove();
-                    }
+                // 在匹配模式下，按当前技能分组
+                var groupMap = {};
+                if (isMatchMode && fFrom && fTo) {
+                    // 分组
+                    uniquePairs.forEach(function(pair) {
+                        if (!groupMap[pair.fs]) groupMap[pair.fs] = [];
+                        groupMap[pair.fs].push(pair);
+                    });
+                    // 生成描述：每个当前技能一组
+                    var html = '';
+                    var skill1 = fFrom,
+                        skill2 = fTo;
+                    var groups = [skill1, skill2];
+                    groups.forEach(function(skill) {
+                        var pairs = groupMap[skill] || [];
+                        if (pairs.length === 0) {
+                            // 如果某个技能没有映射，显示一条提示
+                            html += '<div class="desc-col">';
+                            html += '<div class="desc-col-title"><span class="dc-from">⬤ ' + skill +
+                                '</span>  <span style="color:#7a8a9e;font-size:11px;">无映射</span></div>';
+                            html += '<div class="desc-col-body"><span class="empty-desc">该技能在目标职业中未找到映射</span></div>';
+                            html += '</div>';
+                        } else {
+                            // 显示该技能的所有映射目标技能（可能多个）
+                            pairs.forEach(function(pair, idx) {
+                                var fromDesc = getDesc(from, pair.fs);
+                                var toDesc = getDesc(to, pair.ts);
+                                html += '<div class="desc-col">';
+                                html += '<div class="desc-col-title"><span class="dc-from">⬤ ' + pair.fs +
+                                    '</span> → <span class="dc-to">' + pair.ts +
+                                    '</span> <span class="dc-slot">(' + pairs.map(p => p.ts).join(', ') +
+                                    ')</span></div>';
+                                html += '<div class="desc-col-body">';
+                                html += '<div style="font-size:11px;color:#7a8a9e;margin-bottom:2px;">【当前】</div>';
+                                if (fromDesc) {
+                                    html += highlightNumbers(fromDesc);
+                                } else {
+                                    html += '<span class="empty-desc">📭 暂无描述</span>';
+                                }
+                                html += '<div style="font-size:11px;color:#7a8a9e;margin:4px 0 2px;">【目标】</div>';
+                                if (toDesc) {
+                                    html += highlightNumbers(toDesc);
+                                } else {
+                                    html += '<span class="empty-desc">📭 暂无描述</span>';
+                                }
+                                html += '</div>';
+                                html += '</div>';
+                            });
+                        }
+                        // 加分隔线（除了最后）
+                        html +=
+                            '<div style="grid-column:1/-1;border-top:1px dashed #1a212b;margin:2px 0;"></div>';
+                    });
+                    // 移除最后的分隔线
+                    html = html.replace(
+                        /<div style="grid-column:1\/-1;border-top:1px dashed #1a212b;margin:2px 0;"><\/div>$/, '');
+                    descGrid.innerHTML = html;
+                } else {
+                    // 普通模式：显示所有映射对
+                    var html = '';
+                    uniquePairs.forEach(function(pair) {
+                        var fromDesc = getDesc(from, pair.fs);
+                        var toDesc = getDesc(to, pair.ts);
+                        html += '<div class="desc-col">';
+                        html += '<div class="desc-col-title"><span class="dc-from">⬤ ' + pair.fs +
+                            '</span> → <span class="dc-to">' + pair.ts + '</span></div>';
+                        html += '<div class="desc-col-body">';
+                        html += '<div style="font-size:11px;color:#7a8a9e;margin-bottom:2px;">【当前】</div>';
+                        if (fromDesc) {
+                            html += highlightNumbers(fromDesc);
+                        } else {
+                            html += '<span class="empty-desc">📭 暂无描述</span>';
+                        }
+                        html += '<div style="font-size:11px;color:#7a8a9e;margin:4px 0 2px;">【目标】</div>';
+                        if (toDesc) {
+                            html += highlightNumbers(toDesc);
+                        } else {
+                            html += '<span class="empty-desc">📭 暂无描述</span>';
+                        }
+                        html += '</div>';
+                        html += '</div>';
+                        html +=
+                            '<div style="grid-column:1/-1;border-top:1px dashed #1a212b;margin:2px 0;"></div>';
+                    });
+                    html = html.replace(
+                        /<div style="grid-column:1\/-1;border-top:1px dashed #1a212b;margin:2px 0;"><\/div>$/, '');
+                    descGrid.innerHTML = html;
                 }
             } else {
                 descBox.style.display = 'none';
@@ -1587,7 +1689,7 @@
 
             var infoText = '💡 ' + from + ' → ' + to + '：共 ' + displayItems.length + ' 个部位';
             if (isMatchMode && fFrom && fTo) {
-                infoText += ' ｜ 匹配「' + fFrom + '」↔「' + fTo + '」';
+                infoText += ' ｜ 匹配技能: 「' + fFrom + '」和「' + fTo + '」';
             } else if (fFrom || fTo) {
                 var filters = [];
                 if (fFrom) filters.push('当前: ' + fFrom);
